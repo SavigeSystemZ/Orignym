@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: orignym_password
       POSTGRES_DB: orignym
     ports:
-      - "5455:5432"
+      - "16247:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
