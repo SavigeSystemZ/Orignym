@@ -1,0 +1,26 @@
+---
+description: Global engineering rules for Orignym
+globs: ["*"]
+---
+# Global Rules
+
+1. Plan before code.
+2. Keep diffs small and targeted.
+3. Do not refactor unrelated areas.
+4. Do not invent successful test runs, repo state, or integrations.
+5. Add or update tests for every behavior change.
+6. Keep provider integrations behind stable interfaces.
+7. Persist model/provider/prompt metadata for AI-driven operations.
+8. Prefer evidence objects and typed schemas over long unstructured prose.
+
+# Output Format for Agent Execution
+1. Assumptions
+2. Plan
+3. Files to touch
+4. Implementation summary
+5. Validation commands and results
+6. Risks / rollback
+
+# Trust and Claims
+Orignym does not grant legal ownership of words.
+Never write copy, policy, or logic that implies guaranteed originality, trademark clearance, or exclusive ownership rights.

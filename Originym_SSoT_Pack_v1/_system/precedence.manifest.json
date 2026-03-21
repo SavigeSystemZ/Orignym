@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "app": "Originym",
+  "instruction_precedence": [
+    "repo-local instruction files",
+    "canonical SSoT docs",
+    "active milestone prompt",
+    "external host/orchestration prompts"
+  ],
+  "repo_instruction_files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    ".cursor/rules/*.mdc",
+    "_system/repo-operating-profile.md"
+  ],
+  "canonical_docs": [
+    "PRD.md",
+    "ARCHITECTURE.md",
+    "DATA_MODEL.md",
+    "NFR.md",
+    "RUNBOOK.md",
+    "AI_INTEGRATION_STRATEGY.md",
+    "TRUST_AND_CLAIMS_POLICY.md"
+  ],
+  "critical_rules": [
+    "Do not imply legal ownership or guaranteed originality",
+    "Keep AI integrations provider-neutral",
+    "Stay within milestone scope",
+    "Report exact validation results"
+  ]
+}

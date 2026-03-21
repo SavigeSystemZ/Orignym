@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+DEFAULT_TEMPLATE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
+
+usage() {
+  cat <<'EOF'
+Usage: update-template.sh <target-repo> [--source <template-root>] [--strict] [--dry-run] [--refresh-managed]
+
+Apply additive AIAST updates and optionally refresh drifted template-managed files.
+EOF
+}
+
+TARGET_REPO=""
+SOURCE="${DEFAULT_TEMPLATE_ROOT}"
+STRICT=0
+DRY_RUN=0
+REFRESH_MANAGED=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --source)
+      SOURCE="${2:-}"
+      shift 2
+      ;;
+    --strict)
+      STRICT=1
+      shift
+      ;;
+    --dry-run)
+      DRY_RUN=1
+      shift
+      ;;
+    --refresh-managed)
+      REFRESH_MANAGED=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      if [[ -z "${TARGET_REPO}" ]]; then
+        TARGET_REPO="$1"
+        shift
+      else
+        echo "Unexpected argument: $1" >&2
+        exit 1
+      fi
+      ;;
+  esac
+done
+
+if [[ -z "${TARGET_REPO}" ]]; then
+  usage
+  exit 1
+fi
+
+if [[ ! -d "${TARGET_REPO}" ]]; then
+  echo "Target repo does not exist: ${TARGET_REPO}" >&2
+  exit 1
+fi
+
+RESOLVED_TEMPLATE="$(cd -- "${SOURCE}" && pwd)"
+RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"
+
+if [[ "${RESOLVED_TEMPLATE}" == "${RESOLVED_TARGET}" ]]; then
+  echo "Source and target resolve to the same directory: ${RESOLVED_TEMPLATE}" >&2
+  echo "Use --source <master-template-path> when updating an installed repo from the canonical template." >&2
+  exit 1
+fi
+
+source_version="$(aiaast_template_version "${RESOLVED_TEMPLATE}")"
+installed_version="$(aiaast_template_version "${RESOLVED_TARGET}")"
+readme_dest="$(aiaast_detect_system_readme_path "${RESOLVED_TARGET}")"
+
+mapfile -t source_files < <(aiaast_list_files "${RESOLVED_TEMPLATE}")
+missing_files=()
+drifted_files=()
+
+for rel in "${source_files[@]}"; do
+  rel="${rel#./}"
+  dest_rel="${rel}"
+  if [[ "${rel}" == "README.md" ]]; then
+    dest_rel="${readme_dest}"
+  fi
+
+  if [[ ! -e "${RESOLVED_TARGET}/${dest_rel}" ]]; then
+    missing_files+=("${dest_rel}")
+    continue
+  fi
+
+  if [[ "${rel}" == "README.md" ]]; then
+    if ! diff -q "${RESOLVED_TEMPLATE}/README.md" "${RESOLVED_TARGET}/${dest_rel}" >/dev/null 2>&1; then
+      drifted_files+=("${dest_rel}")
+    fi
+    continue
+  fi
+
+  if aiaast_is_template_diff_skip_path "${dest_rel}"; then
+    continue
+  fi
+
+  if ! diff -q "${RESOLVED_TEMPLATE}/${rel}" "${RESOLVED_TARGET}/${dest_rel}" >/dev/null 2>&1; then
+    drifted_files+=("${dest_rel}")
+  fi
+done
+
+echo "AIAST Update Report"
+echo "==================="
+echo ""
+echo "Target:            ${RESOLVED_TARGET}"
+echo "Template source:   ${RESOLVED_TEMPLATE}"
+echo "Installed version: ${installed_version}"
+echo "Source version:    ${source_version}"
+echo "System README:     ${readme_dest}"
+echo ""
+
+if [[ ${#missing_files[@]} -eq 0 ]]; then
+  echo "Missing files: none"
+else
+  echo "Missing files (${#missing_files[@]}):"
+  printf '  - %s\n' "${missing_files[@]}"
+fi
+echo ""
+
+if [[ ${#drifted_files[@]} -eq 0 ]]; then
+  echo "Drifted template-managed files: none"
+else
+  echo "Drifted template-managed files (${#drifted_files[@]}):"
+  printf '  - %s\n' "${drifted_files[@]}"
+  if [[ ${REFRESH_MANAGED} -eq 0 ]]; then
+    echo ""
+    echo "These will be left untouched unless you pass --refresh-managed."
+  fi
+fi
+echo ""
+
+if [[ ${DRY_RUN} -eq 1 ]]; then
+  echo "Dry run only. No files were changed."
+  exit 0
+fi
+
+for rel in "${source_files[@]}"; do
+  rel="${rel#./}"
+  dest_rel="${rel}"
+  if [[ "${rel}" == "README.md" ]]; then
+    dest_rel="${readme_dest}"
+  fi
+
+  if [[ ! -e "${RESOLVED_TARGET}/${dest_rel}" ]]; then
+    aiaast_copy_rel_file "${RESOLVED_TEMPLATE}" "${rel}" "${RESOLVED_TARGET}" "${dest_rel}"
+    continue
+  fi
+
+  if [[ ${REFRESH_MANAGED} -eq 0 ]]; then
+    continue
+  fi
+
+  if [[ "${rel}" == "README.md" ]]; then
+    cp -p "${RESOLVED_TEMPLATE}/README.md" "${RESOLVED_TARGET}/${dest_rel}"
+    continue
+  fi
+
+  if aiaast_is_template_diff_skip_path "${dest_rel}"; then
+    continue
+  fi
+
+  if ! diff -q "${RESOLVED_TEMPLATE}/${rel}" "${RESOLVED_TARGET}/${dest_rel}" >/dev/null 2>&1; then
+    aiaast_copy_rel_file "${RESOLVED_TEMPLATE}" "${rel}" "${RESOLVED_TARGET}" "${dest_rel}"
+  fi
+done
+
+aiaast_write_install_metadata \
+  "${RESOLVED_TARGET}" \
+  "${RESOLVED_TEMPLATE}" \
+  "${source_version}" \
+  "copied-template" \
+  "${readme_dest}" \
+  "update-template"
+bash "${RESOLVED_TARGET}/bootstrap/generate-system-registry.sh" "${RESOLVED_TARGET}" --write
+
+if [[ ${STRICT} -eq 1 ]]; then
+  bash "${RESOLVED_TARGET}/bootstrap/validate-system.sh" "${RESOLVED_TARGET}" --strict
+else
+  bash "${RESOLVED_TARGET}/bootstrap/validate-system.sh" "${RESOLVED_TARGET}"
+fi
+
+echo "AIAST update complete."

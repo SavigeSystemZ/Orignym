@@ -1,0 +1,39 @@
+# M14 Security Hardening Pack
+
+This prompt pack focuses on hardening and securing an application according to the `_system/SECURITY_HARDENING_CONTRACT.md`.
+
+## Goal
+- Apply loopback-only binding.
+- Implement systemd hardening.
+- Configure secure web headers (CSP, CORS, etc.).
+- Ensure structured, redacted logging.
+- Prevent SSRF and privilege escalation.
+
+## Task Sequence
+
+### 1. Network & Lifecycle Hardening
+- [ ] Inspect the application entry point (e.g., `server.js`, `main.py`).
+- [ ] Force the host to `127.0.0.1` or `::1`.
+- [ ] Create/Update the systemd unit with hardening flags (UMask, NoNewPrivileges, PrivateTmp, etc.).
+- [ ] Ensure `dev` and `prod` start commands are distinct.
+
+### 2. Web Security Layer
+- [ ] Add middleware for security headers (e.g., `helmet` for Express, `FastAPI.middleware.cors` for Python).
+- [ ] Configure a strict `Content-Security-Policy`.
+- [ ] Ensure `HttpOnly` and `SameSite` flags are on all cookies.
+- [ ] Implement `Cache-Control: no-store` for authenticated routes.
+
+### 3. Logging & Error Handling
+- [ ] Switch logging to a structured JSON format (e.g., `winston`, `pino`, `structlog`).
+- [ ] Implement a redaction filter for passwords, tokens, and sensitive headers.
+- [ ] Disable verbose stack traces in the production response path.
+
+### 4. SSRF & Privilege Checks
+- [ ] Identify features that fetch remote URLs.
+- [ ] Add IP/Domain validation to block loopback and private ranges.
+- [ ] Add a runtime check to ensure the UI process is not running as root.
+
+### 5. Validation
+- [ ] Create `bootstrap/validate-security.sh` to prove the hardening.
+- [ ] Verify that the `readiness` endpoint is operational.
+- [ ] Perform a full `_system/review-playbooks/SECURITY_HARDENING_REVIEW_PLAYBOOK.md` audit.

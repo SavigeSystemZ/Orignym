@@ -1,0 +1,12 @@
+---
+description: Security and trust language rules
+alwaysApply: true
+---
+
+# Security and trust rules
+
+- All privileged actions require server-side authorization.
+- Rate limit auth, validation, publish, search, and report endpoints.
+- Do not expose internal moderation metadata publicly.
+- Do not claim legal ownership, exclusive rights, or guaranteed originality.
+- Ensure limitations notes are shown wherever verdicts are shown.

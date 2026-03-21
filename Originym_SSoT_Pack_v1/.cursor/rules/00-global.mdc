@@ -1,0 +1,13 @@
+---
+description: Global Originym project rules
+alwaysApply: true
+---
+
+# Originym global rules
+
+- Read `PRD.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, `NFR.md`, `RUNBOOK.md` before major changes.
+- Keep work within the requested milestone.
+- Keep diffs minimal and avoid unrelated refactors.
+- Add/update tests for behavior changes.
+- Report exact validation results.
+- Never imply legal ownership, guaranteed originality, or trademark clearance.

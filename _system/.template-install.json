@@ -1,0 +1,10 @@
+{
+  "install_mode": "template-placeholder",
+  "installed_at": "UNSET",
+  "last_event": "template-source",
+  "source_template": "TEMPLATE",
+  "system_readme_path": "README.md",
+  "template_name": "AIAST",
+  "template_version": "1.0.0",
+  "updated_at": "UNSET"
+}

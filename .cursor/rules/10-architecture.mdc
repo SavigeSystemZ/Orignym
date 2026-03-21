@@ -1,0 +1,11 @@
+---
+description: Architecture rules for Orignym
+globs: ["*"]
+---
+# Architecture Constraints
+
+- **Provider-Neutral Rule**: The app must work even if the primary AI is replaced. 
+- All AI functionality must be implemented behind internal abstractions (`LLMProvider`, `GroundedSearchProvider`, `StructuredOutputProvider`, `SuggestionProvider`).
+- **Evidence-First**: The verification engine must produce structured evidence objects, not just prose.
+- **Modularity**: Core modules are logically separated (auth, users, claims, verification, evidence, suggestions, registry, public_pages, search, moderation, disputes, exports, admin, audit).
+- Keep provider integrations behind stable interfaces.

@@ -1,0 +1,11 @@
+---
+description: Security and moderation rules
+globs: ["*"]
+---
+# Security & Moderation
+
+- **No Over-claiming Legal Rights**: Never imply that Orignym registration grants legal ownership or trademark clearance.
+- **Audit Logging**: Persist model/provider/prompt metadata for all AI-driven operations. Log all moderation and publication events to `AuditEvent`.
+- **RBAC**: Do not mix user data. Only admins can freeze/unpublish claims.
+- Never commit secrets or expose API keys. 
+- AI outputs must be bounded by system prompts and filtered for misuse.

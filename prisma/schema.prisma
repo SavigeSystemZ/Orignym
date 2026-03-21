@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String?  // Added for mock credentials auth
+  claims    CoinedTermClaim[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CoinedTermClaim {
+  claim_id                 String   @id @default(uuid())
+  user_id                  String
+  user                     User     @relation(fields: [user_id], references: [id])
+  proposed_term            String
+  normalized_term          String
+  pronunciation_hint       String?
+  language_locale          String
+  intended_meaning         String
+  domain_category          String
+  description_use_context  String
+  claimed_first_use_date   DateTime?
+  visibility_state         String   @default("private")
+  publication_state        String   @default("draft")
+  is_frozen                Boolean  @default(false)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  
+  verification_runs        VerificationRun[]
+  suggested_alternatives   SuggestedAlternative[]
+  reports                  Report[]
+}
+
+model Report {
+  id               String   @id @default(uuid())
+  claim_id         String
+  claim            CoinedTermClaim @relation(fields: [claim_id], references: [claim_id], onDelete: Cascade)
+  reporter_email   String?
+  reason           String
+  status           String   @default("pending") // 'pending' | 'resolved' | 'dismissed'
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AuditEvent {
+  id          String   @id @default(uuid())
+  actor       String   // e.g., "system", "admin_email", "user_id"
+  action      String   // e.g., "freeze_claim", "unpublish_claim", "publish_claim"
+  target_id   String?  // The ID of the claim or run affected
+  metadata    String?  // JSON string for additional context
+  createdAt   DateTime @default(now())
+}
+
+model SuggestedAlternative {
+  id              String   @id @default(uuid())
+  claim_id        String
+  claim           CoinedTermClaim @relation(fields: [claim_id], references: [claim_id], onDelete: Cascade)
+  term            String
+  reason          String
+  ranking_score   Float
+  state           String   @default("suggested") // 'suggested' | 'accepted' | 'rejected'
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model VerificationRun {
+  run_id                  String   @id @default(uuid())
+  claim_id                String
+  claim                   CoinedTermClaim @relation(fields: [claim_id], references: [claim_id])
+  status                  String   @default("pending")
+  provider_used           String?
+  model_used              String?
+  prompt_version          String?
+  search_strategy_version String?
+  verdict_tier            String?
+  confidence_score        Float?
+  summary_reasons         String?
+  limitations_note        String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  completedAt             DateTime?
+
+  evidence_items          EvidenceItem[]
+}
+
+model EvidenceItem {
+  evidence_id           String   @id @default(uuid())
+  verification_run_id   String
+  verification_run      VerificationRun @relation(fields: [verification_run_id], references: [run_id], onDelete: Cascade)
+  source_type           String
+  source_label          String
+  source_url_identifier String?
+  matched_text_snippet  String?
+  classification        String // 'exact' | 'near' | 'phonetic' | 'semantic'
+  relevance_score       Float
+  captured_at           DateTime @default(now())
+}
+
+model AIProviderRun {
+  id                    String   @id @default(uuid())
+  verification_run_id   String?
+  provider              String
+  model                 String
+  prompt_version        String
+  duration_ms           Int?
+  created_at            DateTime @default(now())
+}

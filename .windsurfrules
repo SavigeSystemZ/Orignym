@@ -1,0 +1,30 @@
+# Windsurf Rules
+
+Use `AGENTS.md` as the source of truth.
+
+## Startup load
+
+1. `_system/PROJECT_PROFILE.md`
+2. `_system/CONTEXT_INDEX.md`
+3. `_system/LOAD_ORDER.md`
+4. `_system/WORKING_FILES_GUIDE.md`
+5. `_system/MASTER_SYSTEM_PROMPT.md`
+6. `_system/PROJECT_RULES.md`
+7. `_system/EXECUTION_PROTOCOL.md`
+8. `_system/MULTI_AGENT_COORDINATION.md`
+9. `_system/AGENT_DISCOVERY_MATRIX.md`
+10. `_system/VALIDATION_GATES.md`
+11. `WHERE_LEFT_OFF.md`
+12. `TODO.md`
+13. `FIXME.md`
+14. `PLAN.md`
+15. `TEST_STRATEGY.md`
+
+## Constraints
+
+- Single active writer.
+- Minimal, reversible changes.
+- Validation evidence required.
+- Update handoff files before stopping.
+- Other agent-specific entry files exist and share the same core contract.
+- Use the domain-specific working files when design, architecture, research, risk, or release work is in scope.

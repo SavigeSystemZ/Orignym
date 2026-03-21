@@ -1,0 +1,8 @@
+{
+  "system": "Orignym",
+  "priority_order": [
+    "repo-local instruction files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.cursor/rules/`, `_system/`)",
+    "canonical docs (`PRD.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, `NFR.md`, `RUNBOOK.md`, `AI_INTEGRATION_STRATEGY.md`, `TRUST_AND_CLAIMS_POLICY.md`)",
+    "milestone scope (do not expand beyond requested milestone)"
+  ]
+}

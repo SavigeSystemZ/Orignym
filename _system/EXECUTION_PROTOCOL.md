@@ -1,0 +1,66 @@
+# Execution Protocol
+
+This is the standard operating model for how agents should work inside the repo.
+
+## Preflight
+
+- Load the canonical docs.
+- Read the latest handoff state.
+- Inspect the actual repo state before deciding anything.
+- Separate confirmed repo facts from assumptions.
+- Identify which working surfaces matter for the task: plan, design, architecture, research, testing, release, or risk.
+
+## Task modes
+
+- Implementation mode: change behavior with the smallest robust patch and run risk-matched validation.
+- Debug or repair mode: reproduce, isolate, repair, prove, and document the failure.
+- Review mode: prioritize correctness, regression, boundaries, tests, and security.
+- Architecture mode: reason about seams, contracts, migrations, and long-term maintainability before changing code.
+- Design mode: use the design framework and review playbooks to drive intentional UI decisions.
+- Release mode: confirm build, install, launch, documentation, and risk posture.
+
+## Stage 1: Understand the problem
+
+- Identify the exact objective.
+- Confirm the smallest affected surface.
+- Separate facts from assumptions.
+- Decide whether the task is design, implementation, debug, review, or release work.
+- Record or update assumptions in `_system/context/ASSUMPTIONS.md` when they materially affect the approach.
+
+## Stage 2: Design the change
+
+- Choose the smallest robust path.
+- Preserve boundaries and existing contracts unless change is intentional.
+- Split refactor-only work from behavior change when needed.
+- Decide what validation will prove the change.
+- Update `PLAN.md`, `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, or `TEST_STRATEGY.md` when the task changes the operating picture.
+
+## Stage 3: Implement
+
+- Touch the fewest files possible.
+- Keep the code explicit and production-grade.
+- Add comments only when the logic would otherwise be expensive to parse.
+- Avoid partial or placeholder implementations unless explicitly requested.
+- Keep app runtime and `_system/` governance concerns separate.
+
+## Stage 4: Verify
+
+- Run the narrowest relevant checks first.
+- Expand outward according to risk.
+- For install, launch, packaging, migration, or operator-facing change, validate the real runtime path.
+- Record command, scope, and result for meaningful verification.
+
+## Stage 5: Record and hand off
+
+- Update `TODO.md`, `FIXME.md`, and `WHERE_LEFT_OFF.md`.
+- Update `RISK_REGISTER.md` when delivery confidence changes.
+- Update docs if architecture, contracts, workflow, design direction, or test intent changed.
+- Update `CHANGELOG.md` and `RELEASE_NOTES.md` for user-visible or architectural changes.
+- Update `_system/context/` when durable state shifted.
+
+## Decision rules
+
+- Ask questions only when a reasonable assumption would be risky.
+- When blocked, reduce scope before escalating.
+- When a task is too large, split into explicit step parts with clear validation.
+- Do not confuse a plan with proof. Claims require evidence.

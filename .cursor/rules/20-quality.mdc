@@ -1,0 +1,11 @@
+---
+description: Quality and validation rules
+globs: ["*"]
+---
+# Quality & Validation
+
+- Do not invent successful test runs, repo state, or integrations.
+- Add or update tests for every behavior change.
+- Run typechecks, linters, and unit tests as part of the validation command block.
+- For AI operations: record model, version, prompt version, and timestamps.
+- Ensure outputs use structured typings over raw unstructured prose.

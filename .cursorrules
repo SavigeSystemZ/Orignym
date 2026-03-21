@@ -1,0 +1,30 @@
+# Cursor Rules
+
+Load `AGENTS.md` first.
+
+Then load:
+
+- `_system/PROJECT_PROFILE.md`
+- `_system/CONTEXT_INDEX.md`
+- `_system/LOAD_ORDER.md`
+- `_system/WORKING_FILES_GUIDE.md`
+- `_system/MASTER_SYSTEM_PROMPT.md`
+- `_system/PROJECT_RULES.md`
+- `_system/EXECUTION_PROTOCOL.md`
+- `_system/MULTI_AGENT_COORDINATION.md`
+- `_system/AGENT_DISCOVERY_MATRIX.md`
+- `_system/VALIDATION_GATES.md`
+- `WHERE_LEFT_OFF.md`
+- `TODO.md`
+- `FIXME.md`
+- `PLAN.md`
+- `TEST_STRATEGY.md`
+
+## Defaults
+
+- Minimal diffs, no unrelated refactors.
+- Runtime code must not depend on `_system/`.
+- Run validation after material changes.
+- Keep `.cursor/` rules, commands, and skills aligned with `AGENTS.md`.
+- Be aware that `CLAUDE.md`, `GEMINI.md`, `CODEX.md`, `WINDSURF.md`, and `.github/copilot-instructions.md` may be used by other tools.
+- Load `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, `RESEARCH_NOTES.md`, `RISK_REGISTER.md`, and `RELEASE_NOTES.md` when the task touches those domains.

@@ -1,0 +1,12 @@
+---
+description: Quality and validation rules
+alwaysApply: true
+---
+
+# Quality rules
+
+- Prefer TypeScript strictness and explicit error handling.
+- Add negative tests for authz/input validation where relevant.
+- Run lint, typecheck, tests, and build when practical.
+- Report pass/fail honestly.
+- Update docs when behavior or architecture changes.

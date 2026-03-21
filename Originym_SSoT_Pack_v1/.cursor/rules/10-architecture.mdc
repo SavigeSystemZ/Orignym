@@ -1,0 +1,12 @@
+---
+description: Architecture and AI integration constraints
+alwaysApply: true
+---
+
+# Architecture constraints
+
+- Use a modular monolith unless explicitly changed.
+- Keep runtime AI provider integrations behind stable interfaces.
+- Business logic must not be hardwired to one AI vendor SDK.
+- Validation should be evidence-first and output typed verdict objects.
+- Persist provider/model/prompt metadata for validation runs and suggestions.

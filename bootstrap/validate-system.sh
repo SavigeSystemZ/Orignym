@@ -1,0 +1,346 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: validate-system.sh <target-repo-or-template> [--strict]
+EOF
+}
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 1
+fi
+
+TARGET=""
+STRICT=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --strict)
+      STRICT=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      if [[ -z "${TARGET}" ]]; then
+        TARGET="$1"
+        shift
+      else
+        echo "Unexpected argument: $1" >&2
+        exit 1
+      fi
+      ;;
+  esac
+done
+
+require_file() {
+  local rel="$1"
+  if [[ ! -f "${TARGET}/${rel}" ]]; then
+    echo "Missing required file: ${rel}" >&2
+    exit 1
+  fi
+}
+
+require_files() {
+  local rel
+  for rel in "$@"; do
+    require_file "${rel}"
+  done
+}
+
+if [[ ! -d "${TARGET}" ]]; then
+  echo "Target does not exist: ${TARGET}" >&2
+  exit 1
+fi
+
+require_files \
+  "AGENTS.md" \
+  "CLAUDE.md" \
+  "GEMINI.md" \
+  "CODEX.md" \
+  "WINDSURF.md" \
+  ".cursorrules" \
+  ".windsurfrules" \
+  ".github/copilot-instructions.md" \
+  "AIAST_VERSION.md" \
+  "AIAST_CHANGELOG.md" \
+  "TODO.md" \
+  "FIXME.md" \
+  "WHERE_LEFT_OFF.md" \
+  "CHANGELOG.md" \
+  "PLAN.md" \
+  "ROADMAP.md" \
+  "DESIGN_NOTES.md" \
+  "ARCHITECTURE_NOTES.md" \
+  "RESEARCH_NOTES.md" \
+  "TEST_STRATEGY.md" \
+  "RISK_REGISTER.md" \
+  "RELEASE_NOTES.md" \
+  "_system/.template-version" \
+  "_system/.template-install.json" \
+  "_system/PROJECT_PROFILE.md" \
+  "_system/CONTEXT_INDEX.md" \
+  "_system/LOAD_ORDER.md" \
+  "_system/SYSTEM_AWARENESS_PROTOCOL.md" \
+  "_system/HALLUCINATION_DEFENSE_PROTOCOL.md" \
+  "_system/SYSTEM_REGISTRY.json" \
+  "_system/WORKING_FILES_GUIDE.md" \
+  "_system/TEMPLATE_NEUTRALITY_POLICY.md" \
+  "_system/INTEGRITY_MANIFEST.sha256" \
+  "_system/MASTER_SYSTEM_PROMPT.md" \
+  "_system/PROJECT_RULES.md" \
+  "_system/MEMORY_RULES.md" \
+  "_system/EXECUTION_PROTOCOL.md" \
+  "_system/MULTI_AGENT_COORDINATION.md" \
+  "_system/CHECKPOINT_PROTOCOL.md" \
+  "_system/AGENT_DISCOVERY_MATRIX.md" \
+  "_system/VALIDATION_GATES.md" \
+  "_system/DEBUG_REPAIR_PLAYBOOK.md" \
+  "_system/PROVENANCE_AND_EVIDENCE.md" \
+  "_system/REPO_BOUNDARY_AND_BACKUP.md" \
+  "_system/MCP_CONFIG.md" \
+  "_system/SECURITY_REDACTION_AND_AUDIT.md" \
+  "_system/SECURITY_HARDENING_CONTRACT.md" \
+  "_system/INSTALLATION_GUIDE.md" \
+  "_system/PACKAGING_GUIDE.md" \
+  "_system/MOBILE_GUIDE.md" \
+  "_system/CHATBOT_GUIDE.md" \
+  "_system/llm_config.yaml.example" \
+  "_system/DESIGN_EXCELLENCE_FRAMEWORK.md" \
+  "_system/RELEASE_READINESS_PROTOCOL.md" \
+  "_system/FAILURE_MODES_AND_RECOVERY.md" \
+  "_system/SYSTEM_EVOLUTION_POLICY.md" \
+  "_system/STANDARDS_CONFLICT_RESOLUTION.md" \
+  "_system/UPGRADE_AND_DRIFT_POLICY.md" \
+  "_system/CODING_STANDARDS.md" \
+  "_system/PERFORMANCE_BUDGET.md" \
+  "_system/ACCESSIBILITY_STANDARDS.md" \
+  "_system/API_DESIGN_STANDARDS.md" \
+  "_system/DEPENDENCY_GOVERNANCE.md" \
+  "_system/MODERN_UI_PATTERNS.md" \
+  "_system/OBSERVABILITY_STANDARDS.md" \
+  "_system/THREAT_MODEL_TEMPLATE.md" \
+  "_system/PLUGIN_CONTRACT.md" \
+  "_system/PROMPTS_INDEX.md" \
+  "_system/SKILLS_INDEX.md" \
+  "_system/README.md" \
+  "_system/starter-blueprints/README.md" \
+  "_system/starter-blueprints/REACT_VITE_TYPESCRIPT.md" \
+  "_system/starter-blueprints/FASTAPI_API.md" \
+  "_system/starter-blueprints/STATIC_FRONTEND.md" \
+  "_system/starter-blueprints/NEXT_JS_FULLSTACK.md" \
+  "_system/starter-blueprints/PYTHON_CLI_TOOL.md" \
+  "_system/starter-blueprints/RUST_CLI_TOOL.md" \
+  "_system/starter-blueprints/GO_SERVICE.md" \
+  "_system/starter-blueprints/GRAPHQL_API.md" \
+  "_system/starter-blueprints/GRPC_SERVICE.md" \
+  "_system/starter-blueprints/BACKGROUND_WORKER.md" \
+  "_system/starter-blueprints/DATABASE_MIGRATIONS.md" \
+  "_system/starter-blueprints/TAURI_DESKTOP.md" \
+  "_system/starter-blueprints/FLUTTER_ANDROID_CLIENT.md" \
+  "_system/starter-blueprints/UNIVERSAL_APP_PLATFORM.md" \
+  "_system/context/README.md" \
+  "_system/context/CURRENT_STATUS.md" \
+  "_system/context/DECISIONS.md" \
+  "_system/context/MEMORY.md" \
+  "_system/context/ARCHITECTURAL_INVARIANTS.md" \
+  "_system/context/ASSUMPTIONS.md" \
+  "_system/context/INTEGRATION_SURFACES.md" \
+  "_system/context/OPEN_QUESTIONS.md" \
+  "_system/context/QUALITY_DEBT.md" \
+  "_system/mcp/README.md" \
+  "_system/mcp/MCP_SERVER_CATALOG.md" \
+  "_system/mcp/MCP_SERVER_CATALOG_TEMPLATE.md" \
+  "_system/mcp/MCP_SELECTION_POLICY.md" \
+  "_system/mcp/MCP_FAILURE_FALLBACKS.md" \
+  "_system/ci/README.md" \
+  "_system/ci/github-actions/ci.yml.example" \
+  "_system/ci/github-actions/release.yml.example" \
+  "_system/ci/github-actions/linux-packaging.yml.example" \
+  "_system/ci/github-actions/android.yml.example" \
+  "_system/ci/gitlab-ci.yml.example" \
+  "_system/packaging/README.md" \
+  "_system/packaging/python-packaging.md" \
+  "_system/packaging/node-and-desktop-packaging.md" \
+  "_system/packaging/rust-and-go-packaging.md" \
+  "_system/packaging/templates/appimage.yml.example" \
+  "_system/packaging/templates/flatpak-manifest.json.example" \
+  "_system/packaging/templates/appimage-builder.yml.example" \
+  "_system/packaging/templates/snapcraft.yaml.example" \
+  "_system/packaging/templates/flatpak.yaml.example" \
+  "_system/plugins/README.md" \
+  "_system/systemd/README.md" \
+  "_system/systemd/http-service.example.service" \
+  "_system/systemd/worker.example.service" \
+  "_system/systemd/scheduled-task.example.service" \
+  "_system/systemd/scheduled-task.example.timer" \
+  "bootstrap/init-project.sh" \
+  "bootstrap/install-missing-files.sh" \
+  "bootstrap/update-template.sh" \
+  "bootstrap/validate-system.sh" \
+  "bootstrap/verify-integrity.sh" \
+  "bootstrap/generate-system-registry.sh" \
+  "bootstrap/check-system-awareness.sh" \
+  "bootstrap/check-hallucination.sh" \
+  "bootstrap/system-doctor.sh" \
+  "bootstrap/heal-system.sh" \
+  "bootstrap/repair-system.sh" \
+  "bootstrap/uninstall-system.sh" \
+  "bootstrap/detect-drift.sh" \
+  "bootstrap/configure-project-profile.sh" \
+  "bootstrap/suggest-project-profile.sh" \
+  "bootstrap/seed-working-state.sh" \
+  "bootstrap/print-agent-map.sh" \
+  "bootstrap/check-placeholders.sh" \
+  "bootstrap/check-runtime-foundations.sh" \
+  "bootstrap/scan-security.sh" \
+  "bootstrap/generate-systemd-unit.sh" \
+  "bootstrap/generate-runtime-foundations.sh" \
+  "bootstrap/templates/runtime/LICENSE" \
+  "bootstrap/templates/runtime/NOTICE" \
+  "bootstrap/templates/runtime/.credits-hidden" \
+  "bootstrap/templates/runtime/packaging/README.md" \
+  "bootstrap/templates/runtime/packaging/appimage.yml" \
+  "bootstrap/templates/runtime/packaging/flatpak-manifest.json" \
+  "bootstrap/templates/runtime/packaging/snapcraft.yaml" \
+  "bootstrap/templates/runtime/packaging/signing/README.md" \
+  "bootstrap/templates/runtime/ops/install/README.md" \
+  "bootstrap/templates/runtime/ops/install/install.sh" \
+  "bootstrap/templates/runtime/ops/install/uninstall.sh" \
+  "bootstrap/templates/runtime/ops/install/repair.sh" \
+  "bootstrap/templates/runtime/ops/install/purge.sh" \
+  "bootstrap/templates/runtime/ops/install/lib/runtime-foundation.sh" \
+  "bootstrap/templates/runtime/ops/install/lib/port_allocator.py" \
+  "bootstrap/templates/runtime/ops/env/.env.example" \
+  "bootstrap/templates/runtime/ops/compose/compose.yml" \
+  "bootstrap/templates/runtime/ops/logging/README.md" \
+  "bootstrap/templates/runtime/mobile/README.md" \
+  "bootstrap/templates/runtime/mobile/flutter/README.md" \
+  "bootstrap/templates/runtime/mobile/flutter/pubspec.yaml" \
+  "bootstrap/templates/runtime/mobile/flutter/lib/main.dart" \
+  "bootstrap/templates/runtime/mobile/flutter/android/app/src/main/AndroidManifest.xml" \
+  "bootstrap/templates/runtime/ai/README.md" \
+  "bootstrap/templates/runtime/ai/llm_config.yaml" \
+  "bootstrap/templates/runtime/ai/chatbot-intents.md" \
+  "bootstrap/README.md" \
+  "bootstrap/lib/aiaast-lib.sh"
+
+if [[ ! -f "${TARGET}/README.md" && ! -f "${TARGET}/AI_SYSTEM_README.md" ]]; then
+  echo "Missing required system overview: README.md or AI_SYSTEM_README.md" >&2
+  exit 1
+fi
+
+require_files \
+  "_system/prompt-templates/system_prompt_template.md" \
+  "_system/prompt-templates/developer_prompt_template.md" \
+  "_system/prompt-templates/user_prompt_template.md" \
+  "_system/prompt-templates/architecture_prompt_template.md" \
+  "_system/prompt-templates/repair_prompt_template.md" \
+  "_system/prompt-templates/review_prompt_template.md" \
+  "_system/prompt-templates/optimization_prompt_template.md" \
+  "_system/prompt-packs/M0_FOUNDATION.md" \
+  "_system/prompt-packs/M1_FEATURE_DELIVERY.md" \
+  "_system/prompt-packs/M2_DEBUG_AND_STABILIZE.md" \
+  "_system/prompt-packs/M3_REVIEW_AND_RELEASE.md" \
+  "_system/prompt-packs/M4_ARCHITECTURE_EXPANSION.md" \
+  "_system/prompt-packs/M5_MIGRATION_AND_REFACTOR.md" \
+  "_system/prompt-packs/M6_INSTALL_AND_DISTRIBUTION.md" \
+  "_system/prompt-packs/M7_DESIGN_EXCELLENCE.md" \
+  "_system/prompt-packs/M8_SECURITY_AND_COMPLIANCE.md" \
+  "_system/prompt-packs/M9_MULTI_AGENT_CONTINUITY.md" \
+  "_system/prompt-packs/M10_GREENFIELD_BOOTSTRAP.md" \
+  "_system/prompt-packs/M11_MATURE_REPO_RETROFIT.md" \
+  "_system/prompt-packs/M12_PERFORMANCE_OPTIMIZATION.md" \
+  "_system/prompt-packs/M13_ACCESSIBILITY_AND_INCLUSION.md" \
+  "_system/prompt-packs/M14_SECURITY_HARDENING.md" \
+  "_system/review-playbooks/ARCHITECTURE_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/UI_UX_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/PERFORMANCE_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/SECURITY_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/SECURITY_HARDENING_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/ACCESSIBILITY_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/DEPENDENCY_REVIEW_PLAYBOOK.md" \
+  "_system/review-playbooks/CODE_QUALITY_REVIEW_PLAYBOOK.md" \
+  ".cursor/mcp.json" \
+  ".cursor/commands/accessibility-review.md" \
+  ".cursor/commands/architecture-review.md" \
+  ".cursor/commands/checkpoint.md" \
+  ".cursor/commands/code-quality-review.md" \
+  ".cursor/commands/code-review.md" \
+  ".cursor/commands/debug.md" \
+  ".cursor/commands/dependency-review.md" \
+  ".cursor/commands/design-review.md" \
+  ".cursor/commands/load-context.md" \
+  ".cursor/commands/performance-review.md" \
+  ".cursor/commands/release-readiness.md" \
+  ".cursor/commands/session-start.md" \
+  ".cursor/commands/verify.md" \
+  ".cursor/rules/00-context-load.mdc" \
+  ".cursor/rules/10-project-boundaries.mdc" \
+  ".cursor/rules/20-multi-agent-awareness.mdc" \
+  ".cursor/rules/30-validation-gate.mdc" \
+  ".cursor/rules/40-mcp-and-tooling.mdc" \
+  ".cursor/rules/50-working-files.mdc" \
+  ".cursor/skills/accessibility-review/SKILL.md" \
+  ".cursor/skills/architecture-review/SKILL.md" \
+  ".cursor/skills/checkpoint-handoff/SKILL.md" \
+  ".cursor/skills/code-quality-review/SKILL.md" \
+  ".cursor/skills/code-review/SKILL.md" \
+  ".cursor/skills/debug-playbook/SKILL.md" \
+  ".cursor/skills/dependency-review/SKILL.md" \
+  ".cursor/skills/design-review/SKILL.md" \
+  ".cursor/skills/load-context/SKILL.md" \
+  ".cursor/skills/mcp-config/SKILL.md" \
+  ".cursor/skills/performance-review/SKILL.md" \
+  ".cursor/skills/prompt-pack-generator/SKILL.md" \
+  ".cursor/skills/release-readiness/SKILL.md" \
+  ".cursor/skills/verify-gate/SKILL.md" \
+  ".cursor/agents/README.md" \
+  ".cursor/agents/architecture.md" \
+  ".cursor/agents/design-reviewer.md" \
+  ".cursor/agents/release-manager.md" \
+  ".cursor/agents/security-reviewer.md"
+
+jq -e . "${TARGET}/.cursor/mcp.json" >/dev/null 2>&1 || { echo "Invalid JSON: .cursor/mcp.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/mcp/servers.cursor.example.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/mcp/servers.cursor.example.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/.template-install.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/.template-install.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/SYSTEM_REGISTRY.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/SYSTEM_REGISTRY.json" >&2; exit 1; }
+
+python3 - <<'PY' "${TARGET}/_system/mcp/servers.codex.example.toml"
+import pathlib
+import sys
+import tomllib
+
+try:
+    tomllib.loads(pathlib.Path(sys.argv[1]).read_text())
+except Exception as exc:
+    print(f"Invalid TOML: _system/mcp/servers.codex.example.toml: {exc}", file=sys.stderr)
+    sys.exit(1)
+PY
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+INFERRED_TEMPLATE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+RESOLVED_TARGET="$(cd -- "${TARGET}" && pwd)"
+
+if [[ "${INFERRED_TEMPLATE_ROOT}" != "${RESOLVED_TARGET}" ]]; then
+  if find "${TARGET}" -type f ! -path "${TARGET}/bootstrap/validate-system.sh" \
+    -exec rg -n "${INFERRED_TEMPLATE_ROOT}" {} + >/dev/null 2>&1; then
+    echo "Found forbidden absolute master-template path inside installed system" >&2
+    exit 1
+  fi
+fi
+
+if [[ ${STRICT} -eq 1 ]]; then
+  if rg -n '^- App name:\s*$' "${TARGET}/_system/PROJECT_PROFILE.md" >/dev/null 2>&1; then
+    echo "Strict mode failed: app name is still blank in PROJECT_PROFILE.md" >&2
+    exit 1
+  fi
+fi
+
+bash "${TARGET}/bootstrap/check-system-awareness.sh" "${TARGET}" >/dev/null
+
+echo "system_ok"
