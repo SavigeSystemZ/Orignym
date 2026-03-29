@@ -2,19 +2,16 @@
 
 This is the active execution queue. Keep it tight, factual, and ordered.
 
-## Current Priority (M12: ML, Legal & Community)
+## Current Priority
 
-- [x] Add `Comment` and `ClaimAnalytics` models to Prisma schema and generate migrations. [CRITICAL]
-- [x] Implement Domain & Trademark mock providers in `src/lib/verification/providers/`. [HIGH]
-
-## Immediate Queue
-
-- [x] Integrate new providers into `StagedVerificationService`. [HIGH]
-- [x] Implement `CommentThread` component for the public Registry UI. [MEDIUM]
-- [x] Build out the "Search Insights" UI on the Dashboard using `ClaimAnalytics`. [MEDIUM]
+- [ ] Monitor initial production deployment. [LOW]
+- [ ] Prepare for user acquisition phase. [LOW]
 
 ## Completed Recently
 
+- [x] M12: ML, Legal & Community Implementation
 - [x] M11: Collaboration, API & Enterprise Features
 - [x] M10: Advanced Suggestion Engine & Personalisation
 - [x] M9: Advanced Search & Evidence Infrastructure
+- [x] M8: Full GUI Implementation & Design System
+- [x] M0-M7 Back-end and AI Pipeline completion
