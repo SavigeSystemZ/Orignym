@@ -1,9 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
+  extensions = [vector]
 }
 
 model User {
@@ -12,14 +14,62 @@ model User {
   name      String?
   password  String?  // Added for mock credentials auth
   claims    CoinedTermClaim[]
+  memberships OrganizationMember[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members     OrganizationMember[]
+  claims      CoinedTermClaim[]
+  api_keys    ApiKey[]
+  subscription Subscription?
+}
+
+model OrganizationMember {
+  id              String   @id @default(uuid())
+  organization_id String
+  user_id         String
+  role            String   @default("VIEWER") // 'OWNER' | 'EDITOR' | 'VIEWER'
+  
+  organization    Organization @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([organization_id, user_id])
+}
+
+model ApiKey {
+  id              String   @id @default(uuid())
+  key             String   @unique
+  name            String
+  organization_id String
+  organization    Organization @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  last_used_at    DateTime?
+}
+
+model Subscription {
+  id              String   @id @default(uuid())
+  organization_id String   @unique
+  organization    Organization @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  plan_tier       String   @default("free") // 'free' | 'pro' | 'enterprise'
+  usage_count     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model CoinedTermClaim {
   claim_id                 String   @id @default(uuid())
   user_id                  String
   user                     User     @relation(fields: [user_id], references: [id])
+  organization_id          String?
+  organization             Organization? @relation(fields: [organization_id], references: [id])
   proposed_term            String
   normalized_term          String
   pronunciation_hint       String?
@@ -27,6 +77,7 @@ model CoinedTermClaim {
   intended_meaning         String
   domain_category          String
   description_use_context  String
+  semantic_embedding       Unsupported("vector(768)")?
   claimed_first_use_date   DateTime?
   visibility_state         String   @default("private")
   publication_state        String   @default("draft")
@@ -37,6 +88,29 @@ model CoinedTermClaim {
   verification_runs        VerificationRun[]
   suggested_alternatives   SuggestedAlternative[]
   reports                  Report[]
+  comments                 Comment[]
+  analytics                ClaimAnalytics?
+}
+
+model Comment {
+  id              String   @id @default(uuid())
+  claim_id        String
+  claim           CoinedTermClaim @relation(fields: [claim_id], references: [claim_id], onDelete: Cascade)
+  user_email      String   // Using email for simplicity in MVP, could link to User
+  content         String
+  is_flagged      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ClaimAnalytics {
+  id              String   @id @default(uuid())
+  claim_id        String   @unique
+  claim           CoinedTermClaim @relation(fields: [claim_id], references: [claim_id], onDelete: Cascade)
+  profile_views   Int      @default(0)
+  search_impressions Int   @default(0)
+  last_viewed_at  DateTime?
+  updatedAt       DateTime @updatedAt
 }
 
 model Report {
@@ -67,6 +141,7 @@ model SuggestedAlternative {
   reason          String
   ranking_score   Float
   state           String   @default("suggested") // 'suggested' | 'accepted' | 'rejected'
+  user_rating     Int?     // 1 to 5 scale, or 0 for dismissed
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

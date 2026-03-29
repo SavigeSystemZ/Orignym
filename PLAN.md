@@ -4,41 +4,33 @@ Use this file as the current implementation plan for the active milestone or pro
 
 ## Objective
 
-- Current target outcome: Production Deployment to a staging or production environment with real API keys.
-- Why it matters now: The core AI integration is complete, but it needs to be proven in a live or production-like environment.
-- Deadline or forcing function: Verify end-to-end functionality of the platform before public release.
+- Current target outcome: Complete Milestone M12 (Machine Learning, Legal Integration & Community).
+- Why it matters now: Integrating external legal/domain checks and enabling community interaction transforms Orignym from a utility into a comprehensive, sticky platform for linguistic research and provenance.
 
-## Success criteria
+## Plan
 
-- User or operator outcome: The application can be successfully deployed to a remote server or staging environment.
-- Technical outcome: Deployment scripts, Docker configurations, and environment variables are robust and secure.
-- Design or product-quality outcome: The application runs smoothly in a production-like setting.
+1.  **Legal & Domain Integration (Data Layer)**
+    *   Implement an external API provider for Domain Name availability (mock provider for MVP).
+    *   Implement an external API provider for basic Trademark queries (mock provider for MVP).
+    *   Integrate these checks into the Verification Pipeline.
+2.  **Community Engagement (Social Layer)**
+    *   Update `prisma/schema.prisma` to include a `Comment` model linked to `CoinedTermClaim`.
+    *   Implement a public comment thread on the Registry detail page.
+3.  **Analytics & Insights (Reporting Layer)**
+    *   Create a `ClaimAnalytics` tracking model in Prisma.
+    *   Build out the "Search Insights" teaser on the `ClaimDetail` page to show impression data.
 
-## Scope lock
+## Strategic Decisions Made
 
-- In scope: Reviewing and finalizing production deployment scripts (`docker-compose.yml`, `scripts/install.sh`), testing deployment locally, configuring real API keys.
-- Out of scope: New feature development, major architectural changes.
-- Dependencies: Real Gemini or Claude API keys, Docker environment.
-- Known unknowns: Infrastructure limitations on the target host.
+1.  **Legal Advice Disclaimer:** All trademark and domain data will be wrapped in a prominent UI disclaimer emphasizing that Orignym is a research tool, not legal counsel.
+2.  **Community Moderation:** Comments will default to "Public" but can be flagged by users, feeding into the existing `Report` moderation queue.
 
-## Execution slices
+## Files to touch:
 
-1. Clean up stale documentation and resolve system doctor warnings.
-2. Review and finalize `docker-compose.yml` for production use.
-3. Conduct local "production-ready" smoke tests.
-4. Document the production deployment process.
-
-## Validation plan
-
-- Commands to run: `./scripts/install.sh` and `docker-compose up -d` in a clean environment.
-- Evidence to capture: Running containers and accessible application on the designated port.
-- Stop conditions: Container crash loops, missing environment variables.
-
-## Risks
-
-- Risks that could invalidate the plan: Port conflicts, missing OS dependencies on the target host.
-- Fallback path if the plan fails: Revert to local development deployment instructions.
-
-## Done definition
-
-- What has to be true for this plan to be considered complete: The application is deployed and functional in a production-like environment with real LLM responses.
+- `prisma/schema.prisma` (Modified)
+- `src/lib/verification/providers/domain.ts` (New)
+- `src/lib/verification/providers/trademark.ts` (New)
+- `src/lib/verification/pipeline.ts` (Modified)
+- `src/app/(public)/registry/[id]/page.tsx` (Modified)
+- `src/app/(dashboard)/claims/[id]/page.tsx` (Modified)
+- `src/components/registry/CommentThread.tsx` (New)

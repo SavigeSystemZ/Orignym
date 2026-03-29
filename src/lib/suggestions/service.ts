@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import { AIProviderFactory } from "../ai/factory";
+import { PersonalisationContext } from "../interfaces/ai";
 
 export class SuggestionService {
-  async generateAndPersistSuggestions(claimId: string) {
+  async generateAndPersistSuggestions(claimId: string, personalisation?: PersonalisationContext) {
     const claim = await prisma.coinedTermClaim.findUnique({
       where: { claim_id: claimId },
       include: { verification_runs: { orderBy: { createdAt: 'desc' }, take: 1, include: { evidence_items: true } } }
@@ -21,7 +22,7 @@ export class SuggestionService {
       existing_conflicts: conflicts
     };
 
-    const rawSuggestions = await provider.generateAlternatives(claim.proposed_term, context);
+    const rawSuggestions = await provider.generateAlternatives(claim.proposed_term, context, personalisation);
 
     // Filter out obvious collisions with the original term or known conflicts
     const filtered = rawSuggestions.filter(s => {

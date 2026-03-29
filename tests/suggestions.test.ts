@@ -1,5 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SuggestionService } from '../src/lib/suggestions/service';
+import { MockSuggestionProvider } from '../src/lib/ai/mockProviders';
+
+// Mock AI Provider Factory
+vi.mock('../src/lib/ai/factory', () => ({
+  AIProviderFactory: {
+    getSuggestionProvider: vi.fn(() => new MockSuggestionProvider())
+  }
+}));
 
 // Mock Prisma
 const mockFindUnique = vi.fn();

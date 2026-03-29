@@ -33,10 +33,11 @@ import { SuggestionProvider } from "@/lib/interfaces/ai";
 
 export class MockSuggestionProvider implements SuggestionProvider {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async generateAlternatives(term: string, _context: Record<string, unknown>): Promise<Array<{ term: string, reason: string }>> {
+  async generateAlternatives(term: string, _context: Record<string, unknown>, personalisation?: import("@/lib/interfaces/ai").PersonalisationContext): Promise<Array<{ term: string, reason: string }>> {
+    const prefix = personalisation?.linguisticDiversity === "Latin-inspired" ? "Nova" : "Neo";
     return [
       { term: `${term}ly`, reason: "Adverbial variant that is often novel." },
-      { term: `Neo${term}`, reason: "Prefix addition for modern context." },
+      { term: `${prefix}${term}`, reason: `Prefix addition for ${personalisation?.linguisticDiversity || 'modern'} context.` },
       { term: `${term}X`, reason: "Modern tech-centric suffix." },
       { term: `Orignym_${term}`, reason: "Platform-branded variant." },
     ];

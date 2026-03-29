@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import stringSimilarity from "string-similarity";
+import { calculateSimilarity } from "@/lib/utils/matching";
 import { EvidenceItem } from "@/lib/interfaces/verification";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,7 +14,7 @@ export async function checkNearMatch(normalizedTerm: string, _domain: string): P
   for (const claim of allClaims) {
     if (claim.normalized_term === normalizedTerm) continue;
 
-    const similarity = stringSimilarity.compareTwoStrings(normalizedTerm, claim.normalized_term);
+    const similarity = calculateSimilarity(normalizedTerm, claim.normalized_term);
     if (similarity > 0.8) {
       evidence.push({
         sourceType: 'internal_registry',

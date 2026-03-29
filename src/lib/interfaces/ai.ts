@@ -1,3 +1,10 @@
+export interface PersonalisationContext {
+  tone?: string;
+  styleConstraints?: string[];
+  maxLength?: number;
+  linguisticDiversity?: string;
+}
+
 export interface LLMProvider {
   complete(prompt: string, context?: Record<string, unknown>): Promise<string>;
   chat(messages: Array<{ role: 'user' | 'assistant' | 'system', content: string }>): Promise<string>;
@@ -12,5 +19,5 @@ export interface StructuredOutputProvider {
 }
 
 export interface SuggestionProvider {
-  generateAlternatives(term: string, context: Record<string, unknown>): Promise<Array<{ term: string, reason: string }>>;
+  generateAlternatives(term: string, context: Record<string, unknown>, personalisation?: PersonalisationContext): Promise<Array<{ term: string, reason: string }>>;
 }

@@ -1,6 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { normalizeTerm } from '../src/lib/verification/stages/normalization';
 import { StagedVerificationService } from '../src/lib/verification/pipeline';
+import { MockLLMProvider, MockStructuredOutputProvider } from '../src/lib/ai/mockProviders';
+
+// Mock AI Provider Factory
+vi.mock('../src/lib/ai/factory', () => ({
+  AIProviderFactory: {
+    getLLMProvider: vi.fn(() => new MockLLMProvider()),
+    getStructuredOutputProvider: vi.fn((evidence) => new MockStructuredOutputProvider(evidence))
+  }
+}));
 
 // Mock Prisma
 const mockFindUnique = vi.fn();
@@ -12,7 +21,8 @@ const mockAuditCreate = vi.fn();
 vi.mock('../src/lib/prisma', () => ({
   default: {
     coinedTermClaim: {
-      findUnique: (args: any) => mockFindUnique(args)
+      findUnique: (args: any) => mockFindUnique(args),
+      findMany: vi.fn(() => Promise.resolve([])),
     },
     verificationRun: {
       create: (args: any) => mockCreate(args),

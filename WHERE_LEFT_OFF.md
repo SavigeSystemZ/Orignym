@@ -2,55 +2,29 @@
 
 ## Session Snapshot
 
-- **Current phase:** Deployment Complete
-- **Working branch or lane:** master (Production Ready)
-- **Completion status:** Production deployment configuration, Dockerfile, and Compose files finalized.
+- **Current phase:** M12 ML, Legal & Community Complete
+- **Working branch or lane:** master (M12-Community)
+- **Completion status:** M12 (Machine Learning, Legal Integration & Community) is fully implemented, culminating the SSoT vision.
 - **Resume confidence:** 5/5 (High)
 
 ## Last Completed Work
 
-- Cleaned up stale generic placeholders across the repository.
-- Resolved system health issues identified by system-doctor.
-- Created robust `.dockerignore` and `node:18-slim` based `Dockerfile`.
-- Finalized production-grade `ops/compose/compose.yml`.
-- Enabled Next.js `standalone` build output for optimized Docker containers.
-- Conducted simulated Docker build smoke tests.
+- Added `Comment` and `ClaimAnalytics` models to `prisma/schema.prisma` and applied migrations.
+- Implemented and integrated external data providers (`checkDomainAvailability`, `checkTrademarkDatabase`) into the Verification Pipeline.
+- Built a public, interactive `CommentThread` component for the Registry UI, styled with the "Deep Glass" aesthetic.
+- Updated the Private Control Center (`ClaimDetail`) to display real `ClaimAnalytics` (Profile Views, Search Impressions).
+- Validated all tests and performed a final, successful production build.
 
 ## Files Changed
 
-- `Dockerfile`, `.dockerignore`, `next.config.mjs`
-- `ops/compose/compose.yml`
-- `scripts/install.sh` (Added --help support)
+- `prisma/schema.prisma`, `prisma/migrations/`
+- `src/lib/verification/providers/domain.ts`, `src/lib/verification/providers/trademark.ts`
+- `src/lib/verification/pipeline.ts`
+- `src/components/registry/CommentThread.tsx`
+- `src/app/(public)/registry/[id]/page.tsx`, `src/app/(dashboard)/claims/[id]/page.tsx`
 - `TODO.md`, `PLAN.md`, `WHERE_LEFT_OFF.md`
-- `LICENSE` and various `README.md` files (cleaned placeholders)
-
-## Validation Run
-
-- **Command:** `npm run build`
-- **Result:** Success (Build completed with linting and type checks).
-- **Scope:** Full application integrity.
 
 ## Next Best Step
 
-- Deploy to a staging or production environment with real API keys.
-- Conduct a live smoke test of the verification pipeline using Gemini-1.5-Pro.
-
-## Decisions Made
-
-- Use random high-range ports (10000-60000) for local deployment to prevent common conflicts.
-- Automate `docker-compose down -v` during installation if ports change to prevent binding errors.
-- Mock AI providers for MVP to maintain portability and testability.
-
-## Open Risks / Blockers
-
-- In-memory rate limiting will reset on server restart; consider Redis for production scaling.
-- Port detection assumes `ss` or `lsof` is present on the host OS.
-
-## Handoff Packet
-
-- **Agent:** Gemini CLI
-- **Timestamp:** 2026-03-21
-- Objective: Finalize Orignym v1.0.0 and secure the development state.
-- Result summary: Functional, verified, and safely committed application with an advanced installer.
-- Next best step: Integrate real LLM providers (Gemini/Claude) in src/lib/ai/.
-
+- Orignym v1.0 SSoT implementation is theoretically complete across all planned milestones (M0-M12).
+- Finalize production deployment, monitor initial usage, and prepare for post-launch marketing and user acquisition.

@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
-import { doubleMetaphone } from "double-metaphone";
+import { getPhoneticCodes } from "@/lib/utils/matching";
 import { EvidenceItem } from "@/lib/interfaces/verification";
 
-export async function checkPhoneticMatch(primaryMetaphone: string, secondaryMetaphone: string): Promise<Partial<EvidenceItem>[]> {
+export async function checkPhoneticMatch(primaryMetaphone: string, secondaryMetaphone: string | null): Promise<Partial<EvidenceItem>[]> {
   const allClaims = await prisma.coinedTermClaim.findMany({
     select: { normalized_term: true, proposed_term: true },
     take: 1000
@@ -11,9 +11,9 @@ export async function checkPhoneticMatch(primaryMetaphone: string, secondaryMeta
   const evidence: Partial<EvidenceItem>[] = [];
 
   for (const claim of allClaims) {
-    const [claimPrimary, claimSecondary] = doubleMetaphone(claim.normalized_term);
+    const claimCodes = getPhoneticCodes(claim.normalized_term);
     
-    if (primaryMetaphone === claimPrimary || (secondaryMetaphone && secondaryMetaphone === claimSecondary)) {
+    if (primaryMetaphone === claimCodes.primary || (secondaryMetaphone && claimCodes.secondary && secondaryMetaphone === claimCodes.secondary)) {
       evidence.push({
         sourceType: 'internal_registry',
         sourceLabel: 'Phonetic match',

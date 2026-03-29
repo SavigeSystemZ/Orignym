@@ -53,10 +53,22 @@ export class AnthropicClaudeProvider implements LLMProvider, StructuredOutputPro
     return JSON.parse(text) as T;
   }
 
-  async generateAlternatives(term: string, context: Record<string, unknown>): Promise<Array<{ term: string, reason: string }>> {
+  async generateAlternatives(term: string, context: Record<string, unknown>, personalisation?: import("@/lib/interfaces/ai").PersonalisationContext): Promise<Array<{ term: string, reason: string }>> {
+    const tone = personalisation?.tone || "creative and professional";
+    const constraints = personalisation?.styleConstraints?.join(", ") || "none";
+    const diversity = personalisation?.linguisticDiversity || "general";
+
     const prompt = `
       You are a branding expert. Generate 4 unique and creative alternatives for the coined term "${term}".
       Context: ${JSON.stringify(context)}
+
+      Personalisation Guidelines:
+      - Tone: ${tone}
+      - Style Constraints: ${constraints}
+      - Linguistic Approach: ${diversity}
+      - Max Length: ${personalisation?.maxLength || 15} characters
+      
+      Ensure terms are easily pronounceable.
     `;
     const schema = {
       type: "array",

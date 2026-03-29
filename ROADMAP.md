@@ -1,38 +1,26 @@
 # Roadmap
 
-Use this file for medium-term and long-term sequencing.
+This file defines the strategic sequence of major milestones. The active execution plan lives in `PLAN.md`.
 
-## Current horizons
+## Near term
 
-- Horizon 1: foundational work
-- Horizon 2: feature expansion
-- Horizon 3: quality, polish, and scale
+- **M8:** Full GUI Implementation & Design System (Current Focus)
+  - Objective: Build a cohesive, polished user interface covering all planned screens and flows using a reusable component library.
+- **M9:** Advanced Search & Evidence Infrastructure
+  - Objective: Scale search capabilities with advanced indexing, filtering, and external evidence retrieval.
 
-## Milestones
+## Medium term
 
-- Milestone 1:
-  Outcome:
-  Dependencies:
-  Risks:
-- Milestone 2:
-  Outcome:
-  Dependencies:
-  Risks:
-- Milestone 3:
-  Outcome:
-  Dependencies:
-  Risks:
+- **M10:** Advanced Suggestion Engine & Personalisation
+  - Objective: Enhance the AI suggestion engine with domain awareness, pronounceability scoring, and feedback loops.
+- **M11:** Collaboration, API & Enterprise Features
+  - Objective: Introduce team workspaces, role-based access control, a public API, and monetization features.
 
-## Strategic themes
+## Long term
 
-- Product quality:
-- Engineering quality:
-- Design maturity:
-- Operational readiness:
+- **M12:** Machine Learning, Legal Integration & Community
+  - Objective: Deepen ML usage, integrate third-party trademark datasets, and build out public community engagement features.
 
-## Rules
+## Completed
 
-- Keep milestones outcome-based.
-- Move active execution detail into `PLAN.md` or `TODO.md`.
-- Update this file when priorities change materially.
-- Use `RISK_REGISTER.md` for active threats to the roadmap.
+- **M0-M7:** System Foundation, Data Model, AI Verification Pipeline v1, Suggestion Engine, Publish & Registry, Moderation, Exports, Hardening.

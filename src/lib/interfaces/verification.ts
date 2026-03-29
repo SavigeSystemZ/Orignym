@@ -9,6 +9,7 @@ export interface EvidenceItem {
   id: string;
   sourceType: string;
   sourceLabel: string;
+  sourceUrlIdentifier?: string;
   matchedTextSnippet: string;
   classification: 'exact' | 'near' | 'phonetic' | 'semantic';
   relevanceScore: number;
