@@ -65,17 +65,27 @@ if [[ ! -d "${TARGET_REPO}" ]]; then
 fi
 
 RESOLVED_TEMPLATE="$(cd -- "${SOURCE}" && pwd)"
+aiaast_assert_template_root "${RESOLVED_TEMPLATE}"
 RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"
 
 if [[ "${RESOLVED_TEMPLATE}" == "${RESOLVED_TARGET}" ]]; then
   echo "Source and target resolve to the same directory: ${RESOLVED_TEMPLATE}" >&2
-  echo "Use --source <master-template-path> when updating an installed repo from the canonical template." >&2
+  echo "Use --source <template-root> when updating an installed repo from the canonical AIAST template root." >&2
   exit 1
 fi
 
 source_version="$(aiaast_template_version "${RESOLVED_TEMPLATE}")"
 installed_version="$(aiaast_template_version "${RESOLVED_TARGET}")"
 readme_dest="$(aiaast_detect_system_readme_path "${RESOLVED_TARGET}")"
+always_refresh_files=(
+  "AIAST_VERSION.md"
+  "AIAST_CHANGELOG.md"
+  "bootstrap/generate-system-key.sh"
+  "_system/.template-version"
+  "_system/aiaast-capabilities.json"
+  "_system/instruction-precedence.json"
+  "_system/host-adapter-manifest.json"
+)
 
 mapfile -t source_files < <(aiaast_list_files "${RESOLVED_TEMPLATE}")
 missing_files=()
@@ -174,6 +184,14 @@ for rel in "${source_files[@]}"; do
   fi
 done
 
+for rel in "${always_refresh_files[@]}"; do
+  if [[ -f "${RESOLVED_TEMPLATE}/${rel}" ]]; then
+    aiaast_copy_rel_file "${RESOLVED_TEMPLATE}" "${rel}" "${RESOLVED_TARGET}" "${rel}"
+  fi
+done
+
+aiaast_refresh_onboarding_baseline "${RESOLVED_TARGET}/bootstrap" "${RESOLVED_TARGET}"
+
 aiaast_write_install_metadata \
   "${RESOLVED_TARGET}" \
   "${RESOLVED_TEMPLATE}" \
@@ -181,12 +199,41 @@ aiaast_write_install_metadata \
   "copied-template" \
   "${readme_dest}" \
   "update-template"
+bash "${RESOLVED_TARGET}/bootstrap/generate-host-adapters.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/generate-system-key.sh" "${RESOLVED_TARGET}" --write
 bash "${RESOLVED_TARGET}/bootstrap/generate-system-registry.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/generate-operating-profile.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/verify-integrity.sh" --generate --target "${RESOLVED_TARGET}"
 
 if [[ ${STRICT} -eq 1 ]]; then
-  bash "${RESOLVED_TARGET}/bootstrap/validate-system.sh" "${RESOLVED_TARGET}" --strict
+  bash "${RESOLVED_TEMPLATE}/bootstrap/validate-system.sh" "${RESOLVED_TARGET}" --strict --mode installed --validator-root "${RESOLVED_TEMPLATE}"
+  validation_command="bootstrap/update-template.sh ${RESOLVED_TARGET} --source <template-root> --strict"
 else
   bash "${RESOLVED_TARGET}/bootstrap/validate-system.sh" "${RESOLVED_TARGET}"
+  validation_command="bootstrap/update-template.sh ${RESOLVED_TARGET} --source <template-root>"
+
+  set +e
+  canonical_validation_output="$(
+    bash "${RESOLVED_TEMPLATE}/bootstrap/validate-instruction-layer.sh" "${RESOLVED_TARGET}" --validator-root "${RESOLVED_TEMPLATE}" 2>&1
+  )"
+  canonical_validation_status=$?
+  set -e
+
+  if [[ ${canonical_validation_status} -ne 0 ]]; then
+    echo ""
+    echo "Post-update notice: canonical instruction-layer validation still fails against preserved installed surfaces."
+    printf '%s\n' "${canonical_validation_output}"
+    if [[ ${REFRESH_MANAGED} -eq 0 ]]; then
+      echo ""
+      echo "The update was additive only. Drifted template-managed files were preserved."
+      echo "Review the reported surfaces, then re-run with --refresh-managed or repair the repo-local instruction layer manually."
+    fi
+  fi
 fi
+
+aiaast_record_validation_success \
+  "${RESOLVED_TARGET}" \
+  "${validation_command}" \
+  "AIAST update integrity, required files, config syntax, and awareness validation"
 
 echo "AIAST update complete."

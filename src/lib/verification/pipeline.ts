@@ -6,7 +6,7 @@ import { checkNearMatch } from "./stages/near";
 import { checkPhoneticMatch } from "./stages/phonetic";
 import { checkSemanticMatch } from "./stages/semantic";
 import { synthesizeEvidence } from "./stages/synthesis";
-import { MockLLMProvider, MockStructuredOutputProvider } from "../ai/mockProviders";
+import { AIProviderFactory } from "../ai/factory";
 
 export class StagedVerificationService implements VerificationService {
   async verifyClaim(claimId: string): Promise<VerificationVerdict> {
@@ -17,8 +17,8 @@ export class StagedVerificationService implements VerificationService {
       data: {
         claim_id: claim.claim_id,
         status: "in_progress",
-        provider_used: "mock_ai",
-        model_used: "mock_v1",
+        provider_used: process.env.AI_PROVIDER || "google",
+        model_used: "gemini-1.5-pro",
       }
     });
 
@@ -29,12 +29,12 @@ export class StagedVerificationService implements VerificationService {
       const nearEvidence = await checkNearMatch(normalized.normalizedString, claim.domain_category);
       const phoneticEvidence = await checkPhoneticMatch(normalized.phoneticPrimary, normalized.phoneticSecondary);
 
-      const llmProvider = new MockLLMProvider();
+      const llmProvider = AIProviderFactory.getLLMProvider();
       const semanticEvidence = await checkSemanticMatch(claim.proposed_term, claim.intended_meaning, claim.domain_category, llmProvider);
 
       const allEvidence = [...exactEvidence, ...nearEvidence, ...phoneticEvidence, ...semanticEvidence];
 
-      const structProvider = new MockStructuredOutputProvider(allEvidence);
+      const structProvider = AIProviderFactory.getStructuredOutputProvider(allEvidence);
       const verdict = await synthesizeEvidence(claim.proposed_term, allEvidence, structProvider);
 
       for (const ev of verdict.evidenceItems) {

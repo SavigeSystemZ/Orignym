@@ -64,13 +64,14 @@ if [[ ! -d "${TARGET_REPO}" ]]; then
 fi
 
 TEMPLATE_ROOT="${SOURCE:-${DEFAULT_TEMPLATE_ROOT}}"
+aiaast_assert_template_root "${TEMPLATE_ROOT}"
 
 RESOLVED_TEMPLATE="$(cd -- "${TEMPLATE_ROOT}" && pwd)"
 RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"
 
 if [[ "${RESOLVED_TEMPLATE}" == "${RESOLVED_TARGET}" ]]; then
   echo "Source and target resolve to the same directory: ${RESOLVED_TEMPLATE}" >&2
-  echo "Use --source <master-template-path> to specify the canonical template location." >&2
+  echo "Use --source <template-root> to specify the canonical AIAST template root in template-source mode." >&2
   echo "Example: install-missing-files.sh /path/to/app --source /path/to/TEMPLATE" >&2
   exit 1
 fi
@@ -113,6 +114,8 @@ else
   fi
 fi
 
+aiaast_refresh_onboarding_baseline "${RESOLVED_TARGET}/bootstrap" "${RESOLVED_TARGET}"
+
 aiaast_write_install_metadata \
   "${RESOLVED_TARGET}" \
   "${RESOLVED_TEMPLATE}" \
@@ -120,12 +123,23 @@ aiaast_write_install_metadata \
   "copied-template" \
   "${README_DEST}" \
   "install-missing-files"
+bash "${RESOLVED_TARGET}/bootstrap/generate-host-adapters.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/generate-system-key.sh" "${RESOLVED_TARGET}" --write
 bash "${RESOLVED_TARGET}/bootstrap/generate-system-registry.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/generate-operating-profile.sh" "${RESOLVED_TARGET}" --write
+bash "${RESOLVED_TARGET}/bootstrap/verify-integrity.sh" --generate --target "${RESOLVED_TARGET}"
 
 if [[ ${STRICT} -eq 1 ]]; then
   bash "${TARGET_REPO}/bootstrap/validate-system.sh" "${TARGET_REPO}" --strict
+  validation_command="bootstrap/validate-system.sh ${TARGET_REPO} --strict"
 else
   bash "${TARGET_REPO}/bootstrap/validate-system.sh" "${TARGET_REPO}"
+  validation_command="bootstrap/validate-system.sh ${TARGET_REPO}"
 fi
+
+aiaast_record_validation_success \
+  "${RESOLVED_TARGET}" \
+  "${validation_command}" \
+  "AIAST additive install integrity, required files, config syntax, and awareness validation"
 
 echo "Installed ${#MISSING_FILES[@]} missing files into ${TARGET_REPO}"

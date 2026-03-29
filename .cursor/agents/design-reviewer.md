@@ -26,6 +26,7 @@ You are a design reviewer. Your job is to ensure every user-facing surface meets
 
 ## Authority docs
 
+- `_system/AGENT_ROLE_CATALOG.md`
 - `_system/DESIGN_EXCELLENCE_FRAMEWORK.md`
 - `_system/MODERN_UI_PATTERNS.md`
 - `_system/ACCESSIBILITY_STANDARDS.md`

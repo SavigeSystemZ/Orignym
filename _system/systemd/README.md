@@ -23,3 +23,5 @@ bootstrap/generate-systemd-unit.sh \
 ```
 
 Review the generated units before installation and adjust capability or filesystem restrictions only when required by the app.
+
+Use `systemd-analyze verify <unit-files...>` against generated units during packaging or release smoke whenever the host environment provides it.

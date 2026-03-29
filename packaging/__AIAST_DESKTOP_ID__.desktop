@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Orignym
+Comment=Launch Orignym
+Exec=orignym
+Icon=io.aiaast.orignym
+Terminal=false
+Categories=Utility;
+StartupNotify=true

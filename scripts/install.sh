@@ -5,6 +5,15 @@
 
 set -e
 
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    echo "Usage: ./scripts/install.sh [OPTIONS]"
+    echo "Options:"
+    echo "  --help, -h    Show this help message and exit"
+    echo "Description:"
+    echo "  Installs dependencies, sets up ports, initializes the database, and creates a desktop launcher."
+    exit 0
+fi
+
 echo "--- Orignym Setup ---"
 
 # 1. OS Detection

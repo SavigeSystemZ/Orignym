@@ -54,6 +54,18 @@ if [[ ! -f "${PROFILE}" ]]; then
   exit 1
 fi
 
+extract_selected_blueprint() {
+  local target="$1"
+  local brief="${target}/PRODUCT_BRIEF.md"
+  if [[ ! -f "${brief}" ]]; then
+    return 0
+  fi
+
+  sed -n 's/^- Selected starter blueprint:[[:space:]]*\([A-Z0-9_][A-Z0-9_]*\).*/\1/p' "${brief}" | head -n 1
+}
+
+SELECTED_BLUEPRINT="$(extract_selected_blueprint "${TARGET_REPO}")"
+
 join_by() {
   local sep="$1"
   shift || true
@@ -120,6 +132,10 @@ contains_glob() {
     ! -path "${target}/dist/*" \
     ! -path "${target}/build/*" \
     ! -path "${target}/target/*" \
+    ! -path "${target}/ops/*" \
+    ! -path "${target}/packaging/*" \
+    ! -path "${target}/mobile/*" \
+    ! -path "${target}/ai/*" \
     ! -path "${target}/.git/*" \
     | head -n 1 | grep -q .; then
     return 0
@@ -141,6 +157,10 @@ has_runtime_file() {
     ! -path "${target}/dist/*" \
     ! -path "${target}/build/*" \
     ! -path "${target}/target/*" \
+    ! -path "${target}/ops/*" \
+    ! -path "${target}/packaging/*" \
+    ! -path "${target}/mobile/*" \
+    ! -path "${target}/ai/*" \
     ! -path "${target}/.git/*" \
     | head -n 1 | grep -q .; then
     return 0
@@ -152,6 +172,10 @@ repo_has_text() {
   local target="$1"
   local pattern="$2"
   if rg -n \
+    -g '!ops/**' \
+    -g '!packaging/**' \
+    -g '!mobile/**' \
+    -g '!ai/**' \
     -g '*.py' \
     -g '*.ts' \
     -g '*.tsx' \
@@ -360,7 +384,7 @@ contains_files "${TARGET_REPO}" "workers/" "worker/" && add_unique components "w
 contains_files "${TARGET_REPO}" "packages/" "libs/" && add_unique components "packages"
 contains_files "${TARGET_REPO}" "services/" && add_unique components "services"
 contains_files "${TARGET_REPO}" "apps/" && add_unique components "apps"
-contains_files "${TARGET_REPO}" "mobile/" "android/" && add_unique components "mobile"
+contains_files "${TARGET_REPO}" "android/" && add_unique components "mobile"
 if [[ -z "$(join_by ", " "${components[@]-}")" ]]; then
   if [[ "$(join_by ", " "${frameworks[@]-}")" == *"Next.js"* ]]; then
     add_unique components "fullstack app"
@@ -372,6 +396,73 @@ if [[ -z "$(join_by ", " "${components[@]-}")" ]]; then
     add_unique components "CLI"
   fi
 fi
+
+case "${SELECTED_BLUEPRINT}" in
+  NEXT_JS_FULLSTACK)
+    add_unique languages "TypeScript"
+    add_unique runtime_envs "Node.js"
+    add_unique package_managers "npm"
+    add_unique build_tools "TypeScript compiler"
+    add_unique frameworks "Next.js"
+    add_unique frameworks "React"
+    add_unique components "fullstack app"
+    [[ -z "${default_ports}" ]] && default_ports="3000"
+    ;;
+  REACT_VITE_TYPESCRIPT)
+    add_unique languages "TypeScript"
+    add_unique runtime_envs "Node.js"
+    add_unique package_managers "npm"
+    add_unique build_tools "Vite"
+    add_unique build_tools "TypeScript compiler"
+    add_unique frameworks "React"
+    add_unique components "frontend app"
+    [[ -z "${default_ports}" ]] && default_ports="5173"
+    ;;
+  STATIC_FRONTEND)
+    add_unique languages "HTML"
+    add_unique languages "CSS"
+    add_unique runtime_envs "Browser / static site"
+    add_unique components "frontend app"
+    ;;
+  FASTAPI_API)
+    add_unique languages "Python"
+    add_unique runtime_envs "Python"
+    add_unique package_managers "pyproject-based Python packaging"
+    add_unique build_tools "Python project tooling"
+    add_unique frameworks "FastAPI"
+    add_unique components "backend service"
+    [[ -z "${default_ports}" ]] && default_ports="8000"
+    ;;
+  PYTHON_CLI_TOOL)
+    add_unique languages "Python"
+    add_unique runtime_envs "Python"
+    add_unique package_managers "pyproject-based Python packaging"
+    add_unique build_tools "Python project tooling"
+    add_unique components "CLI"
+    ;;
+  FLUTTER_ANDROID_CLIENT)
+    add_unique runtime_envs "Flutter"
+    add_unique package_managers "flutter pub"
+    add_unique build_tools "Flutter"
+    add_unique frameworks "Flutter"
+    add_unique components "mobile"
+    ;;
+  UNIVERSAL_APP_PLATFORM)
+    add_unique languages "TypeScript"
+    add_unique languages "Python"
+    add_unique runtime_envs "Node.js"
+    add_unique runtime_envs "Python"
+    add_unique package_managers "npm"
+    add_unique package_managers "pyproject-based Python packaging"
+    add_unique build_tools "TypeScript compiler"
+    add_unique build_tools "Python project tooling"
+    add_unique components "frontend"
+    add_unique components "backend"
+    add_unique components "workers"
+    add_unique components "mobile"
+    [[ -z "${default_ports}" ]] && default_ports="3000"
+    ;;
+esac
 
 if [[ "$(join_by ", " "${frameworks[@]-}")" == *"Electron"* || "$(join_by ", " "${frameworks[@]-}")" == *"Tauri"* ]]; then
   add_unique supported_envs "desktop"

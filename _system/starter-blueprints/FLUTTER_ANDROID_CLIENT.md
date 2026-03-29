@@ -30,6 +30,16 @@ mobile/
 - Use adaptive spacing and touch-friendly hit targets.
 - Keep release and debug flavors separate.
 
+## Bootstrap note
+
+- AIAST copies a minimal Flutter foundation, not a complete generated Flutter
+  project.
+- From `mobile/flutter/`, run `flutter create --platforms=android .` before
+  expecting `flutter analyze`, `flutter test`, or `flutter build apk --debug`
+  to work.
+- After generation, replace the default Android namespace and application id
+  with the repo-specific values recorded in `_system/PROJECT_PROFILE.md`.
+
 ## Validation commands
 
 - `flutter pub get`

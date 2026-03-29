@@ -7,6 +7,9 @@ This scaffold uses Flutter as the default Android-first mobile path.
 - `flutter/` minimal starter files
 - Android manifest with placeholder identifiers
 - guidance for dev and prod flavors
+- a minimal foundation that still needs
+  `flutter create --platforms=android .` inside `mobile/flutter/` before the
+  full Android project files exist
 
 ## Expectations
 

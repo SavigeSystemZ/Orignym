@@ -12,18 +12,17 @@ const mockAuditCreate = vi.fn();
 vi.mock('../src/lib/prisma', () => ({
   default: {
     coinedTermClaim: {
-      findUnique: (...args: any[]) => mockFindUnique(...args),
-      findMany: () => Promise.resolve([]),
+      findUnique: (args: any) => mockFindUnique(args)
     },
     verificationRun: {
-      create: (...args: any[]) => mockCreate(...args),
-      update: (...args: any[]) => mockUpdate(...args),
+      create: (args: any) => mockCreate(args),
+      update: (args: any) => mockUpdate(args),
     },
     evidenceItem: {
-      create: (...args: any[]) => mockEvidenceCreate(...args),
+      create: (args: any) => mockEvidenceCreate(args),
     },
     aIProviderRun: {
-      create: (...args: any[]) => mockAuditCreate(...args),
+      create: (args: any) => mockAuditCreate(args),
     }
   }
 }));

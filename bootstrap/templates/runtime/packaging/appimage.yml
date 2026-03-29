@@ -5,16 +5,7 @@ script:
   - mkdir -p AppDir/usr/share/applications
   - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
   - install -Dm755 ./dist/__AIAST_APP_SLUG__ AppDir/usr/bin/__AIAST_APP_SLUG__
-  - |
-    cat > AppDir/usr/share/applications/__AIAST_DESKTOP_ID__.desktop <<'DESKTOP'
-    [Desktop Entry]
-    Type=Application
-    Name=__AIAST_APP_NAME__
-    Exec=__AIAST_APP_SLUG__
-    Icon=__AIAST_DESKTOP_ID__
-    Categories=Utility;
-    StartupNotify=true
-    DESKTOP
+  - install -Dm644 ./packaging/__AIAST_DESKTOP_ID__.desktop AppDir/usr/share/applications/__AIAST_DESKTOP_ID__.desktop
 
 AppDir:
   path: ./AppDir

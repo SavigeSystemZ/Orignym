@@ -19,6 +19,16 @@ This is the standard operating model for how agents should work inside the repo.
 - Design mode: use the design framework and review playbooks to drive intentional UI decisions.
 - Release mode: confirm build, install, launch, documentation, and risk posture.
 
+## Tier S: Infinite Context (1M+ tokens)
+
+When operating with Tier S capacity (e.g., Gemini 2.5 Pro):
+
+- Perform whole-repo analysis before major changes.
+- Cross-reference runtime code against the entire `_system/` layer to detect drift.
+- Use multimodal inputs (screenshots/video) to verify UI/UX and layout fidelity.
+- Use deep 'Chain of Thought' reasoning to plan complex multi-file refactors.
+- Identify "leaky" abstractions that span multiple modules.
+
 ## Stage 1: Understand the problem
 
 - Identify the exact objective.
@@ -52,11 +62,16 @@ This is the standard operating model for how agents should work inside the repo.
 
 ## Stage 5: Record and hand off
 
-- Update `TODO.md`, `FIXME.md`, and `WHERE_LEFT_OFF.md`.
+Follow the requirements in `_system/HANDOFF_PROTOCOL.md`. At minimum:
+
+- Update `WHERE_LEFT_OFF.md` with all required fields: session snapshot, last completed work, validation run (with command/result/scope), and next best step.
+- Update `TODO.md` with completed and discovered items using priority signals (CRITICAL/HIGH/MEDIUM/LOW).
+- Update `FIXME.md` with any newly discovered bugs or debt.
 - Update `RISK_REGISTER.md` when delivery confidence changes.
 - Update docs if architecture, contracts, workflow, design direction, or test intent changed.
 - Update `CHANGELOG.md` and `RELEASE_NOTES.md` for user-visible or architectural changes.
 - Update `_system/context/` when durable state shifted.
+- Verify handoff quality: run `bootstrap/check-evidence-quality.sh` to confirm claims are grounded.
 
 ## Decision rules
 

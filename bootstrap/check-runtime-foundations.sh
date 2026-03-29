@@ -49,6 +49,7 @@ from __future__ import annotations
 
 import json
 import re
+import shlex
 import stat
 import subprocess
 import sys
@@ -141,6 +142,15 @@ if env_example.exists():
         issues.append("ops/env/.env.example must define numeric APP_PORT_RANGE_START and APP_PORT_RANGE_END")
     elif int(start) >= int(end):
         issues.append("ops/env/.env.example must keep APP_PORT_RANGE_START below APP_PORT_RANGE_END")
+
+    shell_result = subprocess.run(
+        ["bash", "-lc", f"set -a && source {shlex.quote(str(env_example))} >/dev/null 2>&1"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+    )
+    if shell_result.returncode != 0:
+        issues.append("ops/env/.env.example must be sourceable by bash without shell syntax errors")
 
 installer_commands = split_csv(field("Installer commands"))
 for rel in installer_commands:
@@ -235,7 +245,7 @@ if pubspec_path.exists():
         if needle not in pubspec_text:
             issues.append(f"mobile/flutter/pubspec.yaml is missing required key: {needle}")
 
-hidden_name = "Michael Todd Spaulding"
+hidden_name = "Internal credit note placeholder"
 leak_roots = [repo / name for name in ("README.md", "AI_SYSTEM_README.md", "packaging", "mobile", "ai", "_system")]
 for root in leak_roots:
     if not root.exists():
@@ -249,7 +259,7 @@ for root in leak_roots:
         except UnicodeDecodeError:
             continue
         if hidden_name in text:
-            issues.append(f"Hidden author name leaked outside .credits-hidden: {path.relative_to(repo)}")
+            issues.append(f"Hidden internal note leaked outside .credits-hidden: {path.relative_to(repo)}")
 
 if issues:
     print("runtime_foundations_issues_detected")

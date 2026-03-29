@@ -60,6 +60,7 @@ mapfile -t managed_files < <(aiaast_print_managed_files "${TARGET_REPO}")
 
 python3 - <<'PY' "${TARGET_REPO}" "${OUTPUT_PATH}" "${SCRIPT_DIR}/lib/aiaast-lib.sh" "${WRITE}" "${managed_files[@]}"
 import json
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -71,9 +72,10 @@ write_enabled = sys.argv[4] == "1"
 managed_files = list(sys.argv[5:])
 
 def shell_out(func: str, rel: str) -> str:
+    quoted_lib = shlex.quote(str(lib_path))
     cmd = (
-        f"source {lib_path} >/dev/null 2>&1 && "
-        f"{func} {json.dumps(rel)}"
+        f"source {quoted_lib} >/dev/null 2>&1 && "
+        f"{func} {shlex.quote(rel)}"
     )
     result = subprocess.run(
         ["bash", "-lc", cmd],

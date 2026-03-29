@@ -34,3 +34,7 @@ See also:
 - `templates/appimage-builder.yml.example`
 - `templates/snapcraft.yaml.example`
 - `templates/flatpak.yaml.example`
+
+When the Flatpak manifest lives under `packaging/`, keep its source dir rooted
+at `..` so repo-root artifacts like `dist/<app>` remain part of the build
+context.

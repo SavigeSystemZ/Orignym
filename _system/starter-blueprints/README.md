@@ -23,4 +23,6 @@ Use these blueprints when a new repo needs a strong first-pass shape instead of 
 
 - Treat these as launch patterns, not immutable rules.
 - Adapt them to the actual product and constraints in `_system/PROJECT_PROFILE.md`.
+- Use `bootstrap/recommend-starter-blueprint.sh <target-repo> --write` to persist the advisory recommendation, then use `bootstrap/apply-starter-blueprint.sh <target-repo> --list` or `--blueprint ...` to explicitly choose and apply the blueprint before broad implementation begins.
+- Explicit blueprint application should project into the first repo-local operating surfaces, not just the brief: review `PLAN.md`, `TEST_STRATEGY.md`, `ARCHITECTURE_NOTES.md`, `TODO.md`, and `WHERE_LEFT_OFF.md` immediately after applying.
 - Keep runtime code separate from `_system/`.

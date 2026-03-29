@@ -75,6 +75,11 @@ For every meaningful handoff, record:
 - artifact or report path if one exists
 - what still remains unproven
 
+See `_system/HANDOFF_PROTOCOL.md` for the full evidence quality requirements.
+Run `bootstrap/check-evidence-quality.sh` to validate that handoff claims are
+grounded. Run `bootstrap/check-working-file-staleness.sh` to detect stale
+handoff surfaces.
+
 ## Release and checkpoint rule
 
 Before a checkpoint or release claim:

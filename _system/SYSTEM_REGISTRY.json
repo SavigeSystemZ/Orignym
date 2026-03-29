@@ -1,34 +1,76 @@
 {
   "entries": [
     {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": ".aider.conf.yml",
+      "size_bytes": 1457
+    },
+    {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": ".clinerules",
+      "size_bytes": 2018
+    },
+    {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": ".continuerules",
+      "size_bytes": 2048
+    },
+    {
       "category": "cursor-agent",
       "kind": "file",
       "path": ".cursor/agents/README.md",
-      "size_bytes": 242
+      "size_bytes": 231
     },
     {
       "category": "cursor-agent",
       "kind": "file",
       "path": ".cursor/agents/architecture.md",
-      "size_bytes": 1774
+      "size_bytes": 1808
+    },
+    {
+      "category": "cursor-agent",
+      "kind": "file",
+      "path": ".cursor/agents/context-curator.md",
+      "size_bytes": 858
     },
     {
       "category": "cursor-agent",
       "kind": "file",
       "path": ".cursor/agents/design-reviewer.md",
-      "size_bytes": 1780
+      "size_bytes": 1814
+    },
+    {
+      "category": "cursor-agent",
+      "kind": "file",
+      "path": ".cursor/agents/implementation-worker.md",
+      "size_bytes": 745
+    },
+    {
+      "category": "cursor-agent",
+      "kind": "file",
+      "path": ".cursor/agents/orchestrator.md",
+      "size_bytes": 798
     },
     {
       "category": "cursor-agent",
       "kind": "file",
       "path": ".cursor/agents/release-manager.md",
-      "size_bytes": 1703
+      "size_bytes": 1737
     },
     {
       "category": "cursor-agent",
       "kind": "file",
       "path": ".cursor/agents/security-reviewer.md",
-      "size_bytes": 2192
+      "size_bytes": 2226
+    },
+    {
+      "category": "cursor-agent",
+      "kind": "file",
+      "path": ".cursor/agents/validator.md",
+      "size_bytes": 737
     },
     {
       "category": "cursor-command",
@@ -82,7 +124,7 @@
       "category": "cursor-command",
       "kind": "file",
       "path": ".cursor/commands/load-context.md",
-      "size_bytes": 596
+      "size_bytes": 1463
     },
     {
       "category": "cursor-command",
@@ -100,7 +142,7 @@
       "category": "cursor-command",
       "kind": "file",
       "path": ".cursor/commands/session-start.md",
-      "size_bytes": 284
+      "size_bytes": 359
     },
     {
       "category": "cursor-command",
@@ -123,6 +165,18 @@
     {
       "category": "cursor-rule",
       "kind": "file",
+      "path": ".cursor/rules/00-global.mdc",
+      "size_bytes": 846
+    },
+    {
+      "category": "cursor-rule",
+      "kind": "file",
+      "path": ".cursor/rules/10-architecture.mdc",
+      "size_bytes": 692
+    },
+    {
+      "category": "cursor-rule",
+      "kind": "file",
       "path": ".cursor/rules/10-project-boundaries.mdc",
       "size_bytes": 338
     },
@@ -131,6 +185,18 @@
       "kind": "file",
       "path": ".cursor/rules/20-multi-agent-awareness.mdc",
       "size_bytes": 439
+    },
+    {
+      "category": "cursor-rule",
+      "kind": "file",
+      "path": ".cursor/rules/20-quality.mdc",
+      "size_bytes": 430
+    },
+    {
+      "category": "cursor-rule",
+      "kind": "file",
+      "path": ".cursor/rules/30-security.mdc",
+      "size_bytes": 550
     },
     {
       "category": "cursor-rule",
@@ -202,7 +268,7 @@
       "category": "cursor-skill",
       "kind": "file",
       "path": ".cursor/skills/load-context/SKILL.md",
-      "size_bytes": 655
+      "size_bytes": 1712
     },
     {
       "category": "cursor-skill",
@@ -220,7 +286,7 @@
       "category": "cursor-skill",
       "kind": "file",
       "path": ".cursor/skills/prompt-pack-generator/SKILL.md",
-      "size_bytes": 451
+      "size_bytes": 575
     },
     {
       "category": "cursor-skill",
@@ -238,37 +304,37 @@
       "category": "entrypoint",
       "kind": "file",
       "path": ".cursorrules",
-      "size_bytes": 964
+      "size_bytes": 1907
     },
     {
       "category": "entrypoint",
       "kind": "file",
       "path": ".github/copilot-instructions.md",
-      "size_bytes": 922
+      "size_bytes": 2162
     },
     {
       "category": "entrypoint",
       "kind": "file",
       "path": ".windsurfrules",
-      "size_bytes": 838
+      "size_bytes": 1780
     },
     {
       "category": "entrypoint",
       "kind": "file",
       "path": "AGENTS.md",
-      "size_bytes": 5497
+      "size_bytes": 8489
     },
     {
       "category": "system-metadata",
       "kind": "file",
       "path": "AIAST_CHANGELOG.md",
-      "size_bytes": 1935
+      "size_bytes": 29393
     },
     {
       "category": "system-metadata",
       "kind": "file",
       "path": "AIAST_VERSION.md",
-      "size_bytes": 399
+      "size_bytes": 848
     },
     {
       "category": "working-state",
@@ -286,13 +352,19 @@
       "category": "entrypoint",
       "kind": "file",
       "path": "CLAUDE.md",
-      "size_bytes": 1153
+      "size_bytes": 1906
     },
     {
       "category": "entrypoint",
       "kind": "file",
       "path": "CODEX.md",
-      "size_bytes": 1173
+      "size_bytes": 2003
+    },
+    {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": "DEEPSEEK.md",
+      "size_bytes": 2079
     },
     {
       "category": "working-state",
@@ -310,25 +382,43 @@
       "category": "entrypoint",
       "kind": "file",
       "path": "GEMINI.md",
-      "size_bytes": 1176
+      "size_bytes": 2268
+    },
+    {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": "LOCAL_MODELS.md",
+      "size_bytes": 2170
+    },
+    {
+      "category": "entrypoint",
+      "kind": "file",
+      "path": "PEARAI.md",
+      "size_bytes": 1924
     },
     {
       "category": "working-state",
       "kind": "file",
       "path": "PLAN.md",
-      "size_bytes": 1013
+      "size_bytes": 2396
+    },
+    {
+      "category": "working-state",
+      "kind": "file",
+      "path": "PRODUCT_BRIEF.md",
+      "size_bytes": 2710
     },
     {
       "category": "system-metadata",
       "kind": "file",
       "path": "README.md",
-      "size_bytes": 4929
+      "size_bytes": 8756
     },
     {
       "category": "working-state",
       "kind": "file",
       "path": "RELEASE_NOTES.md",
-      "size_bytes": 696
+      "size_bytes": 915
     },
     {
       "category": "working-state",
@@ -358,31 +448,31 @@
       "category": "working-state",
       "kind": "file",
       "path": "TODO.md",
-      "size_bytes": 1847
+      "size_bytes": 2134
     },
     {
       "category": "working-state",
       "kind": "file",
       "path": "WHERE_LEFT_OFF.md",
-      "size_bytes": 1282
+      "size_bytes": 2057
     },
     {
       "category": "entrypoint",
       "kind": "file",
       "path": "WINDSURF.md",
-      "size_bytes": 1072
+      "size_bytes": 1942
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/.template-install.json",
-      "size_bytes": 261
+      "size_bytes": 312
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/.template-version",
-      "size_bytes": 6
+      "size_bytes": 7
     },
     {
       "category": "system-core",
@@ -394,13 +484,31 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/AGENT_DISCOVERY_MATRIX.md",
-      "size_bytes": 3133
+      "size_bytes": 6787
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/AGENT_PERFORMANCE_GUIDE.md",
+      "size_bytes": 3843
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/AGENT_ROLE_CATALOG.md",
+      "size_bytes": 3255
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/API_DESIGN_STANDARDS.md",
       "size_bytes": 5953
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/ARCHITECTURE_DIAGRAM.md",
+      "size_bytes": 5703
     },
     {
       "category": "system-core",
@@ -412,7 +520,7 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/CHECKPOINT_PROTOCOL.md",
-      "size_bytes": 1501
+      "size_bytes": 1584
     },
     {
       "category": "system-core",
@@ -423,8 +531,14 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/CONTEXT_BUDGET_STRATEGY.md",
+      "size_bytes": 3130
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/CONTEXT_INDEX.md",
-      "size_bytes": 6030
+      "size_bytes": 10066
     },
     {
       "category": "system-core",
@@ -447,8 +561,14 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/ENVIRONMENT_VALIDATION_CONTRACT.md",
+      "size_bytes": 1920
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/EXECUTION_PROTOCOL.md",
-      "size_bytes": 2967
+      "size_bytes": 3864
     },
     {
       "category": "system-core",
@@ -459,8 +579,32 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/GOLDEN_EXAMPLES_POLICY.md",
+      "size_bytes": 1937
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/HALLUCINATION_DEFENSE_PROTOCOL.md",
-      "size_bytes": 1315
+      "size_bytes": 1494
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/HANDOFF_PROTOCOL.md",
+      "size_bytes": 4712
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/HOST_ADAPTER_POLICY.md",
+      "size_bytes": 2631
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/HOST_BUNDLE_CONTRACT.md",
+      "size_bytes": 2694
     },
     {
       "category": "system-core",
@@ -471,20 +615,38 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/INSTRUCTION_CONFLICT_PLAYBOOK.md",
+      "size_bytes": 2376
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/INSTRUCTION_PRECEDENCE_CONTRACT.md",
+      "size_bytes": 4104
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/INTEGRITY_MANIFEST.sha256",
-      "size_bytes": 22932
+      "size_bytes": 33825
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/KEY.md",
+      "size_bytes": 60681
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/LOAD_ORDER.md",
-      "size_bytes": 2728
+      "size_bytes": 4262
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/MASTER_SYSTEM_PROMPT.md",
-      "size_bytes": 5576
+      "size_bytes": 6599
     },
     {
       "category": "system-core",
@@ -501,8 +663,14 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/MIGRATION_GUIDE.md",
+      "size_bytes": 2939
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/MOBILE_GUIDE.md",
-      "size_bytes": 729
+      "size_bytes": 944
     },
     {
       "category": "system-core",
@@ -514,7 +682,7 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/MULTI_AGENT_COORDINATION.md",
-      "size_bytes": 2583
+      "size_bytes": 4607
     },
     {
       "category": "system-core",
@@ -538,25 +706,37 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/PLUGIN_CONTRACT.md",
-      "size_bytes": 783
+      "size_bytes": 3501
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/PROJECT_PROFILE.md",
-      "size_bytes": 3580
+      "size_bytes": 4569
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/PROJECT_RULES.md",
-      "size_bytes": 3918
+      "size_bytes": 4475
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/PROMPTS_INDEX.md",
-      "size_bytes": 1427
+      "size_bytes": 2515
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/PROMPT_EFFECTIVENESS_TRACKING.md",
+      "size_bytes": 2991
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/PROMPT_EMISSION_CONTRACT.md",
+      "size_bytes": 3596
     },
     {
       "category": "system-core",
@@ -567,8 +747,14 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/QUICKSTART.md",
+      "size_bytes": 2998
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/README.md",
-      "size_bytes": 1734
+      "size_bytes": 2513
     },
     {
       "category": "system-core",
@@ -580,7 +766,13 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/REPO_BOUNDARY_AND_BACKUP.md",
-      "size_bytes": 814
+      "size_bytes": 1152
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/REPO_OPERATING_PROFILE.md",
+      "size_bytes": 3689
     },
     {
       "category": "system-core",
@@ -598,7 +790,7 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/SKILLS_INDEX.md",
-      "size_bytes": 1283
+      "size_bytes": 2343
     },
     {
       "category": "system-core",
@@ -610,25 +802,25 @@
       "category": "system-core",
       "kind": "file",
       "path": "_system/SYSTEM_AWARENESS_PROTOCOL.md",
-      "size_bytes": 956
+      "size_bytes": 1157
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/SYSTEM_EVOLUTION_POLICY.md",
-      "size_bytes": 1021
+      "size_bytes": 2008
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/SYSTEM_REGISTRY.json",
-      "size_bytes": 35326
+      "size_bytes": 50549
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/TEMPLATE_NEUTRALITY_POLICY.md",
-      "size_bytes": 1313
+      "size_bytes": 2744
     },
     {
       "category": "system-core",
@@ -639,20 +831,38 @@
     {
       "category": "system-core",
       "kind": "file",
+      "path": "_system/TROUBLESHOOTING.md",
+      "size_bytes": 4529
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
       "path": "_system/UPGRADE_AND_DRIFT_POLICY.md",
-      "size_bytes": 2651
+      "size_bytes": 2770
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/VALIDATION_GATES.md",
-      "size_bytes": 2934
+      "size_bytes": 3183
     },
     {
       "category": "system-core",
       "kind": "file",
       "path": "_system/WORKING_FILES_GUIDE.md",
-      "size_bytes": 2548
+      "size_bytes": 3948
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/agent-performance-profiles.json",
+      "size_bytes": 5214
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/aiaast-capabilities.json",
+      "size_bytes": 2829
     },
     {
       "category": "ci",
@@ -691,6 +901,12 @@
       "size_bytes": 505
     },
     {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/context-budget-profiles.json",
+      "size_bytes": 1647
+    },
+    {
       "category": "system-context",
       "kind": "file",
       "path": "_system/context/ARCHITECTURAL_INVARIANTS.md",
@@ -706,7 +922,7 @@
       "category": "system-context",
       "kind": "file",
       "path": "_system/context/CURRENT_STATUS.md",
-      "size_bytes": 683
+      "size_bytes": 1006
     },
     {
       "category": "system-context",
@@ -742,7 +958,145 @@
       "category": "system-context",
       "kind": "file",
       "path": "_system/context/README.md",
-      "size_bytes": 756
+      "size_bytes": 917
+    },
+    {
+      "category": "system-context",
+      "kind": "file",
+      "path": "_system/context/prompt-usage-log.json",
+      "size_bytes": 163
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/PATTERN_INDEX.md",
+      "size_bytes": 2579
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/README.md",
+      "size_bytes": 654
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/golden-example-manifest.json",
+      "size_bytes": 5317
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/CODE_SNIPPET_EXAMPLES.md",
+      "size_bytes": 3046
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/CONTINUITY_AND_HANDOFF.md",
+      "size_bytes": 1143
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/DATA_PIPELINE_AND_ML.md",
+      "size_bytes": 1750
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/ERROR_HANDLING_PATTERNS.md",
+      "size_bytes": 1817
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/EVENT_DRIVEN_AND_CQRS.md",
+      "size_bytes": 1675
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/GOVERNANCE_AND_PROMPTING.md",
+      "size_bytes": 954
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/MICROSERVICES_ARCHITECTURE.md",
+      "size_bytes": 1748
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/MULTI_AGENT_AND_MCP.md",
+      "size_bytes": 967
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/PLATFORM_SURFACES.md",
+      "size_bytes": 1070
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/REALTIME_COLLABORATION.md",
+      "size_bytes": 1817
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/SERVERLESS_AND_EDGE.md",
+      "size_bytes": 1817
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/TESTING_PATTERNS.md",
+      "size_bytes": 1768
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/patterns/VALIDATION_AND_RELEASE.md",
+      "size_bytes": 1078
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/working-files/PLAN_EXAMPLE.md",
+      "size_bytes": 1519
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/working-files/PROJECT_PROFILE_EXAMPLE.md",
+      "size_bytes": 6442
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/golden-examples/working-files/WHERE_LEFT_OFF_EXAMPLE.md",
+      "size_bytes": 1505
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/health-history.json",
+      "size_bytes": 3
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/host-adapter-manifest.json",
+      "size_bytes": 16072
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/instruction-precedence.json",
+      "size_bytes": 2751
     },
     {
       "category": "system-core",
@@ -796,7 +1150,7 @@
       "category": "packaging",
       "kind": "file",
       "path": "_system/packaging/README.md",
-      "size_bytes": 1043
+      "size_bytes": 1206
     },
     {
       "category": "packaging",
@@ -832,7 +1186,7 @@
       "category": "packaging",
       "kind": "file",
       "path": "_system/packaging/templates/flatpak-manifest.json.example",
-      "size_bytes": 557
+      "size_bytes": 558
     },
     {
       "category": "packaging",
@@ -853,136 +1207,214 @@
       "size_bytes": 260
     },
     {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/ci-integration/README.md",
+      "size_bytes": 660
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/ci-integration/plugin.json",
+      "size_bytes": 341
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/ci-integration/run.sh",
+      "size_bytes": 982
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/observability-setup/README.md",
+      "size_bytes": 726
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/observability-setup/plugin.json",
+      "size_bytes": 388
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/observability-setup/run.sh",
+      "size_bytes": 1180
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/security-scan/README.md",
+      "size_bytes": 642
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/security-scan/plugin.json",
+      "size_bytes": 336
+    },
+    {
+      "category": "plugin",
+      "kind": "file",
+      "path": "_system/plugins/security-scan/run.sh",
+      "size_bytes": 1752
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/precedence.manifest.json",
+      "size_bytes": 376
+    },
+    {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M0_FOUNDATION.md",
-      "size_bytes": 963
+      "size_bytes": 1806
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M10_GREENFIELD_BOOTSTRAP.md",
-      "size_bytes": 475
+      "size_bytes": 1386
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M11_MATURE_REPO_RETROFIT.md",
-      "size_bytes": 526
+      "size_bytes": 1088
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M12_PERFORMANCE_OPTIMIZATION.md",
-      "size_bytes": 1497
+      "size_bytes": 1778
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M13_ACCESSIBILITY_AND_INCLUSION.md",
-      "size_bytes": 1582
+      "size_bytes": 1863
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M14_SECURITY_HARDENING.md",
-      "size_bytes": 1752
+      "size_bytes": 2063
+    },
+    {
+      "category": "prompting",
+      "kind": "file",
+      "path": "_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md",
+      "size_bytes": 2094
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M1_FEATURE_DELIVERY.md",
-      "size_bytes": 614
+      "size_bytes": 1596
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M2_DEBUG_AND_STABILIZE.md",
-      "size_bytes": 556
+      "size_bytes": 1399
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M3_REVIEW_AND_RELEASE.md",
-      "size_bytes": 608
+      "size_bytes": 1451
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M4_ARCHITECTURE_EXPANSION.md",
-      "size_bytes": 554
+      "size_bytes": 1116
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M5_MIGRATION_AND_REFACTOR.md",
-      "size_bytes": 467
+      "size_bytes": 1029
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M6_INSTALL_AND_DISTRIBUTION.md",
-      "size_bytes": 515
+      "size_bytes": 1077
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M7_DESIGN_EXCELLENCE.md",
-      "size_bytes": 4337
+      "size_bytes": 5180
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M8_SECURITY_AND_COMPLIANCE.md",
-      "size_bytes": 429
+      "size_bytes": 991
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-packs/M9_MULTI_AGENT_CONTINUITY.md",
-      "size_bytes": 483
+      "size_bytes": 1185
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/architecture_prompt_template.md",
-      "size_bytes": 1316
+      "size_bytes": 1572
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/developer_prompt_template.md",
-      "size_bytes": 411
+      "size_bytes": 667
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/optimization_prompt_template.md",
-      "size_bytes": 1063
+      "size_bytes": 1319
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/repair_prompt_template.md",
-      "size_bytes": 1758
+      "size_bytes": 2014
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/review_prompt_template.md",
-      "size_bytes": 1478
+      "size_bytes": 1734
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/system_prompt_template.md",
-      "size_bytes": 383
+      "size_bytes": 659
     },
     {
       "category": "prompting",
       "kind": "file",
       "path": "_system/prompt-templates/user_prompt_template.md",
-      "size_bytes": 333
+      "size_bytes": 589
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/repo-operating-profile.json",
+      "size_bytes": 4057
+    },
+    {
+      "category": "system-core",
+      "kind": "file",
+      "path": "_system/repo-operating-profile.md",
+      "size_bytes": 759
     },
     {
       "category": "review-playbook",
@@ -1048,13 +1480,13 @@
       "category": "starter-blueprint",
       "kind": "file",
       "path": "_system/starter-blueprints/FASTAPI_API.md",
-      "size_bytes": 2310
+      "size_bytes": 2560
     },
     {
       "category": "starter-blueprint",
       "kind": "file",
       "path": "_system/starter-blueprints/FLUTTER_ANDROID_CLIENT.md",
-      "size_bytes": 1031
+      "size_bytes": 1456
     },
     {
       "category": "starter-blueprint",
@@ -1084,7 +1516,7 @@
       "category": "starter-blueprint",
       "kind": "file",
       "path": "_system/starter-blueprints/PYTHON_CLI_TOOL.md",
-      "size_bytes": 1681
+      "size_bytes": 1931
     },
     {
       "category": "starter-blueprint",
@@ -1096,7 +1528,7 @@
       "category": "starter-blueprint",
       "kind": "file",
       "path": "_system/starter-blueprints/README.md",
-      "size_bytes": 1445
+      "size_bytes": 1967
     },
     {
       "category": "starter-blueprint",
@@ -1126,7 +1558,7 @@
       "category": "systemd",
       "kind": "file",
       "path": "_system/systemd/README.md",
-      "size_bytes": 747
+      "size_bytes": 894
     },
     {
       "category": "systemd",
@@ -1156,7 +1588,37 @@
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/README.md",
-      "size_bytes": 3924
+      "size_bytes": 9581
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/apply-starter-blueprint.sh",
+      "size_bytes": 38176
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-agent-orchestration.sh",
+      "size_bytes": 3158
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-bootstrap-permissions.sh",
+      "size_bytes": 2267
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-environment.sh",
+      "size_bytes": 3871
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-evidence-quality.sh",
+      "size_bytes": 4646
     },
     {
       "category": "bootstrap",
@@ -1167,44 +1629,146 @@
     {
       "category": "bootstrap",
       "kind": "file",
+      "path": "bootstrap/check-host-adapter-alignment.sh",
+      "size_bytes": 4190
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-host-bundle.sh",
+      "size_bytes": 9595
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-host-ingestion.sh",
+      "size_bytes": 6392
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-install-boundary.sh",
+      "size_bytes": 1122
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-network-bindings.sh",
+      "size_bytes": 5294
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-packaging-targets.sh",
+      "size_bytes": 7929
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
       "path": "bootstrap/check-placeholders.sh",
-      "size_bytes": 2284
+      "size_bytes": 3813
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/check-runtime-foundations.sh",
-      "size_bytes": 9096
+      "size_bytes": 9461
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-supply-chain.sh",
+      "size_bytes": 4806
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/check-system-awareness.sh",
-      "size_bytes": 5911
+      "size_bytes": 7111
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/check-working-file-staleness.sh",
+      "size_bytes": 7423
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/configure-project-profile.sh",
-      "size_bytes": 2446
+      "size_bytes": 2264
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/detect-drift.sh",
-      "size_bytes": 6087
+      "size_bytes": 6255
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/detect-instruction-conflicts.sh",
+      "size_bytes": 6849
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/discover-plugins.sh",
+      "size_bytes": 2834
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/emit-host-bundle.sh",
+      "size_bytes": 6012
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/emit-host-prompt.sh",
+      "size_bytes": 4009
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/emit-tiered-context.sh",
+      "size_bytes": 4203
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/generate-diagnostic-report.sh",
+      "size_bytes": 3221
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/generate-host-adapters.sh",
+      "size_bytes": 8384
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/generate-operating-profile.sh",
+      "size_bytes": 13283
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/generate-runtime-foundations.sh",
-      "size_bytes": 4091
+      "size_bytes": 4300
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/generate-system-key.sh",
+      "size_bytes": 38662
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/generate-system-registry.sh",
-      "size_bytes": 2904
+      "size_bytes": 2964
     },
     {
       "category": "bootstrap",
@@ -1222,19 +1786,19 @@
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/init-project.sh",
-      "size_bytes": 4627
+      "size_bytes": 3714
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/install-missing-files.sh",
-      "size_bytes": 3214
+      "size_bytes": 4065
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/lib/aiaast-lib.sh",
-      "size_bytes": 7433
+      "size_bytes": 16461
     },
     {
       "category": "bootstrap",
@@ -1245,8 +1809,32 @@
     {
       "category": "bootstrap",
       "kind": "file",
+      "path": "bootstrap/recommend-starter-blueprint.sh",
+      "size_bytes": 21970
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
       "path": "bootstrap/repair-system.sh",
       "size_bytes": 1182
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/report-health-trends.sh",
+      "size_bytes": 2388
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/run-sast.sh",
+      "size_bytes": 5026
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/scan-container.sh",
+      "size_bytes": 6472
     },
     {
       "category": "bootstrap",
@@ -1257,20 +1845,38 @@
     {
       "category": "bootstrap",
       "kind": "file",
+      "path": "bootstrap/seed-product-brief.sh",
+      "size_bytes": 5234
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/seed-risk-register.sh",
+      "size_bytes": 5585
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/seed-test-strategy.sh",
+      "size_bytes": 4395
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
       "path": "bootstrap/seed-working-state.sh",
-      "size_bytes": 7598
+      "size_bytes": 8728
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/suggest-project-profile.sh",
-      "size_bytes": 29747
+      "size_bytes": 32766
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/system-doctor.sh",
-      "size_bytes": 3314
+      "size_bytes": 6738
     },
     {
       "category": "bootstrap",
@@ -1312,13 +1918,13 @@
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/mobile/README.md",
-      "size_bytes": 550
+      "size_bytes": 702
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/mobile/flutter/README.md",
-      "size_bytes": 448
+      "size_bytes": 611
     },
     {
       "category": "bootstrap",
@@ -1348,7 +1954,7 @@
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/ops/env/.env.example",
-      "size_bytes": 615
+      "size_bytes": 623
     },
     {
       "category": "bootstrap",
@@ -1402,19 +2008,25 @@
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/packaging/README.md",
-      "size_bytes": 812
+      "size_bytes": 1046
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/templates/runtime/packaging/__AIAST_DESKTOP_ID__.desktop",
+      "size_bytes": 207
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/packaging/appimage.yml",
-      "size_bytes": 989
+      "size_bytes": 835
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/templates/runtime/packaging/flatpak-manifest.json",
-      "size_bytes": 831
+      "size_bytes": 832
     },
     {
       "category": "bootstrap",
@@ -1431,30 +2043,60 @@
     {
       "category": "bootstrap",
       "kind": "file",
+      "path": "bootstrap/track-semantic-changes.sh",
+      "size_bytes": 6571
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
       "path": "bootstrap/uninstall-system.sh",
-      "size_bytes": 3891
+      "size_bytes": 3961
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/update-template.sh",
-      "size_bytes": 4809
+      "size_bytes": 6958
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/upgrade-assistant.sh",
+      "size_bytes": 6004
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/validate-instruction-layer.sh",
+      "size_bytes": 7707
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/validate-plugin.sh",
+      "size_bytes": 3047
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/validate-system.sh",
-      "size_bytes": 13076
+      "size_bytes": 21454
     },
     {
       "category": "bootstrap",
       "kind": "file",
       "path": "bootstrap/verify-integrity.sh",
       "size_bytes": 2453
+    },
+    {
+      "category": "bootstrap",
+      "kind": "file",
+      "path": "bootstrap/wizard.sh",
+      "size_bytes": 7956
     }
   ],
-  "managed_file_count": 242,
+  "managed_file_count": 349,
   "system_readme_path": "README.md",
   "template_name": "AIAST",
-  "template_version": "1.2.0"
+  "template_version": "1.16.0"
 }

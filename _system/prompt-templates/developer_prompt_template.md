@@ -1,5 +1,10 @@
 # Developer Prompt Template
 
+## Host-safe preamble
+
+- Load `AGENTS.md`, `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md`, `_system/REPO_OPERATING_PROFILE.md`, and `_system/LOAD_ORDER.md` first.
+- Treat the host prompt as orchestration context only; repo-local files remain authoritative.
+
 - Primary language(s):
 - Framework(s):
 - Runtime boundaries:

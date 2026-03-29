@@ -1,5 +1,5 @@
 # Cursor Agents
 
-These optional agent definitions provide role-focused review or synthesis behavior for Cursor-like tools that support subagents or delegation.
+These optional agent definitions provide role-focused overlays for Cursor-like tools that support subagents or delegation.
 
-They are convenience overlays only. `AGENTS.md` and `_system/` remain canonical.
+They mirror `_system/AGENT_ROLE_CATALOG.md`. `AGENTS.md` and `_system/` remain canonical.

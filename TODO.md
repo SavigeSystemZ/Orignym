@@ -2,59 +2,31 @@
 
 This is the active execution queue. Keep it tight, factual, and ordered.
 
-## Bootstrap
-
-- [ ] Fill in `_system/PROJECT_PROFILE.md`
-- [ ] Confirm canonical docs for this project
-- [ ] Confirm validation commands and quality gates
-- [ ] Confirm MCP server set and scope
-- [ ] Establish the first real milestone in `PLAN.md`
-- [ ] Establish the first medium-term sequence in `ROADMAP.md`
-
 ## Current Priority
 
-- [ ] Define the single highest-value active milestone or bugfix here
+- [x] Prepare production deployment configuration [HIGH]
 
 ## Immediate Queue
 
-Use short, reviewable tasks.
-
-- [ ] Item:
-  Reason:
-  Done when:
-  Validation:
+- [x] Update `.env.example` with LLM API key placeholders [LOW]
 
 ## Next Queue
 
-- [ ] Record the next slice of work that should follow once the immediate queue clears
+- [x] Conduct production-ready smoke tests [MEDIUM]
+- [x] Finalize production deployment scripts [MEDIUM]
 
-## Validation Debt
+## System Health & Maintenance
 
-- [ ] Add missing tests for touched behavior
-- [ ] Add missing smoke or install checks if the runtime path changed
-- [ ] Update `TEST_STRATEGY.md` when confidence expectations changed
-
-## Documentation Debt
-
-- [ ] Keep `_system/` docs aligned with repo reality
-- [ ] Record unresolved issues in `FIXME.md`
-- [ ] Keep `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, and `RESEARCH_NOTES.md` aligned with real decisions
-
-## Design / Architecture Follow-up
-
-- [ ] Record follow-up polish work, layout cleanup, or structural cleanup that is real but not blocking
-
-## Blocked / Waiting
-
-- [ ] Record external blockers, missing credentials, environment issues, or pending decisions here
+- [x] Fix `packaging/appimage.yml` desktop file installation [MEDIUM]
+- [x] Replace generic placeholders across the repo [LOW]
+- [x] Resolve `.env.example` syntax warnings [LOW]
 
 ## Completed Recently
 
-- [ ] Move completed work here briefly or into `CHANGELOG.md` when it matters to users or architecture
-
-## Usage rules
-
-- Keep this file current enough that another tool can pick up immediately.
-- Add discovered work before handoff even if it is low priority.
-- Keep product vision in `ROADMAP.md` and active execution structure in `PLAN.md`.
-- Do not turn this into a wish list. If an item has no plausible near-term value, keep it out.
+- [x] Integrate real LLM providers (Gemini/Claude) [CRITICAL]
+- [x] Implement Gemini provider in `src/lib/ai/` [HIGH]
+- [x] Implement Claude provider in `src/lib/ai/` [HIGH]
+- [x] Create AI provider factory to toggle between Mock/Real providers [MEDIUM]
+- [x] Milestone 1-6: Foundation, Verification, Suggestions, Registry, Moderation, and Advanced Installer. [HIGH]
+- [x] Fix bootstrap script permissions and .env syntax. [MEDIUM]
+- [x] Synchronize PLAN.md and TODO.md with project reality. [MEDIUM]

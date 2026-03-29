@@ -7,6 +7,14 @@
 3. Do not hide project-critical rules inside chat. Persist them in repo files.
 4. Keep runtime, system, and backup/archive layers logically separate.
 
+## 1a. Instruction-layer rules
+
+- Use `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md` whenever repo-local and host-level instructions overlap.
+- Repo-local runtime and product facts override generic host assumptions.
+- Host systems may add orchestration context, but they must not silently overwrite repo-local truth.
+- Prompt templates and prompt packs must follow `_system/PROMPT_EMISSION_CONTRACT.md`.
+- Golden examples may guide structure and quality level, but they must never be copied forward as donor-app truth.
+
 ## 2. Change discipline
 
 5. Prefer the smallest correct diff over broad rewrites.
@@ -34,7 +42,7 @@
 18. `WHERE_LEFT_OFF.md` is the primary handoff anchor.
 19. `TODO.md` must capture remaining work and newly discovered work.
 20. `FIXME.md` must capture unresolved bugs, debt, and blockers.
-21. `PLAN.md`, `TEST_STRATEGY.md`, `DESIGN_NOTES.md`, and `ARCHITECTURE_NOTES.md` should be updated when the work changes execution, confidence, design, or structure.
+21. `PRODUCT_BRIEF.md`, `PLAN.md`, `TEST_STRATEGY.md`, `DESIGN_NOTES.md`, and `ARCHITECTURE_NOTES.md` should be updated when the work changes product direction, execution, confidence, design, or structure.
 22. `RISK_REGISTER.md` should track active delivery, security, quality, or release risk.
 23. `RELEASE_NOTES.md` and `CHANGELOG.md` should track outward-facing changes and release posture.
 

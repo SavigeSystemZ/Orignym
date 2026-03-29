@@ -56,7 +56,7 @@ import re
 import sys
 
 text = Path(sys.argv[1]).read_text()
-match = re.search(r"^- App name:\s*(.+)$", text, re.MULTILINE)
+match = re.search(r"^- App name:[ \t]*(.+)$", text, re.MULTILINE)
 print(match.group(1).strip() if match else "")
 PY
 )"
@@ -77,27 +77,36 @@ timestamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replac
 
 updates = {
     root / "TODO.md": {
-        "- [ ] Define the single highest-value active milestone or bugfix here": f"- [ ] Establish the first validated baseline for {app_name}",
-        "- [ ] Item:\n  Reason:\n  Done when:\n  Validation:": (
-            f"- [ ] Finish onboarding and confirm the first working validation path for {app_name}\n"
-            "  Reason: The repo-local agent system is installed but still needs repo-specific truth.\n"
-            "  Done when: Validation commands, runtime boundaries, and the first milestone are explicit.\n"
-            "  Validation: Run the narrowest real build, test, or smoke command that proves the app works."
+        "- [ ] HIGH: Define the repo's next concrete outcome": f"- [ ] HIGH: Establish the first validated baseline for {app_name}",
+        "- [ ] HIGH: Turn `PRODUCT_BRIEF.md` into repo-specific truth": (
+            f"- [ ] HIGH: Refine `PRODUCT_BRIEF.md` for {app_name} so the product frame and first build shape are explicit"
         ),
-        "- [ ] Record the next slice of work that should follow once the immediate queue clears": (
-            "- [ ] Begin the first product or platform milestone once onboarding is complete"
+        "- [ ] HIGH: Review the recommended starter blueprint and explicitly apply it if the repo is still greenfield": (
+            "- [ ] HIGH: Review the recommended starter blueprint and explicitly apply it if the repo is still greenfield"
+        ),
+        "- [ ] MEDIUM: Replace remaining neutral prompts with repo-specific truth after install": (
+            f"- [ ] MEDIUM: Finish onboarding and confirm the first working validation path for {app_name}"
+        ),
+        "- [ ] LOW: Keep working files current as the repo evolves": (
+            "- [ ] MEDIUM: Begin the first product or platform milestone once onboarding is complete"
+        ),
+        "- [ ] MEDIUM: Record initial risks in `RISK_REGISTER.md`": (
+            "- [ ] MEDIUM: Review and refine the seeded first-pass risks in `RISK_REGISTER.md`"
+        ),
+        "- [ ] MEDIUM: Record the repo's real validation lane in `TEST_STRATEGY.md`": (
+            "- [ ] MEDIUM: Record the repo's real validation lane in `TEST_STRATEGY.md` after the first successful repo-local check"
         ),
     },
     root / "PLAN.md": {
-        "- Current target outcome:": f"- Current target outcome: Establish a clean, validated baseline for {app_name}",
-        "- Why it matters now:": "- Why it matters now: The repo needs a truthful operating picture before deeper feature work begins.",
-        "- Deadline or forcing function:": "- Deadline or forcing function: Complete onboarding before the first substantial implementation pass.",
+        "- Current target outcome: set this to the active repo milestone": f"- Current target outcome: Establish a clean, validated baseline for {app_name}",
+        "- Why it matters now: record why this work matters to the repo, user, or release": "- Why it matters now: The repo needs a truthful operating picture before deeper feature work begins.",
+        "- Deadline or forcing function: record if one exists": "- Deadline or forcing function: Complete onboarding before the first substantial implementation pass.",
         "- User or operator outcome:": "- User or operator outcome: A new agent can enter the repo and immediately see how to build, validate, and continue safely.",
         "- Technical outcome:": "- Technical outcome: Runtime boundaries, validation commands, and current repo structure are documented and verified.",
         "- Design or product-quality outcome:": "- Design or product-quality outcome: The first visible surface should already reflect intentional design and best-practice structure.",
         "- In scope:": "- In scope: profile completion, validation mapping, first smoke check, and working-state initialization.",
         "- Out of scope:": "- Out of scope: broad product expansion before the baseline is proven.",
-        "- Dependencies:": "- Dependencies: repo inspection, available toolchain, and at least one real validation command.",
+        "- Dependencies:": "- Dependencies: repo inspection, `PRODUCT_BRIEF.md`, available toolchain, and at least one real validation command.",
         "- Known unknowns:": "- Known unknowns: framework-specific gaps, deployment assumptions, and missing environment details.",
         "- Commands to run:": "- Commands to run: start with the smallest real build, test, or smoke command for the repo.",
         "- Evidence to capture:": "- Evidence to capture: the first passing validation result and any unresolved onboarding gaps.",
@@ -105,19 +114,14 @@ updates = {
         "- Release-blocking checks:": "- Release-blocking checks: baseline validation must be explicit before any release claim exists.",
         "- Risks that could invalidate the plan:": "- Risks that could invalidate the plan: incorrect framework assumptions, hidden dependencies, or stale repo docs.",
         "- Fallback path if the plan fails:": "- Fallback path if the plan fails: reduce scope, document the blocker, and stabilize the repo state before proceeding.",
-        "- What has to be true for this plan to be considered complete:": "- What has to be true for this plan to be considered complete: the repo profile is meaningfully filled, the first validation path is proven, and the next milestone is explicit.",
+        "- Define what \"done\" means for this repo milestone.": "- Define what \"done\" means for this repo milestone: the repo profile is meaningfully filled, the first validation path is proven, and the next milestone is explicit.",
     },
     root / "WHERE_LEFT_OFF.md": {
-        "- Current phase:": "- Current phase: Onboarding",
-        "- Working branch or lane:": "- Working branch or lane: main or current default branch",
-        "- Completion status:": "- Completion status: System installed, repo-specific truth still being established",
-        "- Resume confidence:": "- Resume confidence: Medium",
-        "- If this is the first session, record the setup action and the first real milestone once known.": (
-            f"- Installed the local AI operating system for {app_name} and seeded the first working surfaces."
-        ),
-        "- Fill in `_system/PROJECT_PROFILE.md`, then establish the first real milestone in `TODO.md`.": (
-            "- Finish the remaining repo-specific profile fields, confirm validation commands, and begin the first milestone."
-        ),
+        "- Current phase: not set yet": "- Current phase: Onboarding",
+        "- Working branch or lane: `main`": "- Working branch or lane: `main`",
+        "- Completion status: not started — fill after first meaningful work session": "- Completion status: System installed, repo-specific truth still being established",
+        "- Resume confidence: low — no prior session recorded": "- Resume confidence: medium",
+        "Record the most recent meaningful work here. Be concrete:": f"Installed the local AI operating system for {app_name} and seeded the first working surfaces.",
     },
     root / "_system/context/CURRENT_STATUS.md": {
         "- Active branch or lane:": "- Active branch or lane: main or current default branch",
@@ -139,15 +143,31 @@ updates = {
     },
 }
 
+def replace_exact_line(text: str, old_line: str, new_line: str) -> str:
+    old_with_newline = f"{old_line}\n"
+    new_with_newline = f"{new_line}\n"
+    if old_with_newline in text:
+        return text.replace(old_with_newline, new_with_newline, 1)
+    if text.endswith(old_line):
+        return text[: -len(old_line)] + new_line
+    return text
+
+
 for path, replacements in updates.items():
     text = path.read_text()
     for old, new in replacements.items():
-        text = text.replace(old, new, 1)
+        text = replace_exact_line(text, old, new)
+    if path.name == "TODO.md":
+        text = replace_exact_line(
+            text,
+            "- [ ] Select and apply a starter blueprint if the repo is still greenfield",
+            "- [ ] Review the recommended starter blueprint and explicitly apply it if the repo is still greenfield",
+        )
     path.write_text(text)
 
 where_left_off = root / "WHERE_LEFT_OFF.md"
 text = where_left_off.read_text()
-text = text.replace("- Timestamp:", f"- Timestamp: {timestamp}", 1)
+text = replace_exact_line(text, "- Timestamp:", f"- Timestamp: {timestamp}")
 where_left_off.write_text(text)
 PY
 

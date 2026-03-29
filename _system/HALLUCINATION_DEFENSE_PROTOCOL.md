@@ -21,6 +21,8 @@ Hallucination in this system means claiming a file, state, validation result, in
 ## Commands
 
 - `bootstrap/check-hallucination.sh <repo>`
+- `bootstrap/check-evidence-quality.sh <repo>` — scan handoff files for ungrounded claims
+- `bootstrap/check-working-file-staleness.sh <repo>` — detect stale handoff surfaces
 - `bootstrap/check-system-awareness.sh <repo>`
 - `bootstrap/system-doctor.sh <repo>`
 

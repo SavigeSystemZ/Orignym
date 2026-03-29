@@ -4,10 +4,10 @@ Use this file for the current candidate release or milestone summary.
 
 ## Current release target
 
-- Target label:
-- Intended audience:
-- Release goal:
-- Release confidence:
+- Target label: baseline-onboarding
+- Intended audience: internal engineering and agent operators
+- Release goal: confirm the repo-local AI operating system is installed cleanly and the first validation path is understood
+- Release confidence: not ready until onboarding validation is complete
 
 ## User-visible changes
 

@@ -16,3 +16,5 @@ This folder holds durable working context that should survive tool swaps and ses
 ## Rule
 
 Do not turn these files into noisy session dumps. Keep them high-signal and durable.
+
+In the AIAST source repo, maintainer-only template-evolution context belongs in the master-repo-only meta workspace instead of these installable context files.

@@ -63,17 +63,30 @@ app_name = sys.argv[2]
 slug = re.sub(r"[^a-z0-9]+", "-", app_name.lower()).strip("-") or "app"
 app_id = f"io.aiaast.{slug.replace('-', '.')}"
 text = path.read_text()
-text = text.replace("- App name:", f"- App name: {app_name}", 1)
-text = text.replace("- App id:", f"- App id: {app_id}", 1)
-text = text.replace("- Desktop entry id:", f"- Desktop entry id: {app_id}", 1)
-text = text.replace("- Android application id:", f"- Android application id: {app_id}", 1)
-text = text.replace("- Branch strategy:", "- Branch strategy: main for runtime code, system for copied AIAST updates, optional short-lived feature branches", 1)
-text = text.replace("- Packaging manifest paths:", "- Packaging manifest paths: packaging/appimage.yml, packaging/flatpak-manifest.json, packaging/snapcraft.yaml", 1)
-text = text.replace("- Installer commands:", "- Installer commands: ops/install/install.sh, ops/install/repair.sh, ops/install/uninstall.sh, ops/install/purge.sh", 1)
-text = text.replace("- Android module path:", "- Android module path: mobile/flutter/", 1)
-text = text.replace("- LLM config path:", "- LLM config path: ai/llm_config.yaml", 1)
-text = text.replace("- Chatbot surfaces:", "- Chatbot surfaces: CLI REPL, REST endpoint, GUI side panel when a UI exists", 1)
-text = text.replace("- Signing identity:", "- Signing identity: Savige Systems (SYstemZ) placeholder; replace if the project uses a different release owner", 1)
+
+
+def replace_line(label: str, value: str) -> None:
+    global text
+    text = re.sub(
+        rf"^- {re.escape(label)}:.*$",
+        f"- {label}: {value}",
+        text,
+        count=1,
+        flags=re.MULTILINE,
+    )
+
+
+replace_line("App name", app_name)
+replace_line("App id", app_id)
+replace_line("Desktop entry id", app_id)
+replace_line("Android application id", app_id)
+replace_line("Branch strategy", "main for runtime code, system for copied AIAST updates, optional short-lived feature branches")
+replace_line("Packaging manifest paths", "packaging/appimage.yml, packaging/flatpak-manifest.json, packaging/snapcraft.yaml")
+replace_line("Installer commands", "ops/install/install.sh, ops/install/repair.sh, ops/install/uninstall.sh, ops/install/purge.sh")
+replace_line("Android module path", "mobile/flutter/")
+replace_line("LLM config path", "ai/llm_config.yaml")
+replace_line("Chatbot surfaces", "CLI REPL, REST endpoint, GUI side panel when a UI exists")
+replace_line("Signing identity", "Release owner placeholder; replace before shipping signed artifacts")
 path.write_text(text)
 PY
 

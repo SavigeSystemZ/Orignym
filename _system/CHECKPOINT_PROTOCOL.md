@@ -25,6 +25,7 @@ Run this at the end of a milestone, at risky turning points, or before switching
 4. Update:
    - `TODO.md`
    - `FIXME.md`
+   - `PRODUCT_BRIEF.md` when product direction or starter-blueprint choice changed
    - `PLAN.md` when the active execution picture changed
    - `TEST_STRATEGY.md` when validation expectations changed
    - `RISK_REGISTER.md` when delivery confidence changed

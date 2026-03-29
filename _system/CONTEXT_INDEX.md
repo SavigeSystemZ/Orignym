@@ -5,19 +5,33 @@ This file is the map of the local agent operating system.
 ## Core contract
 
 - `PROJECT_PROFILE.md` — app-specific truth
+- `INSTRUCTION_PRECEDENCE_CONTRACT.md` — repo-local vs host-level precedence and conflict rules
+- `REPO_OPERATING_PROFILE.md` — compact host-ingestion summary
+- `KEY.md` — exhaustive file-by-file key with when-to-use guidance
+- `HOST_ADAPTER_POLICY.md` — policy for generated tool-entry and adapter-load surfaces
+- `HOST_BUNDLE_CONTRACT.md` — contract for self-contained external host bundles
 - `LOAD_ORDER.md` — what to read and in what order
 - `WORKING_FILES_GUIDE.md` — what each planning and continuity file is for
 - `TEMPLATE_NEUTRALITY_POLICY.md` — how the master template stays reusable
+- `GOLDEN_EXAMPLES_POLICY.md` — how neutral example packs may be used without leaking donor-app truth
 - `MASTER_SYSTEM_PROMPT.md` — central operating prompt
 - `PROJECT_RULES.md` — repo-wide non-negotiable rules
 - `MEMORY_RULES.md` — what belongs in durable memory
 - `EXECUTION_PROTOCOL.md` — how work should be done
+- `AGENT_ROLE_CATALOG.md` — canonical role and delegation model for multi-agent work
 - `AGENT_DISCOVERY_MATRIX.md` — which tools load which files
 - `DESIGN_EXCELLENCE_FRAMEWORK.md` — product and interface quality rules
 - `SYSTEM_AWARENESS_PROTOCOL.md` — how the operating system tracks its own managed surfaces
 - `HALLUCINATION_DEFENSE_PROTOCOL.md` — how to detect and recover from ungrounded claims
+- `HANDOFF_PROTOCOL.md` — quality requirements for agent-to-agent handoffs
 - `SYSTEM_REGISTRY.json` — machine-readable registry of AIAST-managed files
+- `instruction-precedence.json` — machine-readable precedence manifest
+- `host-adapter-manifest.json` — machine-readable source for generated tool adapters
+- `aiaast-capabilities.json` — machine-readable capability and compatibility markers
 - `../bootstrap/check-runtime-foundations.sh` — runtime scaffold validation for generated packaging, install, mobile, and AI assets
+- `../bootstrap/check-working-file-staleness.sh` — detect stale handoff and planning files
+- `../bootstrap/check-evidence-quality.sh` — validate that handoff claims are grounded in evidence
+- `../bootstrap/check-bootstrap-permissions.sh` — verify bootstrap script permissions
 
 ## Quality standards
 
@@ -37,6 +51,7 @@ This file is the map of the local agent operating system.
 ## Coordination and continuity
 
 - `MULTI_AGENT_COORDINATION.md` — turn-taking and handoff rules
+- `AGENT_ROLE_CATALOG.md` — shared role model and write-scope contract
 - `CHECKPOINT_PROTOCOL.md` — milestone checkpoint flow
 - `VALIDATION_GATES.md` — required validation rules
 - `DEBUG_REPAIR_PLAYBOOK.md` — failure triage and repair
@@ -69,6 +84,7 @@ This file is the map of the local agent operating system.
 - `../WHERE_LEFT_OFF.md`
 - `../CHANGELOG.md`
 - `../PLAN.md`
+- `../PRODUCT_BRIEF.md`
 - `../ROADMAP.md`
 - `../DESIGN_NOTES.md`
 - `../ARCHITECTURE_NOTES.md`
@@ -85,9 +101,34 @@ This file is the map of the local agent operating system.
 - `context/OPEN_QUESTIONS.md`
 - `context/QUALITY_DEBT.md`
 
+## Agent performance and effectiveness
+
+- `AGENT_PERFORMANCE_GUIDE.md` — model capability dimensions, task-to-model mapping, multi-agent delegation
+- `agent-performance-profiles.json` — machine-readable model family ratings (context, quality, planning, review, speed, cost)
+- `PROMPT_EFFECTIVENESS_TRACKING.md` — protocol for measuring prompt pack success/failure per model
+- `context/prompt-usage-log.json` — prompt effectiveness log entries
+- `../bootstrap/track-semantic-changes.sh` — classify git diffs as structural/contractual/cosmetic/behavioral
+
+## Onboarding and reference
+
+- `QUICKSTART.md` — 1-page linear guide to get started with AIAST in 5 minutes
+- `ARCHITECTURE_DIAGRAM.md` — ASCII box diagrams of the three-layer model, loading flow, adapter pipeline, and validation chain
+- `TROUBLESHOOTING.md` — symptom-based FAQ for common AIAST issues
+- `MIGRATION_GUIDE.md` — how to migrate from no system, Cursor-only, custom CLAUDE.md, or other frameworks
+
+## Golden examples
+
+- `GOLDEN_EXAMPLES_POLICY.md` — safe-use rules for curated example packs
+- `golden-examples/PATTERN_INDEX.md` — which pattern docs and exemplar files exist
+- `golden-examples/golden-example-manifest.json` — machine-readable map of the example pack
+- `golden-examples/patterns/` — neutralized pattern extraction from the strongest donor repos
+- `golden-examples/working-files/` — quality-bar examples for `PLAN.md`, `WHERE_LEFT_OFF.md`, and `_system/PROJECT_PROFILE.md`
+
 ## Prompting
 
 - `PROMPTS_INDEX.md`
+- `PROMPT_EMISSION_CONTRACT.md`
+- `HOST_BUNDLE_CONTRACT.md`
 - `prompt-templates/`
 - `prompt-packs/`
 
@@ -98,10 +139,23 @@ This file is the map of the local agent operating system.
 - `../bootstrap/repair-system.sh`
 - `../bootstrap/uninstall-system.sh`
 - `../bootstrap/configure-project-profile.sh`
+- `../bootstrap/seed-product-brief.sh`
+- `../bootstrap/recommend-starter-blueprint.sh`
+- `../bootstrap/apply-starter-blueprint.sh`
+- `../bootstrap/check-agent-orchestration.sh`
 - `../bootstrap/validate-system.sh`
+- `../bootstrap/validate-instruction-layer.sh`
 - `../bootstrap/detect-drift.sh`
 - `../bootstrap/verify-integrity.sh`
 - `../bootstrap/generate-system-registry.sh`
+- `../bootstrap/generate-host-adapters.sh`
+- `../bootstrap/generate-operating-profile.sh`
+- `../bootstrap/check-host-adapter-alignment.sh`
+- `../bootstrap/emit-host-prompt.sh`
+- `../bootstrap/check-host-ingestion.sh`
+- `../bootstrap/emit-host-bundle.sh`
+- `../bootstrap/check-host-bundle.sh`
+- `../bootstrap/detect-instruction-conflicts.sh`
 - `../bootstrap/check-system-awareness.sh`
 - `../bootstrap/check-hallucination.sh`
 - `../bootstrap/system-doctor.sh`
@@ -109,6 +163,18 @@ This file is the map of the local agent operating system.
 - `../bootstrap/scan-security.sh`
 - `../bootstrap/generate-systemd-unit.sh`
 - `../bootstrap/generate-runtime-foundations.sh`
+- `../bootstrap/validate-plugin.sh`
+- `../bootstrap/discover-plugins.sh`
+- `../bootstrap/emit-tiered-context.sh`
+- `../bootstrap/check-environment.sh`
+- `../bootstrap/generate-diagnostic-report.sh`
+- `../bootstrap/report-health-trends.sh`
+- `../bootstrap/run-sast.sh`
+- `../bootstrap/check-supply-chain.sh`
+- `../bootstrap/scan-container.sh`
+- `../bootstrap/check-network-bindings.sh`
+- `../bootstrap/wizard.sh`
+- `../bootstrap/upgrade-assistant.sh`
 
 ## Structured reviews
 
@@ -140,10 +206,18 @@ This file is the map of the local agent operating system.
 
 ## Tool overlays
 
+- `HOST_ADAPTER_POLICY.md`
+- `host-adapter-manifest.json`
 - `../.cursorrules`
 - `../.cursor/`
 - `../CLAUDE.md`
 - `../GEMINI.md`
 - `../CODEX.md`
 - `../WINDSURF.md`
+- `../DEEPSEEK.md`
+- `../PEARAI.md`
+- `../LOCAL_MODELS.md`
+- `../.aider.conf.yml`
+- `../.continuerules`
+- `../.clinerules`
 - `../.github/copilot-instructions.md`

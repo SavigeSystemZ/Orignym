@@ -121,9 +121,9 @@ context = {
     "__AIAST_BIND_ADDRESS__": "127.0.0.1",
     "__AIAST_PORT_RANGE_START__": "8000",
     "__AIAST_PORT_RANGE_END__": "9000",
-    "__AIAST_COMPANY_NAME__": "Savige Systems (SYstemZ)",
-    "__AIAST_AUTHOR_LINE__": "Built by The Savage Architect (Savige Systems)",
-    "__AIAST_EASTER_EGG_NAME__": "Michael Todd Spaulding",
+    "__AIAST_COMPANY_NAME__": "Project Owner Placeholder",
+    "__AIAST_AUTHOR_LINE__": "Built with AIAST runtime scaffolding",
+    "__AIAST_EASTER_EGG_NAME__": "Internal credit note placeholder",
     "__AIAST_ANDROID_LABEL__": android_label,
     "__AIAST_RUNTIME_ROOT__": str(target_repo),
     "__AIAST_TEMPLATE_ROOT__": str(template_root),
@@ -136,10 +136,14 @@ for src in sorted(path for path in templates_dir.rglob("*") if path.is_file()):
     if "__pycache__" in src.parts or src.suffix == ".pyc":
         continue
     rel = src.relative_to(templates_dir)
-    target = target_repo / rel
+    rendered_rel = str(rel)
+    for key, value in context.items():
+        rendered_rel = rendered_rel.replace(key, value)
+    rendered_rel_path = Path(rendered_rel)
+    target = target_repo / rendered_rel_path
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists() and not force:
-      skipped.append(str(rel))
+      skipped.append(str(rendered_rel_path))
       continue
 
     text = src.read_text()
@@ -149,7 +153,7 @@ for src in sorted(path for path in templates_dir.rglob("*") if path.is_file()):
     source_mode = stat.S_IMODE(src.stat().st_mode)
     if source_mode & 0o111:
         target.chmod(source_mode)
-    created.append(str(rel))
+    created.append(str(rendered_rel_path))
 
 if created:
     print("created_runtime_foundations")

@@ -9,6 +9,10 @@ Flutter is the default Android-first mobile path for AIAST scaffolds.
 - `mobile/flutter/lib/main.dart`
 - `mobile/flutter/android/app/src/main/AndroidManifest.xml`
 
+The copied mobile foundation is intentionally minimal. From `mobile/flutter/`,
+run `flutter create --platforms=android .` before expecting `flutter analyze`,
+`flutter test`, or `flutter build apk --debug` to work.
+
 ## Release expectations
 
 - Support `dev` and `prod` flavors.

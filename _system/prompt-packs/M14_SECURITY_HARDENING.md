@@ -2,6 +2,8 @@
 
 This prompt pack focuses on hardening and securing an application according to the `_system/SECURITY_HARDENING_CONTRACT.md`.
 
+Before using this pack, load `AGENTS.md`, `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md`, `_system/REPO_OPERATING_PROFILE.md`, and `_system/LOAD_ORDER.md` first. Treat this pack as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 ## Goal
 - Apply loopback-only binding.
 - Implement systemd hardening.

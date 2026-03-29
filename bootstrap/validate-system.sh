@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
+
 usage() {
   cat <<'EOF'
-Usage: validate-system.sh <target-repo-or-template> [--strict]
+Usage: validate-system.sh <target-repo-or-template> [--strict] [--mode auto|template|installed] [--validator-root <template-root>]
 EOF
 }
 
@@ -14,12 +18,22 @@ fi
 
 TARGET=""
 STRICT=0
+MODE="auto"
+VALIDATOR_ROOT=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --strict)
       STRICT=1
       shift
+      ;;
+    --validator-root)
+      VALIDATOR_ROOT="${2:-}"
+      shift 2
+      ;;
+    --mode)
+      MODE="${2:-}"
+      shift 2
       ;;
     -h|--help)
       usage
@@ -57,7 +71,23 @@ if [[ ! -d "${TARGET}" ]]; then
   exit 1
 fi
 
+if [[ -z "${VALIDATOR_ROOT}" ]]; then
+  VALIDATOR_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+else
+  VALIDATOR_ROOT="$(cd -- "${VALIDATOR_ROOT}" && pwd)"
+fi
+
+for rel in "bootstrap/validate-instruction-layer.sh" "bootstrap/check-system-awareness.sh"; do
+  if [[ ! -f "${VALIDATOR_ROOT}/${rel}" ]]; then
+    echo "Validator root is missing required validation script: ${rel}" >&2
+    exit 1
+  fi
+done
+
+REPO_MODE="$(aiaast_resolve_repo_mode "${TARGET}" "${MODE}")"
+
 require_files \
+  ".installable-product-root" \
   "AGENTS.md" \
   "CLAUDE.md" \
   "GEMINI.md" \
@@ -66,6 +96,12 @@ require_files \
   ".cursorrules" \
   ".windsurfrules" \
   ".github/copilot-instructions.md" \
+  "DEEPSEEK.md" \
+  ".aider.conf.yml" \
+  ".continuerules" \
+  ".clinerules" \
+  "PEARAI.md" \
+  "LOCAL_MODELS.md" \
   "AIAST_VERSION.md" \
   "AIAST_CHANGELOG.md" \
   "TODO.md" \
@@ -73,6 +109,7 @@ require_files \
   "WHERE_LEFT_OFF.md" \
   "CHANGELOG.md" \
   "PLAN.md" \
+  "PRODUCT_BRIEF.md" \
   "ROADMAP.md" \
   "DESIGN_NOTES.md" \
   "ARCHITECTURE_NOTES.md" \
@@ -83,11 +120,20 @@ require_files \
   "_system/.template-version" \
   "_system/.template-install.json" \
   "_system/PROJECT_PROFILE.md" \
+  "_system/INSTRUCTION_PRECEDENCE_CONTRACT.md" \
+  "_system/REPO_OPERATING_PROFILE.md" \
   "_system/CONTEXT_INDEX.md" \
+  "_system/KEY.md" \
   "_system/LOAD_ORDER.md" \
+  "_system/HOST_ADAPTER_POLICY.md" \
+  "_system/HOST_BUNDLE_CONTRACT.md" \
+  "_system/host-adapter-manifest.json" \
+  "_system/GOLDEN_EXAMPLES_POLICY.md" \
   "_system/SYSTEM_AWARENESS_PROTOCOL.md" \
   "_system/HALLUCINATION_DEFENSE_PROTOCOL.md" \
   "_system/SYSTEM_REGISTRY.json" \
+  "_system/instruction-precedence.json" \
+  "_system/repo-operating-profile.json" \
   "_system/WORKING_FILES_GUIDE.md" \
   "_system/TEMPLATE_NEUTRALITY_POLICY.md" \
   "_system/INTEGRITY_MANIFEST.sha256" \
@@ -96,6 +142,7 @@ require_files \
   "_system/MEMORY_RULES.md" \
   "_system/EXECUTION_PROTOCOL.md" \
   "_system/MULTI_AGENT_COORDINATION.md" \
+  "_system/AGENT_ROLE_CATALOG.md" \
   "_system/CHECKPOINT_PROTOCOL.md" \
   "_system/AGENT_DISCOVERY_MATRIX.md" \
   "_system/VALIDATION_GATES.md" \
@@ -125,9 +172,43 @@ require_files \
   "_system/OBSERVABILITY_STANDARDS.md" \
   "_system/THREAT_MODEL_TEMPLATE.md" \
   "_system/PLUGIN_CONTRACT.md" \
+  "_system/CONTEXT_BUDGET_STRATEGY.md" \
+  "_system/context-budget-profiles.json" \
+  "_system/ENVIRONMENT_VALIDATION_CONTRACT.md" \
+  "_system/health-history.json" \
+  "_system/AGENT_PERFORMANCE_GUIDE.md" \
+  "_system/agent-performance-profiles.json" \
+  "_system/PROMPT_EFFECTIVENESS_TRACKING.md" \
+  "_system/context/prompt-usage-log.json" \
+  "_system/QUICKSTART.md" \
+  "_system/ARCHITECTURE_DIAGRAM.md" \
+  "_system/TROUBLESHOOTING.md" \
+  "_system/MIGRATION_GUIDE.md" \
   "_system/PROMPTS_INDEX.md" \
+  "_system/PROMPT_EMISSION_CONTRACT.md" \
   "_system/SKILLS_INDEX.md" \
+  "_system/INSTRUCTION_CONFLICT_PLAYBOOK.md" \
+  "_system/aiaast-capabilities.json" \
   "_system/README.md" \
+  "_system/golden-examples/README.md" \
+  "_system/golden-examples/PATTERN_INDEX.md" \
+  "_system/golden-examples/golden-example-manifest.json" \
+  "_system/golden-examples/patterns/CONTINUITY_AND_HANDOFF.md" \
+  "_system/golden-examples/patterns/GOVERNANCE_AND_PROMPTING.md" \
+  "_system/golden-examples/patterns/MULTI_AGENT_AND_MCP.md" \
+  "_system/golden-examples/patterns/VALIDATION_AND_RELEASE.md" \
+  "_system/golden-examples/patterns/PLATFORM_SURFACES.md" \
+  "_system/golden-examples/patterns/MICROSERVICES_ARCHITECTURE.md" \
+  "_system/golden-examples/patterns/EVENT_DRIVEN_AND_CQRS.md" \
+  "_system/golden-examples/patterns/SERVERLESS_AND_EDGE.md" \
+  "_system/golden-examples/patterns/REALTIME_COLLABORATION.md" \
+  "_system/golden-examples/patterns/DATA_PIPELINE_AND_ML.md" \
+  "_system/golden-examples/patterns/ERROR_HANDLING_PATTERNS.md" \
+  "_system/golden-examples/patterns/TESTING_PATTERNS.md" \
+  "_system/golden-examples/patterns/CODE_SNIPPET_EXAMPLES.md" \
+  "_system/golden-examples/working-files/PROJECT_PROFILE_EXAMPLE.md" \
+  "_system/golden-examples/working-files/PLAN_EXAMPLE.md" \
+  "_system/golden-examples/working-files/WHERE_LEFT_OFF_EXAMPLE.md" \
   "_system/starter-blueprints/README.md" \
   "_system/starter-blueprints/REACT_VITE_TYPESCRIPT.md" \
   "_system/starter-blueprints/FASTAPI_API.md" \
@@ -173,6 +254,15 @@ require_files \
   "_system/packaging/templates/snapcraft.yaml.example" \
   "_system/packaging/templates/flatpak.yaml.example" \
   "_system/plugins/README.md" \
+  "_system/plugins/security-scan/plugin.json" \
+  "_system/plugins/security-scan/README.md" \
+  "_system/plugins/security-scan/run.sh" \
+  "_system/plugins/ci-integration/plugin.json" \
+  "_system/plugins/ci-integration/README.md" \
+  "_system/plugins/ci-integration/run.sh" \
+  "_system/plugins/observability-setup/plugin.json" \
+  "_system/plugins/observability-setup/README.md" \
+  "_system/plugins/observability-setup/run.sh" \
   "_system/systemd/README.md" \
   "_system/systemd/http-service.example.service" \
   "_system/systemd/worker.example.service" \
@@ -182,10 +272,17 @@ require_files \
   "bootstrap/install-missing-files.sh" \
   "bootstrap/update-template.sh" \
   "bootstrap/validate-system.sh" \
+  "bootstrap/validate-instruction-layer.sh" \
   "bootstrap/verify-integrity.sh" \
+  "bootstrap/generate-system-key.sh" \
   "bootstrap/generate-system-registry.sh" \
+  "bootstrap/generate-operating-profile.sh" \
+  "bootstrap/generate-host-adapters.sh" \
+  "bootstrap/detect-instruction-conflicts.sh" \
   "bootstrap/check-system-awareness.sh" \
   "bootstrap/check-hallucination.sh" \
+  "bootstrap/check-install-boundary.sh" \
+  "bootstrap/check-host-adapter-alignment.sh" \
   "bootstrap/system-doctor.sh" \
   "bootstrap/heal-system.sh" \
   "bootstrap/repair-system.sh" \
@@ -193,17 +290,42 @@ require_files \
   "bootstrap/detect-drift.sh" \
   "bootstrap/configure-project-profile.sh" \
   "bootstrap/suggest-project-profile.sh" \
+  "bootstrap/seed-product-brief.sh" \
+  "bootstrap/recommend-starter-blueprint.sh" \
+  "bootstrap/apply-starter-blueprint.sh" \
+  "bootstrap/seed-risk-register.sh" \
+  "bootstrap/seed-test-strategy.sh" \
   "bootstrap/seed-working-state.sh" \
   "bootstrap/print-agent-map.sh" \
   "bootstrap/check-placeholders.sh" \
+  "bootstrap/check-agent-orchestration.sh" \
+  "bootstrap/check-packaging-targets.sh" \
+  "bootstrap/check-host-ingestion.sh" \
+  "bootstrap/check-host-bundle.sh" \
   "bootstrap/check-runtime-foundations.sh" \
   "bootstrap/scan-security.sh" \
+  "bootstrap/validate-plugin.sh" \
+  "bootstrap/discover-plugins.sh" \
+  "bootstrap/emit-tiered-context.sh" \
+  "bootstrap/check-environment.sh" \
+  "bootstrap/generate-diagnostic-report.sh" \
+  "bootstrap/report-health-trends.sh" \
+  "bootstrap/run-sast.sh" \
+  "bootstrap/check-supply-chain.sh" \
+  "bootstrap/scan-container.sh" \
+  "bootstrap/check-network-bindings.sh" \
+  "bootstrap/wizard.sh" \
+  "bootstrap/upgrade-assistant.sh" \
+  "bootstrap/track-semantic-changes.sh" \
+  "bootstrap/emit-host-prompt.sh" \
+  "bootstrap/emit-host-bundle.sh" \
   "bootstrap/generate-systemd-unit.sh" \
   "bootstrap/generate-runtime-foundations.sh" \
   "bootstrap/templates/runtime/LICENSE" \
   "bootstrap/templates/runtime/NOTICE" \
   "bootstrap/templates/runtime/.credits-hidden" \
   "bootstrap/templates/runtime/packaging/README.md" \
+  "bootstrap/templates/runtime/packaging/__AIAST_DESKTOP_ID__.desktop" \
   "bootstrap/templates/runtime/packaging/appimage.yml" \
   "bootstrap/templates/runtime/packaging/flatpak-manifest.json" \
   "bootstrap/templates/runtime/packaging/snapcraft.yaml" \
@@ -301,14 +423,77 @@ require_files \
   ".cursor/skills/verify-gate/SKILL.md" \
   ".cursor/agents/README.md" \
   ".cursor/agents/architecture.md" \
+  ".cursor/agents/context-curator.md" \
   ".cursor/agents/design-reviewer.md" \
+  ".cursor/agents/implementation-worker.md" \
+  ".cursor/agents/orchestrator.md" \
   ".cursor/agents/release-manager.md" \
-  ".cursor/agents/security-reviewer.md"
+  ".cursor/agents/security-reviewer.md" \
+  ".cursor/agents/validator.md"
 
 jq -e . "${TARGET}/.cursor/mcp.json" >/dev/null 2>&1 || { echo "Invalid JSON: .cursor/mcp.json" >&2; exit 1; }
 jq -e . "${TARGET}/_system/mcp/servers.cursor.example.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/mcp/servers.cursor.example.json" >&2; exit 1; }
 jq -e . "${TARGET}/_system/.template-install.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/.template-install.json" >&2; exit 1; }
 jq -e . "${TARGET}/_system/SYSTEM_REGISTRY.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/SYSTEM_REGISTRY.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/instruction-precedence.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/instruction-precedence.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/host-adapter-manifest.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/host-adapter-manifest.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/repo-operating-profile.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/repo-operating-profile.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/aiaast-capabilities.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/aiaast-capabilities.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/golden-examples/golden-example-manifest.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/golden-examples/golden-example-manifest.json" >&2; exit 1; }
+jq -e . "${TARGET}/_system/context-budget-profiles.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/context-budget-profiles.json" >&2; exit 1; }
+
+python3 - <<'PY' "${TARGET}" "${REPO_MODE}"
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1]).resolve()
+repo_mode = sys.argv[2]
+
+version_md = repo / "AIAST_VERSION.md"
+template_version_file = repo / "_system" / ".template-version"
+capabilities = json.loads((repo / "_system" / "aiaast-capabilities.json").read_text())
+install_meta = json.loads((repo / "_system" / ".template-install.json").read_text())
+
+match = re.search(r"^- Current version:\s*`([^`]+)`\s*$", version_md.read_text(), re.MULTILINE)
+if not match:
+    print("Could not parse version from AIAST_VERSION.md", file=sys.stderr)
+    raise SystemExit(1)
+
+versions = {
+    "AIAST_VERSION.md": match.group(1).strip(),
+    "_system/.template-version": template_version_file.read_text().strip(),
+    "_system/aiaast-capabilities.json.template_version": str(capabilities.get("template_version", "")).strip(),
+    "_system/.template-install.json.template_version": str(install_meta.get("template_version", "")).strip(),
+    "_system/instruction-precedence.json.template_version": str(
+        json.loads((repo / "_system" / "instruction-precedence.json").read_text()).get("template_version", "")
+    ).strip(),
+}
+unique_versions = {value for value in versions.values() if value}
+if len(unique_versions) != 1:
+    print("Template version mismatch across metadata surfaces:", file=sys.stderr)
+    for key, value in versions.items():
+        print(f"- {key}: {value}", file=sys.stderr)
+    raise SystemExit(1)
+
+if str(install_meta.get("template_name", "")).strip() != "AIAST":
+    print("_system/.template-install.json must declare template_name AIAST", file=sys.stderr)
+    raise SystemExit(1)
+
+install_mode = str(install_meta.get("install_mode", "")).strip()
+last_event = str(install_meta.get("last_event", "")).strip()
+
+if repo_mode == "template":
+    if install_mode != "template-placeholder" or last_event != "template-source":
+        print("Template mode requires template-placeholder install metadata in the source template", file=sys.stderr)
+        raise SystemExit(1)
+elif install_mode == "template-placeholder":
+    print("Installed repos must not keep template-placeholder install metadata", file=sys.stderr)
+    raise SystemExit(1)
+PY
 
 python3 - <<'PY' "${TARGET}/_system/mcp/servers.codex.example.toml"
 import pathlib
@@ -322,7 +507,6 @@ except Exception as exc:
     sys.exit(1)
 PY
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 INFERRED_TEMPLATE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 RESOLVED_TARGET="$(cd -- "${TARGET}" && pwd)"
 
@@ -335,12 +519,13 @@ if [[ "${INFERRED_TEMPLATE_ROOT}" != "${RESOLVED_TARGET}" ]]; then
 fi
 
 if [[ ${STRICT} -eq 1 ]]; then
-  if rg -n '^- App name:\s*$' "${TARGET}/_system/PROJECT_PROFILE.md" >/dev/null 2>&1; then
+  if [[ "${REPO_MODE}" != "template" ]] && rg -n '^- App name:\s*$' "${TARGET}/_system/PROJECT_PROFILE.md" >/dev/null 2>&1; then
     echo "Strict mode failed: app name is still blank in PROJECT_PROFILE.md" >&2
     exit 1
   fi
 fi
 
-bash "${TARGET}/bootstrap/check-system-awareness.sh" "${TARGET}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/validate-instruction-layer.sh" "${TARGET}" --validator-root "${VALIDATOR_ROOT}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/check-system-awareness.sh" "${TARGET}" >/dev/null
 
 echo "system_ok"

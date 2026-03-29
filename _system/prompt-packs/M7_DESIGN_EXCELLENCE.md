@@ -3,6 +3,9 @@
 ## M7.0 Design direction
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Read the design framework and propose a high-quality UI direction for the touched surface.
 
 Read:
@@ -24,6 +27,9 @@ Deliver:
 ## M7.1 Design implementation
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Implement the touched UI with deliberate hierarchy, responsive behavior, and designed states.
 
 Read:
@@ -54,6 +60,9 @@ Deliver:
 ## M7.2 Design review
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Review the current UI against the design quality bar.
 
 Read:

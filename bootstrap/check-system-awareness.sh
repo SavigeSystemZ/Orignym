@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import json
 import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -63,8 +64,8 @@ registry = json.loads(registry_path.read_text())
 registry_paths = {entry["path"] for entry in registry.get("entries", [])}
 
 managed_cmd = (
-    f"source {repo / 'bootstrap/lib/aiaast-lib.sh'} >/dev/null 2>&1 && "
-    f"aiaast_print_managed_files {json.dumps(str(repo))}"
+    f"source {shlex.quote(str(repo / 'bootstrap/lib/aiaast-lib.sh'))} >/dev/null 2>&1 && "
+    f"aiaast_print_managed_files {shlex.quote(str(repo))}"
 )
 actual_paths = set(
     line.strip()
@@ -89,6 +90,7 @@ for rel in missing_from_fs:
 docs_to_scan = [
     repo / "AGENTS.md",
     repo / "_system" / "CONTEXT_INDEX.md",
+    repo / "_system" / "KEY.md",
     repo / "_system" / "LOAD_ORDER.md",
     repo / "_system" / "README.md",
     repo / "bootstrap" / "README.md",
@@ -96,10 +98,10 @@ docs_to_scan = [
 ]
 
 required_mentions = {
-    repo / "AGENTS.md": ["bootstrap/system-doctor.sh", "_system/SYSTEM_AWARENESS_PROTOCOL.md", "_system/HALLUCINATION_DEFENSE_PROTOCOL.md"],
-    repo / "_system" / "CONTEXT_INDEX.md": ["SYSTEM_REGISTRY.json", "SYSTEM_AWARENESS_PROTOCOL.md", "HALLUCINATION_DEFENSE_PROTOCOL.md"],
-    repo / "_system" / "LOAD_ORDER.md": ["_system/SYSTEM_AWARENESS_PROTOCOL.md", "_system/HALLUCINATION_DEFENSE_PROTOCOL.md"],
-    repo / "bootstrap" / "README.md": ["system-doctor.sh", "check-system-awareness.sh", "check-hallucination.sh", "check-runtime-foundations.sh", "generate-system-registry.sh"],
+    repo / "AGENTS.md": ["bootstrap/system-doctor.sh", "_system/SYSTEM_AWARENESS_PROTOCOL.md", "_system/HALLUCINATION_DEFENSE_PROTOCOL.md", "_system/INSTRUCTION_PRECEDENCE_CONTRACT.md", "_system/REPO_OPERATING_PROFILE.md", "_system/KEY.md", "_system/GOLDEN_EXAMPLES_POLICY.md", "_system/HOST_ADAPTER_POLICY.md", "_system/HOST_BUNDLE_CONTRACT.md", "_system/AGENT_ROLE_CATALOG.md"],
+    repo / "_system" / "CONTEXT_INDEX.md": ["KEY.md", "SYSTEM_REGISTRY.json", "SYSTEM_AWARENESS_PROTOCOL.md", "HALLUCINATION_DEFENSE_PROTOCOL.md", "INSTRUCTION_PRECEDENCE_CONTRACT.md", "REPO_OPERATING_PROFILE.md", "GOLDEN_EXAMPLES_POLICY.md", "golden-example-manifest.json", "HOST_ADAPTER_POLICY.md", "host-adapter-manifest.json", "HOST_BUNDLE_CONTRACT.md", "emit-host-bundle.sh", "check-host-bundle.sh", "AGENT_ROLE_CATALOG.md", "recommend-starter-blueprint.sh"],
+    repo / "_system" / "LOAD_ORDER.md": ["_system/KEY.md", "_system/SYSTEM_AWARENESS_PROTOCOL.md", "_system/HALLUCINATION_DEFENSE_PROTOCOL.md", "_system/INSTRUCTION_PRECEDENCE_CONTRACT.md", "_system/REPO_OPERATING_PROFILE.md", "_system/GOLDEN_EXAMPLES_POLICY.md", "_system/HOST_ADAPTER_POLICY.md", "_system/HOST_BUNDLE_CONTRACT.md", "_system/AGENT_ROLE_CATALOG.md"],
+    repo / "bootstrap" / "README.md": ["system-doctor.sh", "check-system-awareness.sh", "check-hallucination.sh", "check-runtime-foundations.sh", "generate-system-key.sh", "generate-system-registry.sh", "generate-host-adapters.sh", "check-host-adapter-alignment.sh", "generate-operating-profile.sh", "detect-instruction-conflicts.sh", "validate-instruction-layer.sh", "emit-host-bundle.sh", "check-host-bundle.sh", "recommend-starter-blueprint.sh", "check-agent-orchestration.sh"],
 }
 
 path_pattern = re.compile(r"`([^`\n]+)`")
@@ -119,6 +121,7 @@ known_root_names = {
     "WHERE_LEFT_OFF.md",
     "CHANGELOG.md",
     "PLAN.md",
+    "PRODUCT_BRIEF.md",
     "ROADMAP.md",
     "DESIGN_NOTES.md",
     "ARCHITECTURE_NOTES.md",

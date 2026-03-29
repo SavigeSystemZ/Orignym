@@ -20,17 +20,17 @@ vi.mock('next/navigation', () => ({
 const mockCreate = vi.fn();
 const mockUpdate = vi.fn();
 const mockDelete = vi.fn();
-const mockFindUniqueUser = vi.fn(() => Promise.resolve({ id: 'user-1' }));
+const mockFindUniqueUser = vi.fn((_args?: any) => Promise.resolve({ id: 'user-1' }));
 
 vi.mock('../src/lib/prisma', () => ({
   default: {
     user: {
-      findUnique: (...args: any[]) => mockFindUniqueUser(...args)
+      findUnique: (args: any) => mockFindUniqueUser(args)
     },
     coinedTermClaim: {
-      create: (...args: any[]) => mockCreate(...args),
-      update: (...args: any[]) => mockUpdate(...args),
-      delete: (...args: any[]) => mockDelete(...args)
+      create: (args: any) => mockCreate(args),
+      update: (args: any) => mockUpdate(args),
+      delete: (args: any) => mockDelete(args)
     }
   }
 }));

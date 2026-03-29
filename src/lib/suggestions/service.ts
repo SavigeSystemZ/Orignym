@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { MockSuggestionProvider } from "../ai/mockProviders";
+import { AIProviderFactory } from "../ai/factory";
 
 export class SuggestionService {
   async generateAndPersistSuggestions(claimId: string) {
@@ -14,7 +14,7 @@ export class SuggestionService {
     const latestRun = claim.verification_runs[0];
     const conflicts = latestRun?.evidence_items.map(ei => ei.matched_text_snippet?.toLowerCase()) || [];
 
-    const provider = new MockSuggestionProvider();
+    const provider = AIProviderFactory.getSuggestionProvider();
     const context = {
       intended_meaning: claim.intended_meaning,
       domain: claim.domain_category,

@@ -54,6 +54,7 @@ When the master template gains new files or improvements:
 ## Response guide
 
 - Structural drift: `bootstrap/install-missing-files.sh`
+  This now also recreates missing generated runtime scaffolds and reseeds safe onboarding defaults for restored files.
 - Content drift: `bootstrap/update-template.sh --dry-run`, then optionally `--refresh-managed`
 - Integrity drift: `bootstrap/repair-system.sh --dry-run`
 - Version skew: `bootstrap/update-template.sh --dry-run`

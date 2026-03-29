@@ -30,6 +30,7 @@ Style or naming concerns come last. Never lead with them.
 
 ## Authority docs
 
+- `_system/AGENT_ROLE_CATALOG.md`
 - `_system/PROJECT_RULES.md`
 - `_system/EXECUTION_PROTOCOL.md`
 - `_system/review-playbooks/ARCHITECTURE_REVIEW_PLAYBOOK.md`

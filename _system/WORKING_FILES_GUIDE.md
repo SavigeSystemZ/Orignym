@@ -6,8 +6,11 @@ This document explains the role of the repo-facing planning, context, design, te
 
 The master template may include app-shaped working files, but the master template itself must remain app-agnostic. Once installed into a real repo, these files become the local source of truth for that repo.
 
+In the AIAST source repo, maintainer-only planning, research, handoff, and future system-design state belongs outside the installable tree in the master-repo-only meta workspace.
+
 ## Top-level working files
 
+- `PRODUCT_BRIEF.md` — product frame, quality bar, recommended build shape, and chosen build shape
 - `TODO.md` — active queue and discovered follow-up work
 - `FIXME.md` — unresolved bugs, debt, and blockers
 - `WHERE_LEFT_OFF.md` — next-agent resume packet
@@ -35,13 +38,27 @@ The master template may include app-shaped working files, but the master templat
 ## Update guidance
 
 - Update the smallest set of working files needed to leave a truthful operating picture.
+- If the task changed product direction, user value framing, or starter-blueprint choice, update `PRODUCT_BRIEF.md`.
+- If a starter blueprint was explicitly applied, make sure the blueprint-projected operating surfaces remain aligned: `PLAN.md`, `ROADMAP.md`, `DESIGN_NOTES.md`, `TEST_STRATEGY.md`, `RISK_REGISTER.md`, `ARCHITECTURE_NOTES.md`, `TODO.md`, `WHERE_LEFT_OFF.md`, and `RELEASE_NOTES.md`.
+- If the task changed delegation rules, role ownership, or multi-agent execution shape, update `_system/AGENT_ROLE_CATALOG.md` and `_system/MULTI_AGENT_COORDINATION.md`.
 - If the task changed design direction, update `DESIGN_NOTES.md`.
 - If the task changed architecture or boundaries, update `ARCHITECTURE_NOTES.md`.
 - If the task changed confidence, coverage, or release posture, update `TEST_STRATEGY.md`, `RISK_REGISTER.md`, or `RELEASE_NOTES.md`.
 - If the task produced durable facts or uncovered uncertainty, update the relevant file in `context/`.
+
+## Golden examples
+
+Use these only as quality-bar references, not donor truth:
+
+- `_system/golden-examples/working-files/PROJECT_PROFILE_EXAMPLE.md`
+- `_system/golden-examples/working-files/PLAN_EXAMPLE.md`
+- `_system/golden-examples/working-files/WHERE_LEFT_OFF_EXAMPLE.md`
+
+The examples show the expected level of specificity, grounding, and handoff quality. They must be rewritten into repo-local truth after install.
 
 ## Anti-patterns
 
 - Do not turn these files into noisy chat transcripts.
 - Do not duplicate the same facts across every file.
 - Do not leave app-specific content in the master template source.
+- Do not store AIAST-maintainer working state in these installable files when the work only applies to the master source repo.

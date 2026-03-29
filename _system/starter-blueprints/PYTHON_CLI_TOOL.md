@@ -39,6 +39,10 @@ README.md
 ## Quality expectations
 
 - Use `pyproject.toml` for all project configuration. No `setup.py` or `setup.cfg`.
+- Keep the `src/` layout shown above or set explicit package discovery in
+  `pyproject.toml`. Do not rely on flat setuptools auto-discovery in scaffolded
+  repos that already contain top-level `ops/`, `mobile/`, `packaging/`, or
+  `ai/` directories.
 - Type hints on all public functions and module boundaries.
 - Structured CLI with subcommands, help text, and clear argument validation.
 - Exit codes: 0 for success, 1 for user errors, 2 for system errors.

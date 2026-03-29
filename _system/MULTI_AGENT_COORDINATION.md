@@ -10,17 +10,27 @@ This repo is designed to survive tool changes, interrupted sessions, and handoff
 - Gemini
 - Windsurf
 - Copilot
+- DeepSeek
+- Aider
+- Continue.dev
+- Cline
+- PearAI
+- Local models (Ollama / LLaMA / Mistral)
 - Other compatible agents
 
 ## Required operating model
 
 1. Single active writer at a time.
 2. Shared governance lives in repo files, not tool-local memory.
-3. Handoff files are mandatory:
+3. Use `_system/AGENT_ROLE_CATALOG.md` to choose roles and write-scope ownership before splitting work.
+4. Validators and reviewers are read-only by default unless they are explicitly reassigned into repair work.
+5. The context curator owns continuity updates by default when a dedicated continuity pass is needed.
+6. Handoff files are mandatory:
    - `TODO.md`
    - `FIXME.md`
    - `WHERE_LEFT_OFF.md`
-4. Supporting working files should be updated when the task touches their domain:
+7. Supporting working files should be updated when the task touches their domain:
+   - `PRODUCT_BRIEF.md`
    - `PLAN.md`
    - `DESIGN_NOTES.md`
    - `ARCHITECTURE_NOTES.md`
@@ -28,11 +38,20 @@ This repo is designed to survive tool changes, interrupted sessions, and handoff
    - `TEST_STRATEGY.md`
    - `RISK_REGISTER.md`
    - `RELEASE_NOTES.md`
-5. Tool-specific helpers may extend behavior but must not contradict `AGENTS.md` or `_system/`.
+8. Tool-specific helpers may extend behavior but must not contradict `AGENTS.md` or `_system/`.
+
+## Role activation
+
+- Orchestrator / planner: chooses the slice, assigns ownership, and decides whether delegation is worth the coordination cost.
+- Implementation worker: the active writer for runtime or system changes.
+- Validator: proves behavior and challenge-checks claims without taking ownership of the same files by default.
+- Context curator: updates handoff, working-state, and continuity surfaces.
+- Specialist reviewers: architecture, design, security, and release roles provide bounded read-only review.
 
 ## Start-of-turn checklist
 
 - Load the canonical docs.
+- Load `_system/AGENT_ROLE_CATALOG.md` if delegation, review, or multi-agent work is likely.
 - Read `WHERE_LEFT_OFF.md`.
 - Read `TODO.md` and `FIXME.md`.
 - Read additional working files that match the task domain.
@@ -56,6 +75,14 @@ When taking over work started by another tool:
 3. If the previous work looks incomplete or risky, stabilize and document before broadening scope.
 4. If you must redirect the approach, explain why in the relevant working files.
 
+## Delegation rules
+
+1. Name the role before assigning the task.
+2. Name the owner and write scope before parallel work begins.
+3. Parallel writers are allowed only when their write scopes do not overlap.
+4. Validators and reviewers should verify or critique, not silently co-own implementation files.
+5. If write ownership becomes unclear, pause, shrink scope, and restabilize the handoff.
+
 ## Handoff packet format
 
 Each meaningful handoff should include:
@@ -74,11 +101,16 @@ Each meaningful handoff should include:
 - If overlapping work is unavoidable, reduce the scope and stabilize the handoff first.
 - If a previous agent updated design or architecture direction, load those files before changing course.
 
-## Recommended specialization
+## Tool fit
 
-- Cursor / Windsurf: file-aware implementation and refactoring
-- Codex: precise patching, review, and repair
-- Claude / Gemini: architecture, alternatives, threat modeling, prompt/system quality
-- Copilot: inline assistance under the same repo rules
+- Cursor / Windsurf: good implementation-worker or review overlays when file-aware navigation matters.
+- Codex: good implementation-worker, validator, or repair role when precise patching matters.
+- Claude / Gemini: good orchestrator, architecture reviewer, or design/system reviewer roles.
+- Copilot: good inline implementation support under the same repo rules.
+- DeepSeek: strong code generation and debugging; good implementation-worker for code-heavy tasks.
+- Aider: good for precise multi-file edits and CLI-driven pair programming workflows.
+- Continue.dev / PearAI: good IDE-integrated implementation support with autocomplete and chat.
+- Cline: good for autonomous multi-step implementation with terminal awareness.
+- Local models: good for offline or privacy-sensitive work; use tiered context loading for smaller models.
 
-These are suggestions, not ownership boundaries.
+Tool fit is secondary to the canonical role model and explicit ownership.

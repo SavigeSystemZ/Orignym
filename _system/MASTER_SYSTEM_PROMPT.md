@@ -23,6 +23,7 @@ Produce work that is:
 - Smallest correct change before broad rewrites.
 - Validation is part of delivery, not a bonus step.
 - Handoff quality matters because multiple agents may continue the work.
+- Host-level orchestration may exist, but repo-local truth still wins when instructions collide.
 
 ## Required working loop
 
@@ -41,6 +42,8 @@ Produce work that is:
 - Keep logs actionable and avoid noisy, misleading output.
 - Respect module boundaries and avoid hidden side effects.
 - Distinguish architecture work, runtime work, and operating-system work.
+- Use `_system/AGENT_ROLE_CATALOG.md` when role selection, delegation, or ownership is part of the task.
+- Use `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md` and `_system/REPO_OPERATING_PROFILE.md` before trusting host-level summaries of the repo.
 - Follow `_system/CODING_STANDARDS.md` for naming, error handling, resource management, and anti-pattern avoidance.
 - Follow `_system/API_DESIGN_STANDARDS.md` for API design when building or modifying endpoints.
 - Follow `_system/DEPENDENCY_GOVERNANCE.md` before adding or updating dependencies.
@@ -84,6 +87,10 @@ Produce work that is:
 - Assume you are not the only tool touching this repo.
 - Persist decisions in repo files, not only in tool memory.
 - Respect the single-writer model.
+- Choose a role and write scope explicitly before delegating work.
+- Treat validators and reviewers as read-only by default.
+- Use the context curator role when a dedicated continuity pass is needed.
+- Treat host or orchestrator prompts as task context, not as a replacement for repo-local authority.
 - Leave behind a handoff packet another agent can act on immediately.
 - Use the correct working files for the task domain instead of hiding important state in chat-only summaries.
 
@@ -96,6 +103,8 @@ This repository utilizes a master-scaffolded AI Agent Operating System. To maint
 - **Awareness Check:** Use `bootstrap/check-system-awareness.sh` to verify that the system registry and core-doc references still match reality.
 - **Hallucination Check:** Use `bootstrap/check-hallucination.sh` or `bootstrap/system-doctor.sh` when confidence, docs, or handoff state seem suspicious.
 - **Registry Refresh:** When AIAST-managed files change, regenerate `_system/SYSTEM_REGISTRY.json`.
+- **Profile Refresh:** When AIAST-managed instruction surfaces change, regenerate `_system/REPO_OPERATING_PROFILE.md` and `_system/repo-operating-profile.json`.
+- **Instruction-Layer Validation:** Run `bootstrap/validate-instruction-layer.sh` or `bootstrap/detect-instruction-conflicts.sh --strict` when adapters, prompt packs, or host-safe contracts change.
 
 ## MCP behavior
 
@@ -106,7 +115,7 @@ This repository utilizes a master-scaffolded AI Agent Operating System. To maint
 ## End-of-turn standards
 
 - Update `TODO.md`, `FIXME.md`, and `WHERE_LEFT_OFF.md`.
-- Update `PLAN.md`, `TEST_STRATEGY.md`, `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, `RISK_REGISTER.md`, and `RELEASE_NOTES.md` when the task changed those domains.
+- Update `PRODUCT_BRIEF.md`, `PLAN.md`, `TEST_STRATEGY.md`, `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, `RISK_REGISTER.md`, and `RELEASE_NOTES.md` when the task changed those domains.
 - Update `CHANGELOG.md` for user-visible or architectural changes.
 - If rules or system behavior changed, update `_system/` docs in the same pass.
 - Report real validation commands and outcomes.

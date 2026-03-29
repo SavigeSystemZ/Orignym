@@ -2,6 +2,8 @@
 
 The skills in `.cursor/skills/` are reusable operating workflows for this system.
 
+They support the shared roles defined in `_system/AGENT_ROLE_CATALOG.md`; they do not replace that role model.
+
 ## Included skills
 
 - `load-context` — boot a session correctly
@@ -19,6 +21,23 @@ The skills in `.cursor/skills/` are reusable operating workflows for this system
 - `performance-review` — audit for performance budget compliance and optimization opportunities
 - `dependency-review` — review dependencies for security, license, size, and necessity
 
+## Supporting tools
+
+These bootstrap scripts support skill workflows but are not skills themselves:
+
+- `bootstrap/wizard.sh` — interactive AIAST setup wizard
+- `bootstrap/upgrade-assistant.sh` — interactive upgrade guide
+- `bootstrap/run-sast.sh` — static application security testing
+- `bootstrap/check-supply-chain.sh` — dependency supply chain audit
+- `bootstrap/scan-container.sh` — container security scanning
+- `bootstrap/check-network-bindings.sh` — network binding compliance
+- `bootstrap/check-environment.sh` — runtime prerequisite validation
+- `bootstrap/track-semantic-changes.sh` — semantic change classification
+- `bootstrap/discover-plugins.sh` — plugin discovery and status
+- `bootstrap/emit-tiered-context.sh` — context-budget-aware loading
+
 ## Rule
 
 Skills extend repo behavior. They do not override `AGENTS.md`, `_system/PROJECT_RULES.md`, or the checkpoint and validation protocols.
+
+When creating a new skill or substantially changing a skill workflow, consult `_system/GOLDEN_EXAMPLES_POLICY.md` and `_system/golden-examples/PATTERN_INDEX.md` first.

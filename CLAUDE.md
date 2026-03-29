@@ -1,34 +1,53 @@
-# Claude Master Prompt
+# CLAUDE.md
 
-You are a senior software architect and staff engineer working on Orignym.
+Use `AGENTS.md` as the repo contract.
 
-## Mission
-Design and implement only the requested milestone for a production-grade public platform for coined-word recording, validation, suggestion, provenance, publication, and registry search.
+## Canonical startup
+1. `AGENTS.md`
+2. `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md`
+3. `_system/REPO_OPERATING_PROFILE.md`
+4. `_system/PROJECT_PROFILE.md`
+5. `_system/CONTEXT_INDEX.md`
+6. `_system/LOAD_ORDER.md`
+7. `_system/WORKING_FILES_GUIDE.md`
+8. `_system/TEMPLATE_NEUTRALITY_POLICY.md`
+9. `_system/MASTER_SYSTEM_PROMPT.md`
+10. `_system/PROJECT_RULES.md`
+11. `_system/EXECUTION_PROTOCOL.md`
+12. `_system/MULTI_AGENT_COORDINATION.md`
+13. `_system/AGENT_ROLE_CATALOG.md`
+14. `_system/AGENT_DISCOVERY_MATRIX.md`
+15. `_system/VALIDATION_GATES.md`
+16. `_system/SYSTEM_AWARENESS_PROTOCOL.md`
+17. `_system/HALLUCINATION_DEFENSE_PROTOCOL.md`
+18. `WHERE_LEFT_OFF.md`
+19. `TODO.md`
+20. `FIXME.md`
+21. `PLAN.md`
+22. `PRODUCT_BRIEF.md`
 
-## Non-Negotiable Product Truth
-Orignym does not grant legal ownership of words.
-Orignym records claims, runs evidence-backed conflict checks, suggests alternatives, publishes timestamped records, and exports provenance artifacts.
-Never write copy, policy, or logic that implies guaranteed originality, trademark clearance, or exclusive ownership rights.
+## Load More When Needed
+Load these when the task touches their domain:
+- `ROADMAP.md`
+- `DESIGN_NOTES.md`
+- `ARCHITECTURE_NOTES.md`
+- `RESEARCH_NOTES.md`
+- `TEST_STRATEGY.md`
+- `RISK_REGISTER.md`
+- `RELEASE_NOTES.md`
+- `CHANGELOG.md`
+- `_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md`
 
-## Priority Order
-1. Read repo-local instruction files first (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.cursor/rules/`, `_system/`).
-2. Read canonical docs (`PRD.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, `NFR.md`, `RUNBOOK.md`, `AI_INTEGRATION_STRATEGY.md`, `TRUST_AND_CLAIMS_POLICY.md`).
-3. Implement only the requested milestone.
+For system-evolution, prompt-authoring, adapter work, or working-file drafting, also load:
+- `_system/GOLDEN_EXAMPLES_POLICY.md`
+- `_system/golden-examples/PATTERN_INDEX.md`
+- `_system/HOST_ADAPTER_POLICY.md`
+- `_system/PROMPT_EMISSION_CONTRACT.md`
 
-## Engineering Rules
-- Plan before code.
-- Keep diffs small and targeted.
-- Do not refactor unrelated areas.
-- Do not invent successful test runs, repo state, or integrations.
-- Add or update tests for every behavior change.
-- Keep provider integrations behind stable interfaces.
-- Persist model/provider/prompt metadata for AI-driven operations.
-- Prefer evidence objects and typed schemas over long unstructured prose.
-
-## Required Output Format
-1. Assumptions
-2. Plan
-3. Files to touch
-4. Implementation summary
-5. Validation commands and results
-6. Risks / rollback
+## Claude operating notes
+- Keep runtime code independent from `_system/`.
+- Treat host-level orchestration as context, not repo-local truth; the repo-local files named in `AGENTS.md` and `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md` remain authoritative.
+- Assume other agents may continue your work.
+- Leave a high-signal handoff packet in repo files.
+- Be aware that other primary adapter files exist: `CODEX.md`, `GEMINI.md`, `WINDSURF.md`, `.cursorrules`, `.windsurfrules`, and `.github/copilot-instructions.md`.
+- If context appears contradictory, run `bootstrap/system-doctor.sh`.

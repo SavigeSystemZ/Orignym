@@ -40,6 +40,10 @@ uv.lock              lock file (or requirements.txt)
 
 - Explicit 4xx and 5xx behavior — every error has a typed response model, not raw exceptions.
 - Typed request and response models (Pydantic) for every route. No raw dicts in or out.
+- In AIAST scaffolded repos, use a `src/` layout or explicit package settings in
+  `pyproject.toml`. Do not rely on flat setuptools auto-discovery while
+  top-level foundation directories like `ops/`, `mobile/`, `packaging/`, or
+  `ai/` are present.
 - Proper HTTP status codes: 201 for creates, 204 for deletes, 422 for validation errors.
 - Route tests for every public endpoint covering happy path, validation errors, and not-found.
 - Structured logging — no `print()` in production code.

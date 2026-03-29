@@ -11,6 +11,9 @@ It exists to keep repo governance, prompting, agent workflow, MCP policy, valida
 - execution, debug, review, and checkpoint playbooks
 - versioning, upgrade, drift, integrity, packaging, and CI scaffolds
 - system registry, self-awareness, hallucination defense, and doctor flows
+- instruction precedence, repo operating profile, prompt emission, and host-bundle contracts
+- host-adapter policy and machine-readable adapter manifest
+- golden example policy, pattern guides, and working-file exemplars
 - MCP guidance and config examples
 - prompt templates and prompt packs
 - durable context state
@@ -30,19 +33,30 @@ It exists to keep repo governance, prompting, agent workflow, MCP policy, valida
 
 Every project should have a project-local agent operating system that can be copied, evolved, and versioned with the project itself without coupling the app runtime to the system files.
 
+That local system should stay readable to upstream hosts without becoming dependent on any one host or vendor wrapper.
+
 The master template remains generic. Once copied into a real repo, these files become repo-local operating surfaces and should then be populated with app-specific truth.
 
 ## First read inside `_system/`
 
 1. `PROJECT_PROFILE.md`
-2. `CONTEXT_INDEX.md`
-3. `LOAD_ORDER.md`
-4. `WORKING_FILES_GUIDE.md`
-5. `TEMPLATE_NEUTRALITY_POLICY.md`
-6. `MASTER_SYSTEM_PROMPT.md`
-7. `PROJECT_RULES.md`
-8. `AGENT_DISCOVERY_MATRIX.md`
-9. `UPGRADE_AND_DRIFT_POLICY.md`
-10. `OBSERVABILITY_STANDARDS.md`
-11. `SYSTEM_AWARENESS_PROTOCOL.md`
-12. `HALLUCINATION_DEFENSE_PROTOCOL.md`
+2. `INSTRUCTION_PRECEDENCE_CONTRACT.md`
+3. `REPO_OPERATING_PROFILE.md`
+4. `CONTEXT_INDEX.md`
+5. `KEY.md`
+6. `LOAD_ORDER.md`
+7. `WORKING_FILES_GUIDE.md`
+8. `TEMPLATE_NEUTRALITY_POLICY.md`
+9. `MASTER_SYSTEM_PROMPT.md`
+10. `PROJECT_RULES.md`
+11. `AGENT_DISCOVERY_MATRIX.md`
+12. `UPGRADE_AND_DRIFT_POLICY.md`
+13. `OBSERVABILITY_STANDARDS.md`
+14. `SYSTEM_AWARENESS_PROTOCOL.md`
+15. `HALLUCINATION_DEFENSE_PROTOCOL.md`
+
+When creating or upgrading working files, prompt packs, skills, or system docs, also load `GOLDEN_EXAMPLES_POLICY.md` and `golden-examples/PATTERN_INDEX.md`.
+
+If the task changes tool-entry or adapter-load surfaces, also load `HOST_ADAPTER_POLICY.md`.
+
+If the task changes external host-export or bundle surfaces, also load `HOST_BUNDLE_CONTRACT.md`.

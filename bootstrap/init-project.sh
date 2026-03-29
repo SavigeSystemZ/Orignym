@@ -62,6 +62,8 @@ if [[ -z "${APP_NAME}" ]]; then
   APP_NAME="$(basename -- "${TARGET_REPO}")"
 fi
 
+aiaast_assert_template_root "${TEMPLATE_ROOT}"
+
 mkdir -p "${TARGET_REPO}"
 
 if [[ -e "${TARGET_REPO}/README.md" ]]; then
@@ -106,10 +108,7 @@ else
   cp -p "${TEMPLATE_ROOT}/README.md" "${TARGET_REPO}/${README_DEST}"
   echo "Installed template README as ${README_DEST} to avoid clobbering the app README"
 fi
-bash "${TARGET_REPO}/bootstrap/configure-project-profile.sh" "${TARGET_REPO}" --app-name "${APP_NAME}"
-bash "${TARGET_REPO}/bootstrap/suggest-project-profile.sh" "${TARGET_REPO}" --write
-bash "${TARGET_REPO}/bootstrap/generate-runtime-foundations.sh" "${TARGET_REPO}" --app-name "${APP_NAME}"
-bash "${TARGET_REPO}/bootstrap/seed-working-state.sh" "${TARGET_REPO}" --app-name "${APP_NAME}"
+aiaast_refresh_onboarding_baseline "${TARGET_REPO}/bootstrap" "${TARGET_REPO}" "${APP_NAME}"
 aiaast_write_install_metadata \
   "${TARGET_REPO}" \
   "$(cd -- "${TEMPLATE_ROOT}" && pwd)" \
@@ -117,7 +116,11 @@ aiaast_write_install_metadata \
   "copied-template" \
   "${README_DEST}" \
   "install"
+bash "${TARGET_REPO}/bootstrap/generate-host-adapters.sh" "${TARGET_REPO}" --write
+bash "${TARGET_REPO}/bootstrap/generate-system-key.sh" "${TARGET_REPO}" --write
 bash "${TARGET_REPO}/bootstrap/generate-system-registry.sh" "${TARGET_REPO}" --write
+bash "${TARGET_REPO}/bootstrap/generate-operating-profile.sh" "${TARGET_REPO}" --write
+bash "${TARGET_REPO}/bootstrap/verify-integrity.sh" --generate --target "${TARGET_REPO}"
 if [[ ${STRICT} -eq 1 ]]; then
   bash "${TARGET_REPO}/bootstrap/validate-system.sh" "${TARGET_REPO}" --strict
   validation_command="bootstrap/validate-system.sh ${TARGET_REPO} --strict"
@@ -126,39 +129,9 @@ else
   validation_command="bootstrap/validate-system.sh ${TARGET_REPO}"
 fi
 
-python3 - <<'PY' "${TARGET_REPO}" "${validation_command}"
-from pathlib import Path
-import re
-import sys
-
-repo = Path(sys.argv[1])
-command = sys.argv[2]
-
-status_path = repo / "_system/context/CURRENT_STATUS.md"
-where_left_off_path = repo / "WHERE_LEFT_OFF.md"
-
-status_text = status_path.read_text()
-status_text = re.sub(
-    r"^- Latest known passing validation:.*$",
-    f"- Latest known passing validation: {command} -> pass",
-    status_text,
-    count=1,
-    flags=re.MULTILINE,
-)
-status_text = re.sub(
-    r"^- Current confidence level:.*$",
-    "- Current confidence level: Partial but structurally validated",
-    status_text,
-    count=1,
-    flags=re.MULTILINE,
-)
-status_path.write_text(status_text)
-
-where_text = where_left_off_path.read_text()
-where_text = re.sub(r"^- Command:.*$", f"- Command: {command}", where_text, count=1, flags=re.MULTILINE)
-where_text = re.sub(r"^  Result:.*$", "  Result: pass", where_text, count=1, flags=re.MULTILINE)
-where_text = re.sub(r"^  Scope:.*$", "  Scope: AIAST install integrity, required files, config syntax, and awareness validation", where_text, count=1, flags=re.MULTILINE)
-where_left_off_path.write_text(where_text)
-PY
+aiaast_record_validation_success \
+  "${TARGET_REPO}" \
+  "${validation_command}" \
+  "AIAST install integrity, required files, config syntax, and awareness validation"
 
 echo "Initialized AIAST $(aiaast_template_version "${TEMPLATE_ROOT}") in ${TARGET_REPO}"

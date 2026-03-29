@@ -29,6 +29,7 @@ For every change, consider:
 
 ## Authority docs
 
+- `_system/AGENT_ROLE_CATALOG.md`
 - `_system/SECURITY_REDACTION_AND_AUDIT.md`
 - `_system/PROJECT_RULES.md`
 - `_system/MCP_CONFIG.md`

@@ -60,6 +60,7 @@ fi
 
 RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"
 RESOLVED_SOURCE="$(cd -- "${SOURCE}" && pwd)"
+aiaast_assert_template_root "${RESOLVED_SOURCE}"
 README_PATH="$(aiaast_detect_system_readme_path "${RESOLVED_TARGET}")"
 
 mapfile -t source_files < <(aiaast_list_files "${RESOLVED_SOURCE}")
@@ -80,6 +81,7 @@ stateful_backup_candidates=(
   "FIXME.md"
   "WHERE_LEFT_OFF.md"
   "PLAN.md"
+  "PRODUCT_BRIEF.md"
   "ROADMAP.md"
   "DESIGN_NOTES.md"
   "ARCHITECTURE_NOTES.md"

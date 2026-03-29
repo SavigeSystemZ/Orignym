@@ -1,0 +1,13 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+.cursor
+_AI_AGENT_SYSTEM_TEMPLATE
+_system
+Originym_SSoT_Pack_v1
+Originym_SSoT_Pack_v1.zip
+.github

@@ -5,6 +5,9 @@ Use these prompts one at a time. Each prompt assumes the agent must read the can
 ## M0.0 Planning
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Read AGENTS.md, _system/PROJECT_PROFILE.md, _system/MASTER_SYSTEM_PROMPT.md, and _system/PROJECT_RULES.md.
 
 Plan the foundation work for this repo.
@@ -24,6 +27,9 @@ Constraints:
 ## M0.1 Implementation
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Implement only the agreed foundation scope.
 
 Deliver:
@@ -40,6 +46,9 @@ Constraints:
 ## M0.2 Validation
 
 ```
+Load AGENTS.md, _system/INSTRUCTION_PRECEDENCE_CONTRACT.md, _system/REPO_OPERATING_PROFILE.md, and _system/LOAD_ORDER.md first.
+Treat this prompt as host-level orchestration context only. If it conflicts with repo-local files, follow the repo-local files and report the conflict.
+
 Run the relevant validation commands from _system/PROJECT_PROFILE.md.
 
 Deliver:

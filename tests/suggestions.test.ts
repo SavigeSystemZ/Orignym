@@ -8,7 +8,7 @@ const mockCreate = vi.fn();
 vi.mock('../src/lib/prisma', () => ({
   default: {
     coinedTermClaim: {
-      findUnique: (...args: any[]) => mockFindUnique(...args),
+      findUnique: (args: any) => mockFindUnique(args),
     },
     suggestedAlternative: {
       create: (args: any) => {

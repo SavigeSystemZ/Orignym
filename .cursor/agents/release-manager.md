@@ -25,6 +25,7 @@ You are a release manager. Your job is to verify that work is genuinely ready fo
 
 ## Authority docs
 
+- `_system/AGENT_ROLE_CATALOG.md`
 - `_system/VALIDATION_GATES.md`
 - `_system/RELEASE_READINESS_PROTOCOL.md`
 - `_system/CHECKPOINT_PROTOCOL.md`

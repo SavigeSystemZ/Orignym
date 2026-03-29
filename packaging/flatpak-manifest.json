@@ -1,0 +1,31 @@
+{
+  "app-id": "io.aiaast.orignym",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "24.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "orignym",
+  "finish-args": [
+    "--share=network",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--device=dri",
+    "--filesystem=xdg-config/orignym:create",
+    "--filesystem=xdg-data/orignym:create"
+  ],
+  "modules": [
+    {
+      "name": "orignym",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 ./dist/orignym /app/bin/orignym",
+        "install -Dm644 ./packaging/io.aiaast.orignym.desktop /app/share/applications/io.aiaast.orignym.desktop"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}

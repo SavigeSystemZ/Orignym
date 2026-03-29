@@ -56,10 +56,12 @@ fi
 
 TEMPLATE_ROOT="${SOURCE:-${DEFAULT_TEMPLATE_ROOT}}"
 RESOLVED_TEMPLATE="$(cd -- "${TEMPLATE_ROOT}" && pwd)"
+aiaast_assert_template_root "${RESOLVED_TEMPLATE}"
 RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"
 
 if [[ "${RESOLVED_TEMPLATE}" == "${RESOLVED_TARGET}" ]]; then
-  echo "Source and target resolve to the same directory." >&2
+  echo "Source and target resolve to the same directory: ${RESOLVED_TEMPLATE}" >&2
+  echo "Point --source at the canonical AIAST template root instead of the installed repo." >&2
   exit 1
 fi
 
