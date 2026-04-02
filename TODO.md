@@ -4,11 +4,13 @@ This is the active execution queue. Keep it tight, factual, and ordered.
 
 ## Current Priority
 
-- [ ] Monitor initial production deployment. [LOW]
 - [ ] Prepare for user acquisition phase. [LOW]
+- [ ] Evaluate Search Efficiency as the registry grows. [LOW]
 
 ## Completed Recently
 
+- [x] Execute and verify initial production deployment.
+- [x] Configure Docker/Compose with production Node 20 base.
 - [x] M12: ML, Legal & Community Implementation
 - [x] M11: Collaboration, API & Enterprise Features
 - [x] M10: Advanced Suggestion Engine & Personalisation
