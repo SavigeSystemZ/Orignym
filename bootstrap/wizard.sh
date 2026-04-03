@@ -2,6 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
 
 usage() {
   cat <<'EOF'
@@ -59,6 +61,10 @@ done
 if [[ -z "${TARGET_REPO}" ]]; then
   echo "Target repo path is required." >&2
   exit 1
+fi
+
+if [[ ${DRY_RUN} -eq 0 ]]; then
+  aiaast_assert_non_root_for_repo_writes
 fi
 
 TARGET_REPO="$(cd -- "${TARGET_REPO}" 2>/dev/null && pwd || echo "${TARGET_REPO}")"

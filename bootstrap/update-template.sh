@@ -64,6 +64,10 @@ if [[ ! -d "${TARGET_REPO}" ]]; then
   exit 1
 fi
 
+if [[ ${DRY_RUN} -eq 0 ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 RESOLVED_TEMPLATE="$(cd -- "${SOURCE}" && pwd)"
 aiaast_assert_template_root "${RESOLVED_TEMPLATE}"
 RESOLVED_TARGET="$(cd -- "${TARGET_REPO}" && pwd)"

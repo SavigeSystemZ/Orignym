@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 TEMPLATES_DIR="${SCRIPT_DIR}/templates/runtime"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
 
 usage() {
   cat <<'EOF'
@@ -63,6 +65,8 @@ if [[ -z "${TARGET_REPO}" ]]; then
   usage
   exit 1
 fi
+
+aiaast_assert_non_root_for_repo_writes
 
 if [[ -z "${APP_NAME}" ]]; then
   APP_NAME="$(basename -- "${TARGET_REPO}")"

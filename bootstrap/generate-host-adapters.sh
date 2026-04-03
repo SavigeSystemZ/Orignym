@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
+
 usage() {
   cat <<'EOF'
 Usage: generate-host-adapters.sh [target-repo] [--write|--check]
@@ -46,6 +50,10 @@ fi
 if [[ ! -d "${TARGET_REPO}" ]]; then
   echo "Target repo does not exist: ${TARGET_REPO}" >&2
   exit 1
+fi
+
+if [[ ${WRITE} -eq 1 ]]; then
+  aiaast_assert_non_root_for_repo_writes
 fi
 
 if [[ ${WRITE} -eq 1 && ${CHECK} -eq 1 ]]; then

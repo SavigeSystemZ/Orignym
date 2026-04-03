@@ -47,6 +47,10 @@ if [[ -z "${TARGET_REPO}" ]]; then
   TARGET_REPO="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 fi
 
+if [[ ${WRITE} -eq 1 ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 if [[ ! -d "${TARGET_REPO}" ]]; then
   echo "Target repo does not exist: ${TARGET_REPO}" >&2
   exit 1

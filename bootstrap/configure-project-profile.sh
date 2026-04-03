@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
+
 usage() {
   cat <<'EOF'
 Usage: configure-project-profile.sh <target-repo> [--app-name NAME]
@@ -41,6 +45,8 @@ if [[ -z "${TARGET_REPO}" ]]; then
   usage
   exit 1
 fi
+
+aiaast_assert_non_root_for_repo_writes
 
 if [[ -z "${APP_NAME}" ]]; then
   APP_NAME="$(basename -- "${TARGET_REPO}")"

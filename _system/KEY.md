@@ -2,7 +2,7 @@
 
 This file is the exhaustive agent-facing key for the installable AIAST surface.
 
-It covers 349 managed files and is generated from the canonical managed-file inventory.
+It covers 378 managed files and is generated from the canonical managed-file inventory.
 
 ## How To Use This File
 
@@ -75,6 +75,7 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/check-network-bindings.sh` - Detects wildcard network bindings (0.0.0.0, ::) that violate the loopback-only contract. Run when verifying network security compliance.
 - `bootstrap/check-packaging-targets.sh` - Bootstrap command for Check Packaging Targets. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-placeholders.sh` - Bootstrap command for Check Placeholders. Run when performing the named install, repair, validation, emission, or generation task.
+- `bootstrap/check-repo-permissions.sh` - Bootstrap command for Check Repo Permissions. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-runtime-foundations.sh` - Bootstrap command for Check Runtime Foundations. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-supply-chain.sh` - Runs language-specific dependency audit tools (npm, pip, cargo, go) and license checks. Run when auditing supply chain security.
 - `bootstrap/check-system-awareness.sh` - Validator for registry coverage and critical path references across core docs. Run when file inventories or core doc maps change.
@@ -99,9 +100,11 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/lib/aiaast-lib.sh` - Shared bootstrap helper library for AIAST Lib. Used indirectly by install, repair, update, generation, and validation scripts.
 - `bootstrap/print-agent-map.sh` - Bootstrap command for Print Agent Map. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/recommend-starter-blueprint.sh` - Bootstrap command for Recommend Starter Blueprint. Run when performing the named install, repair, validation, emission, or generation task.
+- `bootstrap/repair-myappz-root-ownership.sh` - Bootstrap command for Repair Myappz Root Ownership. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/repair-system.sh` - Repair flow for restoring missing or drifted system-managed files. Run when integrity, awareness, or drift checks say the local system is damaged.
 - `bootstrap/report-health-trends.sh` - Reads health-history.json and computes pass/warn/fail trends over recent entries. Run when assessing whether system health is improving or degrading.
 - `bootstrap/run-sast.sh` - Dispatches to semgrep, bandit, eslint-security, and gosec based on detected languages. Run when performing static application security testing.
+- `bootstrap/scaffold-system.sh` - Bootstrap command for Scaffold System. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/scan-container.sh` - Scans Dockerfiles and container images with trivy, grype, hadolint, and static lint. Run when verifying container security posture.
 - `bootstrap/scan-security.sh` - Bootstrap command for Scan Security. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/seed-product-brief.sh` - Bootstrap command for Seed Product Brief. Run when performing the named install, repair, validation, emission, or generation task.
@@ -116,6 +119,10 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/templates/runtime/ai/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/ai/chatbot-intents.md` - Bootstrap template asset for Chatbot Intents. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/ai/llm_config.yaml` - Bootstrap template asset for LLM Config. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/docs/security/architecture.md` - Bootstrap template asset for Architecture. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/docs/security/backend-inventory.md` - Bootstrap template asset for Backend Inventory. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/docs/security/rollback.md` - Bootstrap template asset for Rollback. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/docs/security/validation.md` - Bootstrap template asset for Validation. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/mobile/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/mobile/flutter/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/mobile/flutter/android/app/src/main/AndroidManifest.xml` - Bootstrap template asset for Androidmanifest Xml. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
@@ -137,6 +144,15 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/templates/runtime/packaging/flatpak-manifest.json` - Bootstrap template asset for Flatpak Manifest. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/packaging/signing/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/packaging/snapcraft.yaml` - Bootstrap template asset for Snapcraft. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/registry/backend-assignments.yaml` - Bootstrap template asset for Backend Assignments. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/registry/port_assignments.yaml` - Bootstrap template asset for Port Assignments. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/registry/port_governance.yaml` - Bootstrap template asset for Port Governance. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/registry/ports.yaml` - Bootstrap template asset for Ports. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/tools/__pycache__/port_registry_lib.cpython-312.pyc` - Bootstrap template asset for Port Registry Lib Cpython 312 Pyc. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/tools/check-port-collisions.py` - Bootstrap template asset for Check Port Collisions Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/tools/port_registry_lib.py` - Bootstrap template asset for Port Registry Lib Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/tools/preflight_port_scan.py` - Bootstrap template asset for Preflight Port Scan Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/tools/security-preflight.sh` - Bootstrap template asset for Security Preflight. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/track-semantic-changes.sh` - Classifies git diff changes as structural, contractual, cosmetic, or behavioral. Run when assessing the impact of recent changes.
 - `bootstrap/uninstall-system.sh` - Removal flow for uninstalling the operating layer while leaving runtime code alone. Run only when intentionally removing AIAST from a repo.
 - `bootstrap/update-template.sh` - Additive upgrade flow for refreshing an installed repo from a newer source template. Run when a repo already has AIAST and should be updated to a newer release.
@@ -164,6 +180,7 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/CODING_STANDARDS.md` - Core operating-system reference for Coding Standards. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CONTEXT_BUDGET_STRATEGY.md` - Four-tier context budget model (A/B/C/D) keyed by model context window size. Read when selecting which files to load for a context-constrained model.
 - `_system/CONTEXT_INDEX.md` - Map of the operating-system surfaces and where each type of truth lives. Read early when orienting to the system or locating the right file to update.
+- `_system/CURSOR_AND_MULTI_HOST.md` - Core operating-system reference for Cursor And Multi Host. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/DEBUG_REPAIR_PLAYBOOK.md` - Core operating-system reference for Debug Repair Playbook. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/DEPENDENCY_GOVERNANCE.md` - Core operating-system reference for Dependency Governance. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/DESIGN_EXCELLENCE_FRAMEWORK.md` - Core operating-system reference for Design Excellence Framework. Load when the task touches that named contract, policy, guide, or manifest.
@@ -176,6 +193,7 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/HOST_ADAPTER_POLICY.md` - Policy for generated tool-entry and load-context adapter surfaces. Read when tool-specific entrypoints or overlays change.
 - `_system/HOST_BUNDLE_CONTRACT.md` - Contract for self-contained bundles exported to external hosts. Read when a consumer cannot access repo-local paths directly.
 - `_system/INSTALLATION_GUIDE.md` - Core operating-system reference for Installation Guide. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/INSTALLER_AND_UPGRADE_CONTRACT.md` - Core operating-system reference for Installer And Upgrade Contract. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/INSTRUCTION_CONFLICT_PLAYBOOK.md` - Core operating-system reference for Instruction Conflict Playbook. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md` - Conflict-resolution contract for repo-local, host-level, and adapter-level instructions. Read before trusting upstream orchestration over repo-local truth.
 - `_system/INTEGRITY_MANIFEST.sha256` - Core operating-system reference for Integrity Manifest Sha256. Load when the task touches that named contract, policy, guide, or manifest.
@@ -195,8 +213,12 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/PROJECT_PROFILE.md` - Repo-specific operational truth about languages, structure, packaging, and validation commands. Read early in every session and update when project reality becomes clearer.
 - `_system/PROJECT_RULES.md` - Repo-wide non-negotiable working rules. Read whenever the task could affect boundaries, truthfulness, or workflow rules.
 - `_system/PROMPTS_INDEX.md` - Index of prompt templates and prompt packs. Use when assembling or auditing prompt surfaces.
+- `_system/PROMPT_BACKEND_POLICY.md` - Core operating-system reference for Prompt Backend Policy. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/PROMPT_DOCKER_NETWORK_POLICY.md` - Core operating-system reference for Prompt Docker Network Policy. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/PROMPT_EFFECTIVENESS_TRACKING.md` - Protocol for measuring which prompt packs succeed or fail per model and task type. Read when recording or analyzing prompt effectiveness data.
 - `_system/PROMPT_EMISSION_CONTRACT.md` - Rules for emitting prompts for external tools or hosts. Read when prompt-generation or host-export behavior changes.
+- `_system/PROMPT_SECURITY_BASELINE.md` - Core operating-system reference for Prompt Security Baseline. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/PROMPT_SYSTEM_BUILD_STANDARD.md` - Core operating-system reference for Prompt System Build Standard. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/PROVENANCE_AND_EVIDENCE.md` - Core operating-system reference for Provenance And Evidence. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/QUICKSTART.md` - One-page onboarding guide for new AIAST users. Read when first encountering the system or directing someone to the fastest start path.
 - `_system/README.md` - Overview of what belongs inside the local operating-system directory. Read during first orientation to the `_system/` layer.
@@ -219,6 +241,7 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/agent-performance-profiles.json` - Machine-readable ratings for 19 model families across quality, planning, review, speed, and cost. Use when tooling needs programmatic model selection based on capability.
 - `_system/aiaast-capabilities.json` - Core operating-system reference for AIAST Capabilities. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/context-budget-profiles.json` - Machine-readable tier assignments for 21 model families with context token counts. Use when emit-tiered-context.sh needs to resolve a model to a tier.
+- `_system/design-system/THEME_GOVERNANCE.md` - Core operating-system reference for Theme Governance. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/golden-examples/PATTERN_INDEX.md` - Golden-example asset for Pattern Index. Use when auditing or refreshing the curated example pack.
 - `_system/golden-examples/README.md` - Golden-example asset for Readme. Use when auditing or refreshing the curated example pack.
 - `_system/golden-examples/golden-example-manifest.json` - Golden-example asset for Golden Example Manifest. Use when auditing or refreshing the curated example pack.
@@ -242,6 +265,10 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/host-adapter-manifest.json` - Canonical machine-readable source for generated host adapters. Edit only when adapter inputs change, then regenerate the adapters.
 - `_system/instruction-precedence.json` - Machine-readable instruction-precedence manifest. Use when validating or exporting precedence behavior programmatically.
 - `_system/llm_config.yaml.example` - Core operating-system reference for LLM Config. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/ports/PORT_POLICY.md` - Core operating-system reference for Port Policy. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/ports/default_port_matrix.yaml` - Core operating-system reference for Default Port Matrix. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/ports/templates/README.md` - Core operating-system reference for Readme. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/ports/templates/compose-loopback-snippet.yml` - Core operating-system reference for Compose Loopback Snippet. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/precedence.manifest.json` - Core operating-system reference for Precedence Manifest. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/repo-operating-profile.json` - Core operating-system reference for Repo Operating Profile. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/repo-operating-profile.md` - Core operating-system reference for Repo Operating Profile. Load when the task touches that named contract, policy, guide, or manifest.
@@ -430,6 +457,7 @@ These files are auto-loaded Cursor rule overlays.
 - `.cursor/rules/30-validation-gate.mdc` - Cursor rule overlay for 30 Validation Gate. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/40-mcp-and-tooling.mdc` - Cursor rule overlay for 40 MCP And Tooling. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/50-working-files.mdc` - Cursor rule overlay for 50 Working Files. Auto-loaded by Cursor to reinforce repo-local behavior.
+- `.cursor/rules/IDE_HOST_CURSOR_WINDSURF.mdc` - Cursor rule overlay for Ide Host Cursor Windsurf. Auto-loaded by Cursor to reinforce repo-local behavior.
 
 ### Cursor Skills
 
@@ -454,4 +482,5 @@ These files back Cursor skill surfaces and skill-local commands.
 
 These files are supporting Cursor-specific overlays that do not fit the narrower agent, command, rule, or skill buckets.
 
+- `.cursor/README.md` - Cursor overlay surface for Readme. Read or regenerate when Cursor-specific integration surfaces change.
 - `.cursor/mcp.json` - Cursor overlay surface for MCP. Read or regenerate when Cursor-specific integration surfaces change.

@@ -69,6 +69,10 @@ if [[ -z "${TARGET_DIR}" ]]; then
   fi
 fi
 
+if [[ "${MODE}" == "generate" ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 cd "${TARGET_DIR}"
 MANIFEST_PATH="${MANIFEST_REL}"
 

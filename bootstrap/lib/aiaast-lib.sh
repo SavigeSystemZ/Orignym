@@ -15,6 +15,16 @@ _aiaast_cyan() { [[ ${_aiaast_ansi_ok} -eq 1 ]] && printf '\033[36m' || true; }
 _aiaast_red() { [[ ${_aiaast_ansi_ok} -eq 1 ]] && printf '\033[31m' || true; }
 _aiaast_reset() { [[ ${_aiaast_ansi_ok} -eq 1 ]] && printf '\033[0m' || true; }
 
+aiaast_assert_non_root_for_repo_writes() {
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+    cat >&2 <<'EOF'
+Refusing to write repo-managed files as root.
+Run this command as the intended repo owner instead, then repair any existing ownership drift before continuing.
+EOF
+    return 1
+  fi
+}
+
 aiaast_section_header() {
   local title="$1"
   _aiaast_bold; _aiaast_cyan

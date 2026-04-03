@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_TARGET="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 DEFAULT_SOURCE="${DEFAULT_TARGET}"
+# shellcheck source=bootstrap/lib/aiaast-lib.sh
+source "${SCRIPT_DIR}/lib/aiaast-lib.sh"
 
 usage() {
   cat <<'EOF'
@@ -76,6 +78,10 @@ if [[ ! -d "${TARGET_REPO}" ]]; then
   exit 1
 fi
 
+if [[ ${HEAL} -eq 1 || ${RECORD} -eq 1 ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 run_check() {
   local label="$1"
   shift
@@ -116,7 +122,9 @@ run_check "check-host-adapter-alignment" bash "${SCRIPT_DIR}/check-host-adapter-
 run_check "check-host-ingestion" bash "${SCRIPT_DIR}/check-host-ingestion.sh" "${TARGET_REPO}" || failed=1
 run_check "check-host-bundle" bash "${SCRIPT_DIR}/check-host-bundle.sh" "${TARGET_REPO}" || failed=1
 run_check "check-system-awareness" bash "${SCRIPT_DIR}/check-system-awareness.sh" "${TARGET_REPO}" || failed=1
+run_check "check-repo-permissions" bash "${SCRIPT_DIR}/check-repo-permissions.sh" "${TARGET_REPO}" || failed=1
 run_check "check-agent-orchestration" bash "${SCRIPT_DIR}/check-agent-orchestration.sh" "${TARGET_REPO}" || failed=1
+run_check "check-network-bindings" bash "${SCRIPT_DIR}/check-network-bindings.sh" "${TARGET_REPO}" --include-template-assets || failed=1
 
 if run_check "check-placeholders" bash "${SCRIPT_DIR}/check-placeholders.sh" "${TARGET_REPO}" --summary "${mode_flag[@]}"; then
   true
@@ -134,6 +142,13 @@ else
     warned=1
     warning_labels+=("runtime-foundations")
   fi
+fi
+
+if run_check "check-environment" bash "${SCRIPT_DIR}/check-environment.sh" "${TARGET_REPO}"; then
+  true
+else
+  warned=1
+  warning_labels+=("environment")
 fi
 
 if run_check "check-packaging-targets" bash "${SCRIPT_DIR}/check-packaging-targets.sh" "${TARGET_REPO}" "${strict_flag[@]}"; then

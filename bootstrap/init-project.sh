@@ -62,6 +62,10 @@ if [[ -z "${APP_NAME}" ]]; then
   APP_NAME="$(basename -- "${TARGET_REPO}")"
 fi
 
+if [[ ${DRY_RUN} -eq 0 ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 aiaast_assert_template_root "${TEMPLATE_ROOT}"
 
 mkdir -p "${TARGET_REPO}"

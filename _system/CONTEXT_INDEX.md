@@ -7,6 +7,7 @@ This file is the map of the local agent operating system.
 - `PROJECT_PROFILE.md` — app-specific truth
 - `INSTRUCTION_PRECEDENCE_CONTRACT.md` — repo-local vs host-level precedence and conflict rules
 - `REPO_OPERATING_PROFILE.md` — compact host-ingestion summary
+- `INSTALLER_AND_UPGRADE_CONTRACT.md` — install, update, repair, and heal guarantees for AIAST lifecycle actions
 - `KEY.md` — exhaustive file-by-file key with when-to-use guidance
 - `HOST_ADAPTER_POLICY.md` — policy for generated tool-entry and adapter-load surfaces
 - `HOST_BUNDLE_CONTRACT.md` — contract for self-contained external host bundles
@@ -24,6 +25,8 @@ This file is the map of the local agent operating system.
 - `SYSTEM_AWARENESS_PROTOCOL.md` — how the operating system tracks its own managed surfaces
 - `HALLUCINATION_DEFENSE_PROTOCOL.md` — how to detect and recover from ungrounded claims
 - `HANDOFF_PROTOCOL.md` — quality requirements for agent-to-agent handoffs
+- `ports/PORT_POLICY.md` — governed port allocation protocol (runtime registry + tools)
+- `design-system/THEME_GOVERNANCE.md` — additive themes; no destructive visual overwrites
 - `SYSTEM_REGISTRY.json` — machine-readable registry of AIAST-managed files
 - `instruction-precedence.json` — machine-readable precedence manifest
 - `host-adapter-manifest.json` — machine-readable source for generated tool adapters
@@ -40,7 +43,7 @@ This file is the map of the local agent operating system.
 - `ACCESSIBILITY_STANDARDS.md` — WCAG compliance, keyboard access, ARIA, contrast
 - `API_DESIGN_STANDARDS.md` — REST conventions, error responses, versioning, rate limiting
 - `DEPENDENCY_GOVERNANCE.md` — supply chain security, license compliance, size hygiene
-- `MODERN_UI_PATTERNS.md` — component architecture, responsive design, color, typography, motion
+- `MODERN_UI_PATTERNS.md` — component architecture, responsive design, color, typography, motion (see `design-system/THEME_GOVERNANCE.md` for theme versioning)
 - `OBSERVABILITY_STANDARDS.md` — logging, metrics, tracing, profiling, retention
 - `INSTALLATION_GUIDE.md` — generated installer flows and Linux runtime scaffolds
 - `PACKAGING_GUIDE.md` — universal packaging guidance and release signing notes
@@ -112,6 +115,7 @@ This file is the map of the local agent operating system.
 ## Onboarding and reference
 
 - `QUICKSTART.md` — 1-page linear guide to get started with AIAST in 5 minutes
+- `CURSOR_AND_MULTI_HOST.md` — repo-local guidance for Cursor-family IDEs and other external hosts sharing one repo
 - `ARCHITECTURE_DIAGRAM.md` — ASCII box diagrams of the three-layer model, loading flow, adapter pipeline, and validation chain
 - `TROUBLESHOOTING.md` — symptom-based FAQ for common AIAST issues
 - `MIGRATION_GUIDE.md` — how to migrate from no system, Cursor-only, custom CLAUDE.md, or other frameworks
@@ -135,6 +139,7 @@ This file is the map of the local agent operating system.
 ## Bootstrap
 
 - `../bootstrap/init-project.sh`
+- `../bootstrap/scaffold-system.sh`
 - `../bootstrap/update-template.sh`
 - `../bootstrap/repair-system.sh`
 - `../bootstrap/uninstall-system.sh`
@@ -147,6 +152,8 @@ This file is the map of the local agent operating system.
 - `../bootstrap/validate-instruction-layer.sh`
 - `../bootstrap/detect-drift.sh`
 - `../bootstrap/verify-integrity.sh`
+- `../bootstrap/check-repo-permissions.sh`
+- `../bootstrap/repair-myappz-root-ownership.sh`
 - `../bootstrap/generate-system-registry.sh`
 - `../bootstrap/generate-host-adapters.sh`
 - `../bootstrap/generate-operating-profile.sh`

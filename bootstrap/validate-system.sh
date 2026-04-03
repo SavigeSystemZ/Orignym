@@ -163,6 +163,7 @@ require_files \
   "_system/SYSTEM_EVOLUTION_POLICY.md" \
   "_system/STANDARDS_CONFLICT_RESOLUTION.md" \
   "_system/UPGRADE_AND_DRIFT_POLICY.md" \
+  "_system/INSTALLER_AND_UPGRADE_CONTRACT.md" \
   "_system/CODING_STANDARDS.md" \
   "_system/PERFORMANCE_BUDGET.md" \
   "_system/ACCESSIBILITY_STANDARDS.md" \
@@ -179,6 +180,15 @@ require_files \
   "_system/AGENT_PERFORMANCE_GUIDE.md" \
   "_system/agent-performance-profiles.json" \
   "_system/PROMPT_EFFECTIVENESS_TRACKING.md" \
+  "_system/PROMPT_SYSTEM_BUILD_STANDARD.md" \
+  "_system/PROMPT_SECURITY_BASELINE.md" \
+  "_system/PROMPT_BACKEND_POLICY.md" \
+  "_system/PROMPT_DOCKER_NETWORK_POLICY.md" \
+  "_system/ports/PORT_POLICY.md" \
+  "_system/ports/default_port_matrix.yaml" \
+  "_system/ports/templates/README.md" \
+  "_system/ports/templates/compose-loopback-snippet.yml" \
+  "_system/design-system/THEME_GOVERNANCE.md" \
   "_system/context/prompt-usage-log.json" \
   "_system/QUICKSTART.md" \
   "_system/ARCHITECTURE_DIAGRAM.md" \
@@ -188,6 +198,7 @@ require_files \
   "_system/PROMPT_EMISSION_CONTRACT.md" \
   "_system/SKILLS_INDEX.md" \
   "_system/INSTRUCTION_CONFLICT_PLAYBOOK.md" \
+  "_system/CURSOR_AND_MULTI_HOST.md" \
   "_system/aiaast-capabilities.json" \
   "_system/README.md" \
   "_system/golden-examples/README.md" \
@@ -279,6 +290,7 @@ require_files \
   "bootstrap/generate-operating-profile.sh" \
   "bootstrap/generate-host-adapters.sh" \
   "bootstrap/detect-instruction-conflicts.sh" \
+  "bootstrap/check-repo-permissions.sh" \
   "bootstrap/check-system-awareness.sh" \
   "bootstrap/check-hallucination.sh" \
   "bootstrap/check-install-boundary.sh" \
@@ -340,6 +352,18 @@ require_files \
   "bootstrap/templates/runtime/ops/env/.env.example" \
   "bootstrap/templates/runtime/ops/compose/compose.yml" \
   "bootstrap/templates/runtime/ops/logging/README.md" \
+  "bootstrap/templates/runtime/docs/security/architecture.md" \
+  "bootstrap/templates/runtime/docs/security/backend-inventory.md" \
+  "bootstrap/templates/runtime/docs/security/validation.md" \
+  "bootstrap/templates/runtime/docs/security/rollback.md" \
+  "bootstrap/templates/runtime/registry/ports.yaml" \
+  "bootstrap/templates/runtime/registry/port_governance.yaml" \
+  "bootstrap/templates/runtime/registry/port_assignments.yaml" \
+  "bootstrap/templates/runtime/registry/backend-assignments.yaml" \
+  "bootstrap/templates/runtime/tools/security-preflight.sh" \
+  "bootstrap/templates/runtime/tools/port_registry_lib.py" \
+  "bootstrap/templates/runtime/tools/check-port-collisions.py" \
+  "bootstrap/templates/runtime/tools/preflight_port_scan.py" \
   "bootstrap/templates/runtime/mobile/README.md" \
   "bootstrap/templates/runtime/mobile/flutter/README.md" \
   "bootstrap/templates/runtime/mobile/flutter/pubspec.yaml" \
@@ -348,6 +372,7 @@ require_files \
   "bootstrap/templates/runtime/ai/README.md" \
   "bootstrap/templates/runtime/ai/llm_config.yaml" \
   "bootstrap/templates/runtime/ai/chatbot-intents.md" \
+  "bootstrap/scaffold-system.sh" \
   "bootstrap/README.md" \
   "bootstrap/lib/aiaast-lib.sh"
 
@@ -388,6 +413,7 @@ require_files \
   "_system/review-playbooks/DEPENDENCY_REVIEW_PLAYBOOK.md" \
   "_system/review-playbooks/CODE_QUALITY_REVIEW_PLAYBOOK.md" \
   ".cursor/mcp.json" \
+  ".cursor/README.md" \
   ".cursor/commands/accessibility-review.md" \
   ".cursor/commands/architecture-review.md" \
   ".cursor/commands/checkpoint.md" \
@@ -407,6 +433,7 @@ require_files \
   ".cursor/rules/30-validation-gate.mdc" \
   ".cursor/rules/40-mcp-and-tooling.mdc" \
   ".cursor/rules/50-working-files.mdc" \
+  ".cursor/rules/IDE_HOST_CURSOR_WINDSURF.mdc" \
   ".cursor/skills/accessibility-review/SKILL.md" \
   ".cursor/skills/architecture-review/SKILL.md" \
   ".cursor/skills/checkpoint-handoff/SKILL.md" \
@@ -511,8 +538,11 @@ INFERRED_TEMPLATE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 RESOLVED_TARGET="$(cd -- "${TARGET}" && pwd)"
 
 if [[ "${INFERRED_TEMPLATE_ROOT}" != "${RESOLVED_TARGET}" ]]; then
-  if find "${TARGET}" -type f ! -path "${TARGET}/bootstrap/validate-system.sh" \
-    -exec rg -n "${INFERRED_TEMPLATE_ROOT}" {} + >/dev/null 2>&1; then
+  # Scan installed repo files for leaked source-template absolute paths while
+  # excluding VCS internals that can contain unrelated transient strings.
+  if rg -n "${INFERRED_TEMPLATE_ROOT}" "${TARGET}" \
+    --glob '!**/.git/**' \
+    --glob '!bootstrap/validate-system.sh' >/dev/null 2>&1; then
     echo "Found forbidden absolute master-template path inside installed system" >&2
     exit 1
   fi
@@ -527,5 +557,9 @@ fi
 
 bash "${VALIDATOR_ROOT}/bootstrap/validate-instruction-layer.sh" "${TARGET}" --validator-root "${VALIDATOR_ROOT}" >/dev/null
 bash "${VALIDATOR_ROOT}/bootstrap/check-system-awareness.sh" "${TARGET}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/check-repo-permissions.sh" "${TARGET}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/check-runtime-foundations.sh" "${TARGET}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/check-network-bindings.sh" "${TARGET}" --include-template-assets >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/check-environment.sh" "${TARGET}" >/dev/null
 
 echo "system_ok"

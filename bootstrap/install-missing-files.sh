@@ -63,6 +63,10 @@ if [[ ! -d "${TARGET_REPO}" ]]; then
   exit 1
 fi
 
+if [[ ${DRY_RUN} -eq 0 ]]; then
+  aiaast_assert_non_root_for_repo_writes
+fi
+
 TEMPLATE_ROOT="${SOURCE:-${DEFAULT_TEMPLATE_ROOT}}"
 aiaast_assert_template_root "${TEMPLATE_ROOT}"
 

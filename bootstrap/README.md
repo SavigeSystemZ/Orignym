@@ -2,8 +2,15 @@
 
 Use this directory to install, upgrade, verify, repair, and remove AIAST in a target repo.
 
+## Prerequisites
+
+- **Shell**: `bash`
+- **Python 3**: required for bootstrap checks and for Python helpers emitted into the repo by runtime foundation generation.
+- **Port governance** uses stdlib-only Python (no PyYAML). After `generate-runtime-foundations.sh`, governed ports are recorded under the repo `registry` tree and maintained with the allocator and checker scripts described in `_system/ports/PORT_POLICY.md`.
+
 ## Scripts
 
+- `scaffold-system.sh` — smart entrypoint that chooses first install, additive backfill, or template update based on the target repo state
 - `init-project.sh` — copy and initialize the system into a target repo
 - `install-missing-files.sh` — add newly introduced template files into an existing installed repo without overwriting existing repo state, then backfill missing runtime scaffolds and safe onboarding defaults
 - `update-template.sh` — compare an installed repo with a newer template source and apply additive updates; always refresh version and contract-manifest surfaces needed for truthful upgrade state, optionally refresh broader template-managed drift, then re-run the safe onboarding backfill path
@@ -21,6 +28,8 @@ Use this directory to install, upgrade, verify, repair, and remove AIAST in a ta
 - `validate-instruction-layer.sh` — verify precedence, operating-profile, and prompt-emission surfaces
 - `verify-integrity.sh` — generate or verify hashes for template-managed files only
 - `detect-drift.sh` — report missing files, template drift, integrity failures, version skew, and stale context
+- `check-repo-permissions.sh` — detect root-owned, foreign-owned, or non-writable repo files outside `.git`
+- `repair-myappz-root-ownership.sh` — audit or repair root-owned paths in a broader MyAppZ workspace while excluding `_backups` by default
 - `generate-system-key.sh` — rebuild the exhaustive agent-facing key for all AIAST-managed files
 - `generate-system-registry.sh` — rebuild the machine-readable registry of AIAST-managed files
 - `generate-host-adapters.sh` — regenerate managed tool-entry and load-context adapter files from the host-adapter manifest
@@ -47,26 +56,35 @@ Use this directory to install, upgrade, verify, repair, and remove AIAST in a ta
 
 ## Recommended flow
 
-1. `init-project.sh <target-repo> --app-name <name> --strict`
+1. `scaffold-system.sh <target-repo> --app-name <name> --strict`
 2. Review `_system/INSTRUCTION_PRECEDENCE_CONTRACT.md` and `_system/REPO_OPERATING_PROFILE.md` before generating host-level prompts
 3. Review the generated runtime scaffolds under the project root packaging, ops, mobile, and ai directories
-4. Review the inferred `_system/PROJECT_PROFILE.md` values and correct the fields the auto-pass could not know
-5. Turn `PRODUCT_BRIEF.md` into repo-specific truth and, if the repo is greenfield, run `recommend-starter-blueprint.sh` and explicitly apply the chosen starter blueprint with `apply-starter-blueprint.sh`
-6. Review the projected operating surfaces first: `PLAN.md`, `TODO.md`, `TEST_STRATEGY.md`, `RISK_REGISTER.md`, `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, `RELEASE_NOTES.md`, and `WHERE_LEFT_OFF.md`
-7. When shaping new working files, prompt packs, or system docs, use `_system/GOLDEN_EXAMPLES_POLICY.md` and `_system/golden-examples/` as the quality-bar reference instead of copying another app
-8. Re-run `validate-system.sh <target-repo> --strict`
-9. Use `generate-host-adapters.sh <target-repo> --write` and `check-host-adapter-alignment.sh <target-repo>` when tool-entry or load-context adapter files change
-10. Use `validate-instruction-layer.sh <target-repo>` or `detect-instruction-conflicts.sh <target-repo> --strict` when adapters, prompt packs, or host-safe contracts change
-11. Use `emit-host-prompt.sh <target-repo> --task ...` when an upstream host or orchestrator needs a canonical repo-safe startup prompt instead of ad hoc assembly
-12. Use `emit-host-bundle.sh <target-repo> --task ... --output <file>` when an external host needs a self-contained snapshot instead of live repo-path access
-13. Use `check-host-ingestion.sh <target-repo>`, `check-host-bundle.sh <target-repo>`, and `check-packaging-targets.sh <target-repo>` when prompt emission, host-bundle, or packaging/systemd surfaces change materially
-14. Use `check-placeholders.sh <target-repo>` for onboarding blanks, `check-agent-orchestration.sh <target-repo>` when role/delegation surfaces change, and `detect-drift.sh <target-repo> --source <template-root>` for lifecycle drift checks
-15. For every `--source` flow, point at the canonical AIAST template root in template-source mode, never at the master repo root or at an already-installed app repo
-16. Use `generate-system-key.sh <target-repo> --write` when the managed file set changes and you want the exhaustive agent-facing map refreshed alongside the registry
-17. Use `check-install-boundary.sh <target-repo>` after installs or repairs when you want an explicit leak check for maintainer-only layers
-18. Use `system-doctor.sh <target-repo> --source <template-root>` when the operating picture feels inconsistent, runtime scaffolds may be drifted, or an agent may be building on stale assumptions
-19. Use `update-template.sh <target-repo> --source <template-root> --dry-run` when a newer AIAST release is available
-20. Use `repair-system.sh <target-repo> --source <template-root> --dry-run` or `heal-system.sh <target-repo> --source <template-root>` when integrity, awareness, or drift checks fail
+4. Run `bash tools/security-preflight.sh` after changing runtime or deployment surfaces
+5. Review the inferred `_system/PROJECT_PROFILE.md` values and correct the fields the auto-pass could not know
+6. Turn `PRODUCT_BRIEF.md` into repo-specific truth and, if the repo is greenfield, run `recommend-starter-blueprint.sh` and explicitly apply the chosen starter blueprint with `apply-starter-blueprint.sh`
+7. Review the projected operating surfaces first: `PLAN.md`, `TODO.md`, `TEST_STRATEGY.md`, `RISK_REGISTER.md`, `DESIGN_NOTES.md`, `ARCHITECTURE_NOTES.md`, `RELEASE_NOTES.md`, and `WHERE_LEFT_OFF.md`
+8. When shaping new working files, prompt packs, or system docs, use `_system/GOLDEN_EXAMPLES_POLICY.md` and `_system/golden-examples/` as the quality-bar reference instead of copying another app
+9. Re-run `validate-system.sh <target-repo> --strict`
+10. Use `generate-host-adapters.sh <target-repo> --write` and `check-host-adapter-alignment.sh <target-repo>` when tool-entry or load-context adapter files change
+11. Use `validate-instruction-layer.sh <target-repo>` or `detect-instruction-conflicts.sh <target-repo> --strict` when adapters, prompt packs, or host-safe contracts change
+12. Use `emit-host-prompt.sh <target-repo> --task ...` when an upstream host or orchestrator needs a canonical repo-safe startup prompt instead of ad hoc assembly
+13. Use `emit-host-bundle.sh <target-repo> --task ... --output <file>` when an external host needs a self-contained snapshot instead of live repo-path access
+14. Use `check-host-ingestion.sh <target-repo>`, `check-host-bundle.sh <target-repo>`, and `check-packaging-targets.sh <target-repo>` when prompt emission, host-bundle, or packaging/systemd surfaces change materially
+15. Use `check-placeholders.sh <target-repo>` for onboarding blanks, `check-agent-orchestration.sh <target-repo>` when role/delegation surfaces change, and `detect-drift.sh <target-repo> --source <template-root>` for lifecycle drift checks
+16. For every `--source` flow, point at the canonical AIAST template root in template-source mode, never at the master repo root or at an already-installed app repo
+17. Use `generate-system-key.sh <target-repo> --write` when the managed file set changes and you want the exhaustive agent-facing map refreshed alongside the registry
+18. Use `check-install-boundary.sh <target-repo>` after installs or repairs when you want an explicit leak check for maintainer-only layers
+19. Use `check-repo-permissions.sh <target-repo>` when bootstrap or editor actions may have created foreign-owned or non-writable repo files
+20. Use `repair-myappz-root-ownership.sh <workspace-root>` when sibling repos or the shared template in your MyAppZ workspace picked up root ownership and you need a scoped repair command
+21. Use `system-doctor.sh <target-repo> --source <template-root>` when the operating picture feels inconsistent, runtime scaffolds may be drifted, or an agent may be building on stale assumptions
+22. Use `update-template.sh <target-repo> --source <template-root> --dry-run` when a newer AIAST release is available
+23. Use `repair-system.sh <target-repo> --source <template-root> --dry-run` or `heal-system.sh <target-repo> --source <template-root>` when integrity, awareness, or drift checks fail
+
+Mutating lifecycle and generation commands should be run as the intended repo owner, not as `root`. If repo ownership already drifted, fix that first and then rerun the lifecycle command normally.
+
+For workspace-wide drift outside the current repo, prefer repairing only project trees and leave `_backups` excluded unless you intentionally want to rewrite preserved ownership in snapshot material.
+
+`scaffold-system.sh` is the preferred human-facing entrypoint. It resolves whether the target needs a first install, an additive backfill, or a fuller update path and then delegates to the canonical script for that mode. The detailed state-preservation guarantees for those flows live in `_system/INSTALLER_AND_UPGRADE_CONTRACT.md`.
 
 `install-missing-files.sh` and `update-template.sh` now also re-run the same safe runtime-foundation generation, profile inference, product-brief seeding, blueprint recommendation, test-strategy seeding, risk-register seeding, and working-state seeding used by fresh installs, but only in the non-destructive mode that fills blanks and recreates missing generated files.
 
