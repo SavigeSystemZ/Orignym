@@ -78,7 +78,7 @@ Fill this file in immediately after copying the operating system into a real rep
 - End-to-end or smoke: npm run build
 - Build: npm run build
 - Install / launch verification: scripts/start-app.sh
-- Packaging verification:
+- Packaging verification: docker build .
 - Visual regression or design smoke:
 - Security or policy checks: bootstrap/scan-security.sh .
 

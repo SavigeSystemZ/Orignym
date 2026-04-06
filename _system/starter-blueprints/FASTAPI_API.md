@@ -50,6 +50,7 @@ uv.lock              lock file (or requirements.txt)
 - Environment-based configuration — no hardcoded URLs, keys, or ports.
 - Avoid hidden global state — use dependency injection for database connections and services.
 - API versioning strategy decided early (path prefix `/v1/` or header-based).
+- Commit backend ownership and exposure notes in `docs/security/backend-inventory.md` and `docs/security/architecture.md` before expanding the API surface.
 
 ## First milestone suggestion
 
@@ -57,4 +58,4 @@ uv.lock              lock file (or requirements.txt)
 2. Confirm `PYTHONPATH=. pytest -q` passes with route tests covering happy path and error cases.
 3. Confirm `python3 -m compileall app` passes with zero errors.
 4. Confirm dev server starts and responds to `curl http://127.0.0.1:8000/health`.
-5. Record API contract assumptions, versioning strategy, and data model decisions in `ARCHITECTURE_NOTES.md`.
+5. Record API contract assumptions, versioning strategy, bind/port policy, and backend ownership in `ARCHITECTURE_NOTES.md` and `docs/security/backend-inventory.md`.

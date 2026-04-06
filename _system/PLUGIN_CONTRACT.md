@@ -15,8 +15,9 @@ Plugins extend AIAST without modifying core files directly.
   "name": "plugin-name",
   "version": "1.0.0",
   "description": "What this plugin does",
-  "aiast_min_version": "1.13.0",
-  "hooks": ["security.scan", "validation.preflight"],
+  "aiast_min_version": "1.20.0",
+  "hooks": ["security.scan", "validation.report"],
+  "capabilities": ["security-scanner", "ci-reporter"],
   "owned_paths": ["_system/plugins/plugin-name/"],
   "requires": [],
   "enabled": true
@@ -24,17 +25,19 @@ Plugins extend AIAST without modifying core files directly.
 ```
 
 Required fields: `name`, `version`, `description`, `hooks`.
-Optional fields: `aiast_min_version`, `owned_paths`, `requires`, `enabled`.
+Optional fields: `aiast_min_version`, `capabilities`, `owned_paths`, `requires`, `enabled`.
 
 ## Allowed hook points
 
 ### Bootstrap hooks
+- `bootstrap.pre_flight` — runs before the main installation or update flow
 - `bootstrap.post_install` — runs after AIAST is installed into a repo
 - `bootstrap.post_update` — runs after AIAST is updated in a repo
 
 ### Validation hooks
 - `validation.preflight` — runs before the main validation suite
 - `validation.postflight` — runs after the main validation suite
+- `validation.report` — contributes to the final validation diagnostic report
 
 ### Security hooks
 - `security.scan` — runs during security scanning

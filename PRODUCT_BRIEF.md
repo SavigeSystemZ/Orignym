@@ -5,19 +5,19 @@ Use this file to capture the product idea, intended user value, and chosen build
 ## Product frame
 
 - Product name: Orignym
-- Product category: set once the product shape is specific enough to exclude lookalikes
-- One-line summary: define the app promise in one clear sentence before major implementation begins
+- Product category: Web3 / Decentralized Identity / Registry
+- One-line summary: Decentralized term registry and claim verification platform.
 - Why it should exist: capture the user pain, operator leverage, or market opportunity this app resolves
-- Primary users: name the real people or operators who should benefit first
-- Primary workflows: list the core flows the first milestone must prove
-- Success indicators: record the measurable signal that shows the app is genuinely useful
-- Non-goals: state what this repo should not try to solve in the first phase
+- Primary users: Developers, organizations, and individuals seeking unique, verified identifiers.
+- Primary workflows: Claiming a term, verifying a claim via AI/Human consensus, searching the registry.
+- Success indicators: Low collision rate, high verification accuracy, easy-to-use search.
+- Non-goals: Social networking, general-purpose blockchain.
 
 ## Experience bar
 
-- Visual direction: deliberate, differentiated, and product-specific rather than template-generic
-- Interaction bar: fast, clear, low-friction flows with designed states from the first milestone
-- Performance bar: snappy enough that the first slice feels trustworthy under normal use
+- Visual direction: High (Deep Glass)
+- Interaction bar: High (Framer Motion / Smooth transitions)
+- Performance bar: High
 - Reliability bar: clear degraded states, explicit error handling, and no fake capability claims
 - Trust and safety bar: security-conscious defaults, honest validation claims, and explicit handling of risky actions
 
@@ -25,7 +25,7 @@ Use this file to capture the product idea, intended user value, and chosen build
 
 - Recommended starter blueprint: NEXT_JS_FULLSTACK - Next.js Fullstack Blueprint
 - Recommendation confidence: high
-- Recommendation rationale: Best fit: NEXT_JS_FULLSTACK - Next.js Fullstack Blueprint. Signals: Next.js runtime signals were found in the repo.; Product framing explicitly mentions a Next.js-style fullstack web app.. Top alternatives: BACKGROUND_WORKER (8), DATABASE_MIGRATIONS (7).
+- Recommendation rationale: Best fit: NEXT_JS_FULLSTACK - Next.js Fullstack Blueprint. Signals: Next.js runtime signals were found in the repo.; Product framing explicitly mentions a Next.js-style fullstack web app.. Top alternatives: BACKGROUND_WORKER (8), GRAPHQL_API (8).
 - Selected starter blueprint: not yet selected
 - Why this blueprint fits: choose a starter blueprint after the product frame and delivery surfaces are clearer
 - Planned repo shape: decide after selecting a starter blueprint

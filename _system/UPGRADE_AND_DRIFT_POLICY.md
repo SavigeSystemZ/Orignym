@@ -2,6 +2,8 @@
 
 How to keep installed repos current with the master AIAST template without losing app-specific state.
 
+For a single map of install vs upgrade vs repair entry points, read `INSTALLER_AND_UPGRADE_CONTRACT.md`.
+
 ## Version tracking
 
 - `AIAST_VERSION.md` is the human-readable release marker for the template.

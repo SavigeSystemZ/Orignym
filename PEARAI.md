@@ -37,6 +37,8 @@ Load these when the task touches their domain:
 - `RELEASE_NOTES.md`
 - `CHANGELOG.md`
 - `_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md`
+- `_system/ports/PORT_POLICY.md`
+- `_system/design-system/THEME_GOVERNANCE.md`
 
 For system-evolution, prompt-authoring, adapter work, or working-file drafting, also load:
 - `_system/GOLDEN_EXAMPLES_POLICY.md`

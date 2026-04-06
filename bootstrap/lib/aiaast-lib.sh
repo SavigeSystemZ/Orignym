@@ -330,6 +330,7 @@ aiaast_refresh_onboarding_baseline() {
   local script_dir="$1"
   local repo_root="$2"
   local app_name="${3:-}"
+  local force="${4:-0}"
 
   if [[ -z "${app_name}" ]]; then
     app_name="$(aiaast_resolve_app_name "${repo_root}")"
@@ -339,7 +340,10 @@ aiaast_refresh_onboarding_baseline() {
     bash "${script_dir}/configure-project-profile.sh" "${repo_root}" --app-name "${app_name}"
   fi
 
-  bash "${script_dir}/generate-runtime-foundations.sh" "${repo_root}" --app-name "${app_name}"
+  local force_flag=()
+  [[ "${force}" == "1" ]] && force_flag=("--force")
+
+  bash "${script_dir}/generate-runtime-foundations.sh" "${repo_root}" --app-name "${app_name}" "${force_flag[@]}"
   bash "${script_dir}/suggest-project-profile.sh" "${repo_root}" --write
   bash "${script_dir}/seed-product-brief.sh" "${repo_root}" --app-name "${app_name}"
   bash "${script_dir}/recommend-starter-blueprint.sh" "${repo_root}" --write
@@ -584,13 +588,26 @@ aiaast_print_managed_files() {
     "_system"
     ".cursor"
     ".github"
+    "registry"
+    "ops"
+    "tools"
+    "mobile"
+    "ai"
+    "packaging"
   )
   local dir
   for dir in "${managed_dirs[@]}"; do
     if [[ -d "${repo_root}/${dir}" ]]; then
       (
         cd "${repo_root}"
-        find "${dir}" -type f | sort
+        find "${dir}" -type f \
+          ! -path '*/.git/*' \
+          ! -path '*/__pycache__/*' \
+          ! -name '.DS_Store' \
+          ! -name '*.pyc' \
+          ! -name '*.pyo' \
+          ! -name '*.swp' \
+          | sort
       )
     fi
   done | awk '!seen[$0]++'
@@ -611,6 +628,24 @@ aiaast_path_category() {
       ;;
     bootstrap/*)
       printf '%s\n' "bootstrap"
+      ;;
+    registry/*)
+      printf '%s\n' "registry"
+      ;;
+    ops/*)
+      printf '%s\n' "ops"
+      ;;
+    tools/*)
+      printf '%s\n' "tools"
+      ;;
+    mobile/*)
+      printf '%s\n' "mobile"
+      ;;
+    ai/*)
+      printf '%s\n' "ai"
+      ;;
+    packaging/*)
+      printf '%s\n' "packaging"
       ;;
     _system/context/*)
       printf '%s\n' "system-context"

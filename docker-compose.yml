@@ -16,7 +16,7 @@ services:
       context: .
       network: host
     ports:
-      - "3000:3000"
+      - "46301:3000"
     environment:
       - DATABASE_URL=postgresql://orignym:orignym_password@db:5432/orignym?schema=public
       - NEXTAUTH_SECRET=fallback_secret_for_local_prod

@@ -1,5 +1,159 @@
 # AIAST Changelog
 
+## Unreleased
+
+- None.
+
+## 1.21.0 (2026-04-06)
+
+### GitHub merge discipline
+
+- **`.github/pull_request_template.md`** — PR checklist (validation, secrets, AIAST contracts, hooks).
+- **`.github/ISSUE_TEMPLATE/`** — `config.yml`, `bug_report.md`, `feature_request.md` for consistent triage.
+- **`HOOK_AND_ORCHESTRATION_INDEX.md`** — extended with PR/issue template row; `CONTEXT_INDEX.md` links to `.github/` templates.
+
+### Documentation (carried forward from pre-release)
+
+- **`HOOK_AND_ORCHESTRATION_INDEX.md`** — map of build-out hooks (Cursor rules/commands/skills/agents, plugins, validation doctors, GitHub/CI, MCP) and required companion files. **GitHub / CI steward** role in `AGENT_ROLE_CATALOG.md`; `.cursor/agents/github-ops.md`, `.cursor/commands/github-session.md`; Copilot and `AGENTS.md` cross-links; `MULTI_AGENT_COORDINATION.md` and `AGENT_DISCOVERY_MATRIX.md` updates.
+- **`AGENT_INSTALLER_AND_HOST_VALIDATION_PROTOCOL.md`** — binding agent rules: scaffold installers early after first launchable build; production-like host testing (desktop integration where applicable); robust install/repair/uninstall; governed secure ports and DB/dependency setup; re-verify launch/render after large workloads. Wired into `AGENTS.md`, `MASTER_SYSTEM_PROMPT.md`, `LOAD_ORDER.md`, `VALIDATION_GATES.md`, `EXECUTION_PROTOCOL.md`, `ports/PORT_POLICY.md`, `CROSS_PLATFORM_DISTRIBUTION_AND_INSTALLER_STANDARD.md`, `M6_INSTALL_AND_DISTRIBUTION.md`, and `CONTEXT_INDEX.md`.
+- `bootstrap/templates/runtime/ops/compose/compose.yml` — comment reminding operators to assign a **unique** `APP_PORT` per repo when running multiple stacks on one machine (see `_system/ports/PORT_POLICY.md`).
+
+### Working files
+
+- Refreshed `PLAN.md`, `FIXME.md`, `RISK_REGISTER.md`, `TEST_STRATEGY.md`, `RELEASE_NOTES.md`, `_system/context/CURRENT_STATUS.md`, `_system/context/DECISIONS.md` (baseline content + 2026-04-06 review) to support `check-working-file-staleness.sh` and clearer downstream defaults.
+
+### Maintainer (master repo only)
+
+- Root `.github/pull_request_template.md` and `.github/ISSUE_TEMPLATE/` for AIAST layer-specific PR/issue discipline.
+
+## 1.20.0 (2026-04-05)
+
+### Plugin Contract V2 & Agent-Capability Matching
+
+- **Plugin Contract V2:** Formalized richer `capabilities` and new lifecycle hooks (`bootstrap.pre_flight`, `validation.report`).
+- **Capability Discovery:** Enhanced `discover-plugins.sh` to automatically generate `_system/CAPABILITY_MATRIX.json`.
+- **Agent Matchmaking:** Updated `AGENT_ROLE_CATALOG.md` to map agent roles (e.g., `fleet_secops`) to native plugin capabilities.
+- **Diagnostic Visibility:** Integrated capability matrix display into `system-doctor.sh`.
+- **Core Plugins:** Updated `security-scan`, `ci-integration`, and `observability-setup` to align with the V2 contract.
+
+## 1.19.7 (2026-04-05)
+
+### Resilient Swarm Architecture & Anti-Drift SSoT
+
+- **Swarm Fleet Operations:** Introduced Task-Isolated AI Branching (TIA-Branching) for parallel agent work.
+- **Git Swarm Manager:** New `bootstrap/git-swarm-manager.sh` for collision-free commits and automated push/squash.
+- **Anti-Drift SSoT:** Enforced `TEMPLATE/_system/` as the single source of truth; banned global IDE mutations.
+- **Agent Hook Parity:** Unified adapters for Cursor, Windsurf, Claude/Cline, Continue, and Copilot.
+- **Resilience & Repair:** New `bootstrap/repair-swarm-integrity.sh` and `AUTH_RECOVERY_PROTOCOL.md` for self-healing.
+- **System Doctor Integration:** Added `check-swarm-fleet.sh` to the standard diagnostic suite.
+- **MCP Fleet:** Defined core MCP servers and added `validate-mcp-health.sh` for connectivity and re-auth.
+
+## 1.19.6 (2026-04-05)
+
+### Changed
+- `GIT_REMOTE_AND_SYNC_PROTOCOL.md` — **Non-negotiable priority**: Git sync treated as blocking work; session start `git fetch`, end-of-session commit + push; `.git` ownership repair; hooks / `--no-verify` policy.
+- `AGENTS.md` (installable + master root) — explicit **Git and remotes** section; master repo commit/push and `whyte`-only expectations.
+
+### Meta (master repo only)
+- `context/OWNER_GIT_REMOTES.md` — agent expectations: Git tasks non-negotiable when work should survive.
+
+## 1.19.5 - 2026-04-05
+
+### Added
+- `_system/GIT_REMOTE_AND_SYNC_PROTOCOL.md` — GitHub remotes, **SSH** transport, fetch/pull/push sync discipline, empty-remote bootstrap, auth failure handling; SavigeSystemZ operator profile (`SavageO13` / `SavigeSystemZ`, Michael Spaulding, `mtspaulding87@gmail.com`); **run Git and SSH as UNIX user `whyte`, not `root`** (keys and agent are user-scoped).
+
+### Changed
+- `LOAD_ORDER.md` — Tier 2 includes `GIT_REMOTE_AND_SYNC_PROTOCOL.md`; Tier 3 and later sections renumbered.
+- `CONTEXT_INDEX.md` — discovery entry for the Git remote and sync protocol.
+- `bootstrap/check-network-bindings.sh` — skip `.mypy_cache` / `.ruff_cache` / `.pytest_cache` and vendored `_AI_AGENT_SYSTEM/` when scanning for wildcard binds (reduces false positives in real app trees).
+
+### Meta (master repo only)
+- `context/OWNER_GIT_REMOTES.md` — maintainer-only mirror of org layout, identity, and **`whyte`-only Git/SSH** rule.
+- `KEY.md`, `META_SYSTEM_INTERCONNECT_INDEX.md`, `WHERE_LEFT_OFF.md`, `context/CURRENT_STATUS.md` — continuity and cross-links.
+
+## 1.19.4 - 2026-04-05
+
+### Added
+- `_system/AUTH_AND_ONBOARDING_PATTERNS.md` — optional vs gated auth, progressive trust, env-only dev seed admins (no credentials in git)
+
+### Changed
+- `MODERN_UI_PATTERNS.md` — navigation deduplication (avoid redundant menus/buttons on the same surface)
+- `SECURITY_HARDENING_CONTRACT.md` — explicit ban on default accounts in source; pointer to auth patterns
+- `bootstrap/templates/runtime/ops/env/.env.example` — commented `SEED_DEV_ADMIN` / `SEED_ADMIN_*` placeholders
+- `CONTEXT_INDEX.md`, `LOAD_ORDER.md`, `AGENTS.md`, `emit-tiered-context.sh` Tier B — wire new contract
+
+## 1.19.3 - 2026-04-05
+
+### Added
+- `bootstrap/emit-auxiliary-brief.sh` — CLI to print a frozen auxiliary brief (flags + env overrides)
+
+### Changed
+- `SUB_AGENT_HOST_DELEGATION.md` — scope split recipes, primary merge checklist, anti-patterns, bootstrap usage example
+- `HANDOFF_PROTOCOL.md` — auxiliary-to-primary handback expectations
+- `M9_MULTI_AGENT_CONTINUITY.md` — load sub-agent delegation when planning parallel host sessions
+- `check-agent-orchestration.sh` — M9 pack must reference sub-agent delegation
+- `60-composer-orchestration.mdc`, `PROMPTS_INDEX.md`, `CONTEXT_INDEX.md`, `bootstrap/README.md` — document the emitter
+
+## 1.19.2 - 2026-04-05
+
+### Added
+- `SUB_AGENT_HOST_DELEGATION.md` — copy-paste **auxiliary brief template** for parallel host sessions
+
+### Changed
+- `EXECUTION_PROTOCOL.md` — decision rules reference sub-agent delegation when using separate host tools
+- `bootstrap/emit-tiered-context.sh` — Tier **B** context list now includes `SUB_AGENT_HOST_DELEGATION.md`
+
+### Meta (master repo only)
+- `META_SYSTEM_INTERCONNECT_INDEX.md` — index rows for `DEFERRED_USER_REMINDERS.md` and the installable sub-agent contract
+- `DEFERRED_USER_REMINDERS.md` — schedule note for next-prompt execution of downstream follow-ups
+
+## 1.19.1 - 2026-04-05
+
+### Added
+- `_system/SUB_AGENT_HOST_DELEGATION.md` — optional parallel host CLI / auxiliary sessions (honest limits: no auto-spawn MCP), primary takeover on failure
+- `_META_AGENT_SYSTEM/DEFERRED_USER_REMINDERS.md` — maintainer-only deferred follow-ups the user asked to surface after ~two future prompts
+
+### Changed
+- `CROSS_PLATFORM_DISTRIBUTION_AND_INSTALLER_STANDARD.md` — **minimum launch milestone**: scaffold installers/distribution once the app is first launchable for host dogfooding
+- `PROMPT_SYSTEM_BUILD_STANDARD.md`, `M10_GREENFIELD_BOOTSTRAP.md` — align greenfield work with early installer scaffolds
+- `MULTI_AGENT_COORDINATION.md`, `AGENTS.md`, `.cursor/rules/60-composer-orchestration.mdc` — cross-link sub-agent delegation rules
+- `CONTEXT_INDEX.md`, `LOAD_ORDER.md` — index new contract
+
+## 1.19.0 - 2026-04-04
+
+### Added — Cross-platform distribution and Composer overlays
+- `_system/CROSS_PLATFORM_DISTRIBUTION_AND_INSTALLER_STANDARD.md` — shipped-app installer contract (multi-OS layout, operator menu, port governance, hardening expectations) distinct from AIAST lifecycle `INSTALLER_AND_UPGRADE_CONTRACT.md`
+- `bootstrap/templates/runtime/distribution/**` — generated `distribution/` tree with `platforms/linux|windows|macos|android|ios` READMEs and a Windows `Install.ps1` scaffold
+- `.cursor/rules/60-composer-orchestration.mdc`, `.cursor/commands/composer-session.md`, `.cursor/agents/composer-lead.md` — Composer-oriented orchestration overlays
+
+### Changed
+- `_system/CONTEXT_INDEX.md`, `_system/LOAD_ORDER.md`, `_system/PROMPT_SYSTEM_BUILD_STANDARD.md`, `_system/prompt-packs/M6_INSTALL_AND_DISTRIBUTION.md`, and `bootstrap/check-runtime-foundations.sh` now reference `distribution/` and the new standard
+- `bootstrap/validate-system.sh` requires the new runtime template paths
+
+### Meta (master repo only)
+- `_META_AGENT_SYSTEM/META_SYSTEM_INTERCONNECT_INDEX.md` — maintainer layer awareness graph and refresh rules
+
+## 1.17.0 - 2026-04-03
+
+### Added — Installer Integrity and Smart Scaffold Entry
+- `bootstrap/scaffold-system.sh` — unified smart entrypoint that auto-detects target state and routes to first install, additive backfill, or update flow.
+- `_system/INSTALLER_AND_UPGRADE_CONTRACT.md` — explicit contract for install, update, repair, and heal behavior plus state-preservation guarantees.
+
+### Changed — Bootstrap UX and Drift Resistance
+- `init-project.sh`, `install-missing-files.sh`, and `wizard.sh` now prompt for target path when run interactively without arguments.
+- `validate-system.sh`, `check-system-awareness.sh`, and `validate-instruction-layer.sh` now enforce the installer contract and smart scaffold surfaces.
+- `bootstrap/README.md`, `_system/QUICKSTART.md`, `_system/LOAD_ORDER.md`, `_system/CONTEXT_INDEX.md`, and `_system/UPGRADE_AND_DRIFT_POLICY.md` now cross-link installer behavior and customization flow.
+
+### Changed — Neutrality and Product-Safe Guidance
+- `_system/CURSOR_AND_MULTI_HOST.md` now uses generic multi-repo examples instead of environment-specific names.
+- `_system/SECURITY_HARDENING_CONTRACT.md` privilege-separation example is now app-neutral.
+- `_system/PROJECT_PROFILE.md` now includes post-scaffold customization instructions for app-specific truth.
+
+### Fixed — Factory Lane Reliability
+- `_TEMPLATE_FACTORY/GOLDEN_EXAMPLES/REVIEW_NOTES.md` now includes required review sections for all high-scoring non-selected repos.
+- `validate-system.sh` absolute-path leak detection now excludes `.git` internals to avoid false positives in strict update smoke.
+- `_TEMPLATE_FACTORY/smoke-live-host-clis.sh` treats Cursor root-only `--no-sandbox` refusal as a soft-skip condition.
+
 ## 1.16.0 - 2026-03-28
 
 ### Added — Gemini "Infinite" Context (Tier S) and Whole-Repo Analysis

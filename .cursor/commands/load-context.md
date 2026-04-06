@@ -35,6 +35,8 @@ When the task touches design, architecture, research, testing, risk, or release,
 - `RELEASE_NOTES.md`
 - `CHANGELOG.md`
 - `_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md`
+- `_system/ports/PORT_POLICY.md`
+- `_system/design-system/THEME_GOVERNANCE.md`
 
 If the task is greenfield, system-evolution, prompt-authoring, adapter work, or working-file authoring, also load:
 - `_system/GOLDEN_EXAMPLES_POLICY.md`

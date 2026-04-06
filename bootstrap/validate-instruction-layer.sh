@@ -145,7 +145,7 @@ required_mentions = {
     repo / "_system" / "HOST_ADAPTER_POLICY.md": ["host-adapter-manifest.json", "generate-host-adapters.sh", "check-host-adapter-alignment.sh"],
     repo / "_system" / "HOST_BUNDLE_CONTRACT.md": ["PROMPT_EMISSION_CONTRACT.md", "emit-host-bundle.sh", "check-host-bundle.sh"],
     repo / "_system" / "PROMPTS_INDEX.md": ["_system/PROMPT_EMISSION_CONTRACT.md", "_system/HOST_BUNDLE_CONTRACT.md", "bootstrap/emit-host-prompt.sh", "bootstrap/emit-host-bundle.sh", "bootstrap/check-host-bundle.sh"],
-    repo / "bootstrap" / "README.md": ["detect-instruction-conflicts.sh", "generate-host-adapters.sh", "check-host-adapter-alignment.sh", "generate-operating-profile.sh", "validate-instruction-layer.sh", "emit-host-prompt.sh", "check-host-ingestion.sh", "emit-host-bundle.sh", "check-host-bundle.sh"],
+    repo / "bootstrap" / "README.md": ["detect-instruction-conflicts.sh", "generate-host-adapters.sh", "check-host-adapter-alignment.sh", "generate-operating-profile.sh", "validate-instruction-layer.sh", "emit-host-prompt.sh", "check-host-ingestion.sh", "emit-host-bundle.sh", "check-host-bundle.sh", "INSTALLER_AND_UPGRADE_CONTRACT.md"],
 }
 
 for path, expected in required_mentions.items():

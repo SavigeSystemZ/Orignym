@@ -22,7 +22,7 @@ pages/              additional HTML pages (if site grows beyond one)
 
 ## Validation commands
 
-- Serve: `python3 -m http.server 8000`
+- Serve: `python3 -m http.server 8000 --bind 127.0.0.1`
 - Smoke test: `curl -fsS http://127.0.0.1:8000/`
 - Lint (optional): `npx htmlhint index.html` or `npx stylelint "assets/css/**/*.css"`
 
@@ -39,7 +39,7 @@ pages/              additional HTML pages (if site grows beyond one)
 ## First milestone suggestion
 
 1. Ship one polished static view with meaningful content or interactive behavior (filtering, toggling, data display).
-2. Confirm `python3 -m http.server 8000` starts and `curl -fsS http://127.0.0.1:8000/` returns 200.
+2. Confirm `python3 -m http.server 8000 --bind 127.0.0.1` starts and `curl -fsS http://127.0.0.1:8000/` returns 200.
 3. Confirm the page renders correctly at 360px and 1280px viewports.
 4. Confirm text contrast meets WCAG AA using browser dev tools or contrast checker.
 5. Record design direction, color palette, and typography choices in `DESIGN_NOTES.md`.

@@ -46,6 +46,9 @@ Application-serving layers (Express, FastAPI, Nginx, etc.) must implement these 
 - **SameSite:** Default to `Lax` or `Strict`.
 - **Cache Control:** Use `Cache-Control: no-store` on all authenticated or sensitive API responses.
 - **Logout:** Implement `Clear-Site-Data` header on logout endpoints.
+- **No default accounts in source:** Do not ship hardcoded admin emails/passwords in repos or
+  templates. Use gitignored env files and optional dev-only seed scripts; see
+  `_system/AUTH_AND_ONBOARDING_PATTERNS.md`.
 
 ## 6. Structured Logging
 - **Format:** Use structured JSON logs.
@@ -63,7 +66,7 @@ Any feature that fetches remote URLs or imports data from a URI must:
 ## 8. Privilege Separation
 - **No Root UI:** GUI and Web UI processes must never run as root.
 - **Installer Safety:** Uninstallers must not remove shared dependencies such as PostgreSQL, Docker, Podman, or language runtimes used by other apps.
-- **Separated Helpers:** For privileged functions (e.g., packet capture in EtherWeave), split the app into:
+- **Separated Helpers:** For privileged functions (e.g., packet capture in a security or network tool), split the app into:
   - **A: Unprivileged UI/API:** Handles user interaction and logic.
   - **B: Narrow Privileged Helper:** Executes specific tasks with minimal required privileges.
 - **Capabilities:** Prefer Linux Capabilities (e.g., `CAP_NET_RAW`, `CAP_NET_ADMIN`) over full `sudo` or root execution where possible.

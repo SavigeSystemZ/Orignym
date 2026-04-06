@@ -11,6 +11,7 @@ Read the design framework and propose a high-quality UI direction for the touche
 Read:
 - _system/DESIGN_EXCELLENCE_FRAMEWORK.md
 - _system/MODERN_UI_PATTERNS.md
+- _system/design-system/THEME_GOVERNANCE.md
 - _system/ACCESSIBILITY_STANDARDS.md
 - _system/PROJECT_PROFILE.md (experience targets section)
 
@@ -35,6 +36,7 @@ Implement the touched UI with deliberate hierarchy, responsive behavior, and des
 Read:
 - _system/DESIGN_EXCELLENCE_FRAMEWORK.md
 - _system/MODERN_UI_PATTERNS.md
+- _system/design-system/THEME_GOVERNANCE.md
 - _system/ACCESSIBILITY_STANDARDS.md
 - DESIGN_NOTES.md (if direction was established in M7.0)
 

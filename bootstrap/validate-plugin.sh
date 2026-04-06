@@ -43,10 +43,12 @@ plugin_dir = Path(sys.argv[1]).resolve()
 manifest = json.loads((plugin_dir / "plugin.json").read_text())
 
 ALLOWED_HOOKS = {
+    "bootstrap.pre_flight",
     "bootstrap.post_install",
     "bootstrap.post_update",
     "validation.preflight",
     "validation.postflight",
+    "validation.report",
     "security.scan",
     "security.audit",
     "ci.pre_commit",
@@ -91,6 +93,13 @@ for path in owned_paths:
     path_str = str(path)
     if not path_str.startswith("_system/plugins/"):
         issues.append(f"Plugin owned_path must be under _system/plugins/: {path_str}")
+
+# Validate capabilities
+capabilities = manifest.get("capabilities", [])
+if not isinstance(capabilities, list):
+    issues.append("Field 'capabilities' must be an array")
+elif len(capabilities) > 0 and not all(isinstance(c, str) for c in capabilities):
+    issues.append("Field 'capabilities' must be an array of strings")
 
 # Validate requires
 requires = manifest.get("requires", [])

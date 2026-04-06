@@ -48,6 +48,7 @@ python3 - <<'PY' "${TARGET_REPO}" "${STRICT}"
 from __future__ import annotations
 
 import json
+import importlib.util
 import re
 import shlex
 import stat
@@ -95,7 +96,9 @@ android_module_path = field("Android module path")
 if android_module_path:
     expected_dirs.append(android_module_path.rstrip("/"))
 
-runtime_roots = [name for name in ("packaging", "ops", "mobile", "ai") if (repo / name).exists()]
+runtime_roots = [
+    name for name in ("packaging", "distribution", "ops", "mobile", "ai") if (repo / name).exists()
+]
 
 for rel in expected_files:
     ensure_exists(rel, "file")
@@ -128,6 +131,9 @@ env_example = repo / "ops" / "env" / ".env.example"
 if env_example.exists():
     env_text = env_example.read_text()
 
+    def env_has_key(key: str) -> bool:
+        return re.search(rf"^{re.escape(key)}=.*$", env_text, re.MULTILINE) is not None
+
     def env_value(key: str) -> str:
         match = re.search(rf"^{re.escape(key)}=(.*)$", env_text, re.MULTILINE)
         return match.group(1).strip() if match else ""
@@ -135,6 +141,24 @@ if env_example.exists():
     bind_address = env_value("APP_BIND_ADDRESS")
     if bind_address in {"0.0.0.0", "::", "localhost"}:
         issues.append("ops/env/.env.example must default to loopback instead of a wildcard or localhost alias")
+
+    exec_start = env_value("APP_EXEC_START")
+    if exec_start and "http.server" in exec_start and "--bind" not in exec_start:
+        issues.append("ops/env/.env.example APP_EXEC_START must include an explicit bind flag")
+
+    for key in (
+        "REDIS_URL",
+        "REDIS_HOST",
+        "REDIS_PORT",
+        "PUBLISH_REDIS_PORT",
+        "REDIS_HOST_BIND",
+    ):
+        if not env_value(key):
+            issues.append(f"ops/env/.env.example is missing required backend placeholder: {key}")
+
+    for key in ("REDIS_USERNAME", "REDIS_PASSWORD"):
+        if not env_has_key(key):
+            issues.append(f"ops/env/.env.example is missing required backend placeholder: {key}")
 
     start = env_value("APP_PORT_RANGE_START")
     end = env_value("APP_PORT_RANGE_END")
@@ -151,6 +175,33 @@ if env_example.exists():
     )
     if shell_result.returncode != 0:
         issues.append("ops/env/.env.example must be sourceable by bash without shell syntax errors")
+
+compose_file = repo / "ops" / "compose" / "compose.yml"
+if compose_file.exists():
+    compose_text = compose_file.read_text()
+    for service_name in ("postgres", "redis", "dragonfly", "minio"):
+        service_match = re.search(rf"(?ms)^  {service_name}:\n(.*?)(?=^  [a-zA-Z0-9_-]+:|\Z)", compose_text)
+        if not service_match:
+            continue
+        service_block = service_match.group(1)
+        if re.search(r"(?m)^\s+ports:\s*$", service_block):
+            issues.append(f"ops/compose/compose.yml must not publish internal backend `{service_name}` to the host by default")
+        if not re.search(r"(?m)^\s+healthcheck:\s*$", service_block):
+            issues.append(f"ops/compose/compose.yml is missing a healthcheck for `{service_name}`")
+        if not re.search(r"(?m)^\s+restart:\s+", service_block):
+            issues.append(f"ops/compose/compose.yml is missing a restart policy for `{service_name}`")
+
+for rel in (
+    "docs/security/architecture.md",
+    "docs/security/backend-inventory.md",
+    "docs/security/validation.md",
+    "docs/security/rollback.md",
+    "registry/ports.yaml",
+    "registry/backend-assignments.yaml",
+    "tools/security-preflight.sh",
+    "tools/check-port-collisions.py",
+):
+    ensure_exists(rel, "file")
 
 installer_commands = split_csv(field("Installer commands"))
 for rel in installer_commands:
@@ -177,6 +228,61 @@ if port_allocator.exists():
     )
     if result.returncode != 0:
         issues.append("ops/install/lib/port_allocator.py --help failed")
+
+preflight_scan = repo / "tools" / "preflight_port_scan.py"
+if preflight_scan.exists():
+    result = subprocess.run(
+        [sys.executable, str(preflight_scan), "--help"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        issues.append("tools/preflight_port_scan.py --help failed")
+
+port_governance = repo / "registry" / "port_governance.yaml"
+port_registry_lib = repo / "tools" / "port_registry_lib.py"
+port_assignments = repo / "registry" / "port_assignments.yaml"
+if port_governance.exists() or port_registry_lib.exists() or port_assignments.exists():
+    if not port_governance.exists():
+        issues.append("registry/port_governance.yaml missing while governed port tooling is present")
+    if not port_registry_lib.exists():
+        issues.append("tools/port_registry_lib.py missing while governed port tooling is present")
+    if not port_assignments.exists():
+        issues.append("registry/port_assignments.yaml missing while governed port tooling is present")
+    if port_governance.exists() and port_registry_lib.exists():
+        try:
+            spec = importlib.util.spec_from_file_location("port_registry_lib", port_registry_lib)
+            if spec is None or spec.loader is None:
+                raise RuntimeError("unable to build module spec")
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            governance = module.parse_flat_governance(port_governance)
+            for service_class in ("frontend", "backend", "admin", "memory", "ephemeral_dev_pool"):
+                start, end = module.range_for_class(governance, service_class)
+                if start <= 0 or end <= 0 or start > end:
+                    issues.append(f"Invalid governed range for class {service_class}: {start}-{end}")
+            entries = module.parse_assignments_list(port_assignments) if port_assignments.exists() else []
+            for entry in entries:
+                host_port = int(entry.get("host_port", 0) or 0)
+                container_port = int(entry.get("container_port", 0) or 0)
+                if host_port < 0 or host_port > 65535:
+                    issues.append(f"Invalid host_port in registry/port_assignments.yaml: {host_port}")
+                if container_port < 0 or container_port > 65535:
+                    issues.append(f"Invalid container_port in registry/port_assignments.yaml: {container_port}")
+        except Exception as exc:  # noqa: BLE001
+            issues.append(f"Governed port registry parse failed: {exc}")
+
+collision_check = repo / "tools" / "check-port-collisions.py"
+if collision_check.exists():
+    result = subprocess.run(
+        [sys.executable, str(collision_check), str(repo)],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        issues.append("tools/check-port-collisions.py reported runtime collisions")
 
 flatpak_manifest = repo / "packaging" / "flatpak-manifest.json"
 if flatpak_manifest.exists():

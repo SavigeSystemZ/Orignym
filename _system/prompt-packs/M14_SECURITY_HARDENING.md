@@ -10,12 +10,15 @@ Before using this pack, load `AGENTS.md`, `_system/INSTRUCTION_PRECEDENCE_CONTRA
 - Configure secure web headers (CSP, CORS, etc.).
 - Ensure structured, redacted logging.
 - Prevent SSRF and privilege escalation.
+- Keep Redis, Postgres, Dragonfly, MinIO, queues, and similar internals off host-published ports by default.
 
 ## Task Sequence
 
 ### 1. Network & Lifecycle Hardening
 - [ ] Inspect the application entry point (e.g., `server.js`, `main.py`).
 - [ ] Force the host to `127.0.0.1` or `::1`.
+- [ ] Require explicit bind flags for fallback servers such as `python3 -m http.server`.
+- [ ] Verify internal backends use Docker-internal networking by default and justify any retained host publishing.
 - [ ] Create/Update the systemd unit with hardening flags (UMask, NoNewPrivileges, PrivateTmp, etc.).
 - [ ] Ensure `dev` and `prod` start commands are distinct.
 
@@ -36,6 +39,8 @@ Before using this pack, load `AGENTS.md`, `_system/INSTRUCTION_PRECEDENCE_CONTRA
 - [ ] Add a runtime check to ensure the UI process is not running as root.
 
 ### 5. Validation
-- [ ] Create `bootstrap/validate-security.sh` to prove the hardening.
+- [ ] Run `tools/security-preflight.sh`.
+- [ ] Run `bootstrap/check-network-bindings.sh <repo> --include-template-assets`.
+- [ ] Run `bootstrap/check-environment.sh <repo>`.
 - [ ] Verify that the `readiness` endpoint is operational.
 - [ ] Perform a full `_system/review-playbooks/SECURITY_HARDENING_REVIEW_PLAYBOOK.md` audit.

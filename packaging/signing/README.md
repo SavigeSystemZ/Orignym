@@ -15,7 +15,7 @@ Keep private keys outside the repository.
 
 ## Branding metadata
 
-- Company default: `Savige Systems (SYstemZ)`
-- Author line: `Built by The Savage Architect (Savige Systems)`
+- Company default: `Project Owner Placeholder`
+- Author line: `Built with AIAST runtime scaffolding`
 
 Replace these values if the cloned project uses a different release identity.

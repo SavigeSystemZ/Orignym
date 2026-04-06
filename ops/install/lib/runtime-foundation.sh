@@ -6,8 +6,8 @@ APP_SLUG="orignym"
 APP_ID="io.aiaast.orignym"
 APP_VERSION="0.1.0"
 DEFAULT_BIND_ADDRESS="127.0.0.1"
-DEFAULT_PORT_RANGE_START="8000"
-DEFAULT_PORT_RANGE_END="9000"
+DEFAULT_PORT_RANGE_START="46300"
+DEFAULT_PORT_RANGE_END="46400"
 
 INSTALL_ROOT="/opt/${APP_SLUG}"
 DATA_DIR="/var/lib/${APP_SLUG}"
@@ -279,7 +279,7 @@ run_launch_command() {
   fi
   # shellcheck disable=SC1090
   source "${ENV_FILE_ABS}"
-  : "${APP_EXEC_START:=python3 -m http.server ${APP_PORT:-8000}}"
+  : "${APP_EXEC_START:=python3 -m http.server ${APP_PORT:-8000} --bind ${APP_BIND_ADDRESS:-127.0.0.1}}"
   exec bash -lc "${APP_EXEC_START}"
 }
 

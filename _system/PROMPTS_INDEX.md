@@ -3,6 +3,10 @@
 ## Prompt templates
 
 - `_system/PROMPT_EMISSION_CONTRACT.md`
+- `_system/PROMPT_SYSTEM_BUILD_STANDARD.md`
+- `_system/PROMPT_SECURITY_BASELINE.md`
+- `_system/PROMPT_BACKEND_POLICY.md`
+- `_system/PROMPT_DOCKER_NETWORK_POLICY.md`
 - `_system/HOST_BUNDLE_CONTRACT.md`
 - `bootstrap/emit-host-prompt.sh`
 - `bootstrap/emit-host-bundle.sh`
@@ -44,6 +48,7 @@
 - `_system/CONTEXT_BUDGET_STRATEGY.md` — 4-tier loading model (A/B/C/D) by context window
 - `_system/context-budget-profiles.json` — machine-readable model-to-tier mappings
 - `bootstrap/emit-tiered-context.sh` — emits tier-appropriate file lists for context-constrained models
+- `bootstrap/emit-auxiliary-brief.sh` — emits a markdown brief for optional parallel host CLI / IDE workers (`SUB_AGENT_HOST_DELEGATION.md`)
 
 ## Rules for all prompt packs
 

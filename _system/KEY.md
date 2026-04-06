@@ -2,7 +2,7 @@
 
 This file is the exhaustive agent-facing key for the installable AIAST surface.
 
-It covers 378 managed files and is generated from the canonical managed-file inventory.
+It covers 443 managed files and is generated from the canonical managed-file inventory.
 
 ## How To Use This File
 
@@ -78,12 +78,14 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/check-repo-permissions.sh` - Bootstrap command for Check Repo Permissions. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-runtime-foundations.sh` - Bootstrap command for Check Runtime Foundations. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-supply-chain.sh` - Runs language-specific dependency audit tools (npm, pip, cargo, go) and license checks. Run when auditing supply chain security.
+- `bootstrap/check-swarm-fleet.sh` - Bootstrap command for Check Swarm Fleet. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/check-system-awareness.sh` - Validator for registry coverage and critical path references across core docs. Run when file inventories or core doc maps change.
 - `bootstrap/check-working-file-staleness.sh` - Bootstrap command for Check Working File Staleness. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/configure-project-profile.sh` - Bootstrap command for Configure Project Profile. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/detect-drift.sh` - Bootstrap command for Detect Drift. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/detect-instruction-conflicts.sh` - Bootstrap command for Detect Instruction Conflicts. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/discover-plugins.sh` - Scans for installed plugins and reports their name, version, hooks, and enabled status. Run when auditing or listing available plugins.
+- `bootstrap/emit-auxiliary-brief.sh` - Bootstrap command for Emit Auxiliary Brief. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/emit-host-bundle.sh` - Bootstrap command for Emit Host Bundle. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/emit-host-prompt.sh` - Bootstrap command for Emit Host Prompt. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/emit-tiered-context.sh` - Emits a tier-appropriate context load sequence based on model context window. Run with --tier A|B|C|D or --model <name> to get the right file list for a given model.
@@ -94,6 +96,7 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/generate-system-key.sh` - Generator for the exhaustive agent-facing system key. Run when the managed file set or file-role wording changes.
 - `bootstrap/generate-system-registry.sh` - Generator for the machine-readable managed-file registry. Run when the managed file set changes.
 - `bootstrap/generate-systemd-unit.sh` - Bootstrap command for Generate Systemd Unit. Run when performing the named install, repair, validation, emission, or generation task.
+- `bootstrap/git-swarm-manager.sh` - Bootstrap command for Git Swarm Manager. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/heal-system.sh` - Bootstrap command for Heal System. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/init-project.sh` - Fresh-install entrypoint that copies and initializes AIAST into a target repo. Run when bootstrapping a repo that does not yet have AIAST.
 - `bootstrap/install-missing-files.sh` - Additive recovery flow for newly introduced template files and safe defaults. Run when an installed repo is missing newer AIAST-managed surfaces.
@@ -101,6 +104,7 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/print-agent-map.sh` - Bootstrap command for Print Agent Map. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/recommend-starter-blueprint.sh` - Bootstrap command for Recommend Starter Blueprint. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/repair-myappz-root-ownership.sh` - Bootstrap command for Repair Myappz Root Ownership. Run when performing the named install, repair, validation, emission, or generation task.
+- `bootstrap/repair-swarm-integrity.sh` - Bootstrap command for Repair Swarm Integrity. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/repair-system.sh` - Repair flow for restoring missing or drifted system-managed files. Run when integrity, awareness, or drift checks say the local system is damaged.
 - `bootstrap/report-health-trends.sh` - Reads health-history.json and computes pass/warn/fail trends over recent entries. Run when assessing whether system health is improving or degrading.
 - `bootstrap/run-sast.sh` - Dispatches to semgrep, bandit, eslint-security, and gosec based on detected languages. Run when performing static application security testing.
@@ -112,6 +116,7 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/seed-test-strategy.sh` - Bootstrap command for Seed Test Strategy. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/seed-working-state.sh` - Bootstrap command for Seed Working State. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/suggest-project-profile.sh` - Bootstrap command for Suggest Project Profile. Run when performing the named install, repair, validation, emission, or generation task.
+- `bootstrap/sync-agent-adapters.sh` - Bootstrap command for Sync Agent Adapters. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/system-doctor.sh` - Full diagnostic wrapper for awareness, integrity, drift, and hallucination checks. Supports --report and --record. Run when the system picture feels inconsistent or suspect.
 - `bootstrap/templates/runtime/.credits-hidden` - Bootstrap template asset for Credits Hidden. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/LICENSE` - Bootstrap template asset for License. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
@@ -119,6 +124,13 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/templates/runtime/ai/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/ai/chatbot-intents.md` - Bootstrap template asset for Chatbot Intents. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/ai/llm_config.yaml` - Bootstrap template asset for LLM Config. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/android/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/ios/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/linux/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/macos/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/windows/Install.ps1` - Bootstrap template asset for Install Ps1. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
+- `bootstrap/templates/runtime/distribution/platforms/windows/README.md` - Bootstrap template asset for Readme. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/docs/security/architecture.md` - Bootstrap template asset for Architecture. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/docs/security/backend-inventory.md` - Bootstrap template asset for Backend Inventory. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/docs/security/rollback.md` - Bootstrap template asset for Rollback. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
@@ -148,7 +160,6 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/templates/runtime/registry/port_assignments.yaml` - Bootstrap template asset for Port Assignments. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/registry/port_governance.yaml` - Bootstrap template asset for Port Governance. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/registry/ports.yaml` - Bootstrap template asset for Ports. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
-- `bootstrap/templates/runtime/tools/__pycache__/port_registry_lib.cpython-312.pyc` - Bootstrap template asset for Port Registry Lib Cpython 312 Pyc. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/tools/check-port-collisions.py` - Bootstrap template asset for Check Port Collisions Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/tools/port_registry_lib.py` - Bootstrap template asset for Port Registry Lib Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
 - `bootstrap/templates/runtime/tools/preflight_port_scan.py` - Bootstrap template asset for Preflight Port Scan Py. Copied or rendered into repo-owned runtime or system surfaces during init, update, repair, or runtime-foundation generation.
@@ -158,6 +169,7 @@ These files install, update, repair, validate, and generate the AIAST operating 
 - `bootstrap/update-template.sh` - Additive upgrade flow for refreshing an installed repo from a newer source template. Run when a repo already has AIAST and should be updated to a newer release.
 - `bootstrap/upgrade-assistant.sh` - Interactive upgrade guide with version diff, breaking change warnings, and post-upgrade validation. Run when upgrading an installed repo to a newer AIAST version.
 - `bootstrap/validate-instruction-layer.sh` - Validator for precedence, operating-profile, and prompt-emission surfaces. Run when instruction, adapter, or host-ingestion surfaces change.
+- `bootstrap/validate-mcp-health.sh` - Bootstrap command for Validate MCP Health. Run when performing the named install, repair, validation, emission, or generation task.
 - `bootstrap/validate-plugin.sh` - Validates a plugin manifest against the PLUGIN_CONTRACT schema and allowed hook points. Run when creating or verifying a plugin.
 - `bootstrap/validate-system.sh` - Strict structural validator for required files and baseline portability. Run after meaningful system changes or before trusting an installed repo state.
 - `bootstrap/verify-integrity.sh` - Hash generator and verifier for AIAST-managed files. Run when confirming or refreshing integrity state.
@@ -171,15 +183,20 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/.template-version` - Core operating-system reference for Template Version. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/ACCESSIBILITY_STANDARDS.md` - Core operating-system reference for Accessibility Standards. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/AGENT_DISCOVERY_MATRIX.md` - Matrix of which tools and hosts load which repo surfaces. Use when checking host coverage or adapter expectations.
+- `_system/AGENT_INSTALLER_AND_HOST_VALIDATION_PROTOCOL.md` - Core operating-system reference for Agent Installer And Host Validation Protocol. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/AGENT_PERFORMANCE_GUIDE.md` - Model capability dimensions, task-to-model mapping, and multi-agent delegation guidance. Read when choosing which model to use for a specific task type.
 - `_system/AGENT_ROLE_CATALOG.md` - Canonical role catalog and ownership model for delegated work. Read when selecting or defining agent roles.
 - `_system/API_DESIGN_STANDARDS.md` - Core operating-system reference for API Design Standards. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/ARCHITECTURE_DIAGRAM.md` - ASCII box diagrams of the three-layer model, loading flow, adapter pipeline, and validation chain. Read when understanding the system architecture or explaining it to others.
+- `_system/AUTH_AND_ONBOARDING_PATTERNS.md` - Core operating-system reference for Auth And Onboarding Patterns. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/AUTH_RECOVERY_PROTOCOL.md` - Core operating-system reference for Auth Recovery Protocol. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/CAPABILITY_MATRIX.json` - Core operating-system reference for Capability Matrix. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CHATBOT_GUIDE.md` - Core operating-system reference for Chatbot Guide. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CHECKPOINT_PROTOCOL.md` - Core operating-system reference for Checkpoint Protocol. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CODING_STANDARDS.md` - Core operating-system reference for Coding Standards. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CONTEXT_BUDGET_STRATEGY.md` - Four-tier context budget model (A/B/C/D) keyed by model context window size. Read when selecting which files to load for a context-constrained model.
 - `_system/CONTEXT_INDEX.md` - Map of the operating-system surfaces and where each type of truth lives. Read early when orienting to the system or locating the right file to update.
+- `_system/CROSS_PLATFORM_DISTRIBUTION_AND_INSTALLER_STANDARD.md` - Core operating-system reference for Cross Platform Distribution And Installer Standard. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/CURSOR_AND_MULTI_HOST.md` - Core operating-system reference for Cursor And Multi Host. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/DEBUG_REPAIR_PLAYBOOK.md` - Core operating-system reference for Debug Repair Playbook. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/DEPENDENCY_GOVERNANCE.md` - Core operating-system reference for Dependency Governance. Load when the task touches that named contract, policy, guide, or manifest.
@@ -187,9 +204,11 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/ENVIRONMENT_VALIDATION_CONTRACT.md` - Scope and rules for environment-level checks (CLI tools, ports, env vars, disk space). Read when adding or adjusting environment validation behavior.
 - `_system/EXECUTION_PROTOCOL.md` - How work should be executed, validated, and handed off. Read before starting or reshaping a meaningful execution slice.
 - `_system/FAILURE_MODES_AND_RECOVERY.md` - Core operating-system reference for Failure Modes And Recovery. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/GIT_REMOTE_AND_SYNC_PROTOCOL.md` - Core operating-system reference for Git Remote And Sync Protocol. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/GOLDEN_EXAMPLES_POLICY.md` - Policy for using curated examples without copying donor-app truth. Read before drafting new system docs, prompts, or working-file structures.
 - `_system/HALLUCINATION_DEFENSE_PROTOCOL.md` - Protocol for grounding claims in repo-local evidence. Use when confidence or claimed system state could drift from evidence.
 - `_system/HANDOFF_PROTOCOL.md` - Core operating-system reference for Handoff Protocol. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/HOOK_AND_ORCHESTRATION_INDEX.md` - Core operating-system reference for Hook And Orchestration Index. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/HOST_ADAPTER_POLICY.md` - Policy for generated tool-entry and load-context adapter surfaces. Read when tool-specific entrypoints or overlays change.
 - `_system/HOST_BUNDLE_CONTRACT.md` - Contract for self-contained bundles exported to external hosts. Read when a consumer cannot access repo-local paths directly.
 - `_system/INSTALLATION_GUIDE.md` - Core operating-system reference for Installation Guide. Load when the task touches that named contract, policy, guide, or manifest.
@@ -229,6 +248,7 @@ These files define the installable operating-system contracts, policies, guides,
 - `_system/SECURITY_REDACTION_AND_AUDIT.md` - Core operating-system reference for Security Redaction And Audit. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/SKILLS_INDEX.md` - Index of reusable skills and their intended roles. Use when deciding whether a capability should live as a skill.
 - `_system/STANDARDS_CONFLICT_RESOLUTION.md` - Core operating-system reference for Standards Conflict Resolution. Load when the task touches that named contract, policy, guide, or manifest.
+- `_system/SUB_AGENT_HOST_DELEGATION.md` - Core operating-system reference for Sub Agent Host Delegation. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/SYSTEM_AWARENESS_PROTOCOL.md` - Contract for how AIAST tracks and validates its own managed surfaces. Read when changing registries, file maps, or self-awareness checks.
 - `_system/SYSTEM_EVOLUTION_POLICY.md` - Core operating-system reference for System Evolution Policy. Load when the task touches that named contract, policy, guide, or manifest.
 - `_system/SYSTEM_REGISTRY.json` - Machine-readable inventory of AIAST-managed files. Use when tooling needs deterministic file coverage instead of prose guidance.
@@ -357,6 +377,7 @@ These files describe optional MCP usage, cataloging, and fallback behavior.
 - `_system/mcp/MCP_SELECTION_POLICY.md` - MCP reference for MCP Selection Policy. Read when selecting, cataloging, or recovering from MCP integrations.
 - `_system/mcp/MCP_SERVER_CATALOG.md` - MCP reference for MCP Server Catalog. Read when selecting, cataloging, or recovering from MCP integrations.
 - `_system/mcp/MCP_SERVER_CATALOG_TEMPLATE.md` - MCP reference for MCP Server Catalog Template. Read when selecting, cataloging, or recovering from MCP integrations.
+- `_system/mcp/MCP_SURVIVAL_PLAYBOOK.md` - MCP reference for MCP Survival Playbook. Read when selecting, cataloging, or recovering from MCP integrations.
 - `_system/mcp/README.md` - MCP reference for Readme. Read when selecting, cataloging, or recovering from MCP integrations.
 - `_system/mcp/servers.codex.example.toml` - MCP reference for Servers Codex Example Toml. Read when selecting, cataloging, or recovering from MCP integrations.
 - `_system/mcp/servers.cursor.example.json` - MCP reference for Servers Cursor Example. Read when selecting, cataloging, or recovering from MCP integrations.
@@ -385,6 +406,13 @@ These files describe packaging policy and provide reusable packaging templates.
 - `_system/packaging/templates/flatpak-manifest.json.example` - Reusable packaging template for Flatpak Manifest. Use when generating or validating the matching packaging target.
 - `_system/packaging/templates/flatpak.yaml.example` - Reusable packaging template for Flatpak. Use when generating or validating the matching packaging target.
 - `_system/packaging/templates/snapcraft.yaml.example` - Reusable packaging template for Snapcraft. Use when generating or validating the matching packaging target.
+- `packaging/README.md` - Managed AIAST surface for Readme. Use it when the task clearly touches the surface named by this file.
+- `packaging/__AIAST_DESKTOP_ID__.desktop` - Managed AIAST surface for Aiast Desktop Id Desktop. Use it when the task clearly touches the surface named by this file.
+- `packaging/appimage.yml` - Managed AIAST surface for Appimage. Use it when the task clearly touches the surface named by this file.
+- `packaging/flatpak-manifest.json` - Managed AIAST surface for Flatpak Manifest. Use it when the task clearly touches the surface named by this file.
+- `packaging/io.aiaast.orignym.desktop` - Managed AIAST surface for Io AIAST Orignym Desktop. Use it when the task clearly touches the surface named by this file.
+- `packaging/signing/README.md` - Managed AIAST surface for Readme. Use it when the task clearly touches the surface named by this file.
+- `packaging/snapcraft.yaml` - Managed AIAST surface for Snapcraft. Use it when the task clearly touches the surface named by this file.
 
 ### Plugin Surfaces
 
@@ -417,8 +445,10 @@ These files define Cursor-specific delegated agent role prompts.
 
 - `.cursor/agents/README.md` - Cursor delegated-agent prompt for Readme. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/architecture.md` - Cursor delegated-agent prompt for Architecture. Used when the named Cursor agent role is invoked.
+- `.cursor/agents/composer-lead.md` - Cursor delegated-agent prompt for Composer Lead. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/context-curator.md` - Cursor delegated-agent prompt for Context Curator. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/design-reviewer.md` - Cursor delegated-agent prompt for Design Reviewer. Used when the named Cursor agent role is invoked.
+- `.cursor/agents/github-ops.md` - Cursor delegated-agent prompt for Github Ops. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/implementation-worker.md` - Cursor delegated-agent prompt for Implementation Worker. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/orchestrator.md` - Cursor delegated-agent prompt for Orchestrator. Used when the named Cursor agent role is invoked.
 - `.cursor/agents/release-manager.md` - Cursor delegated-agent prompt for Release Manager. Used when the named Cursor agent role is invoked.
@@ -434,9 +464,11 @@ These files define Cursor slash-command prompts and guided workflows.
 - `.cursor/commands/checkpoint.md` - Cursor command surface for Checkpoint. Used when invoking that named Cursor command.
 - `.cursor/commands/code-quality-review.md` - Cursor command surface for Code Quality Review. Used when invoking that named Cursor command.
 - `.cursor/commands/code-review.md` - Cursor command surface for Code Review. Used when invoking that named Cursor command.
+- `.cursor/commands/composer-session.md` - Cursor command surface for Composer Session. Used when invoking that named Cursor command.
 - `.cursor/commands/debug.md` - Cursor command surface for Debug. Used when invoking that named Cursor command.
 - `.cursor/commands/dependency-review.md` - Cursor command surface for Dependency Review. Used when invoking that named Cursor command.
 - `.cursor/commands/design-review.md` - Cursor command surface for Design Review. Used when invoking that named Cursor command.
+- `.cursor/commands/github-session.md` - Cursor command surface for Github Session. Used when invoking that named Cursor command.
 - `.cursor/commands/load-context.md` - Cursor command surface for Load Context. Used when invoking that named Cursor command.
 - `.cursor/commands/performance-review.md` - Cursor command surface for Performance Review. Used when invoking that named Cursor command.
 - `.cursor/commands/release-readiness.md` - Cursor command surface for Release Readiness. Used when invoking that named Cursor command.
@@ -447,6 +479,7 @@ These files define Cursor slash-command prompts and guided workflows.
 
 These files are auto-loaded Cursor rule overlays.
 
+- `.cursor/rules/00-anti-drift-ssot.mdc` - Cursor rule overlay for 00 Anti Drift Ssot. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/00-context-load.mdc` - Cursor rule overlay for 00 Context Load. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/00-global.mdc` - Cursor rule overlay for 00 Global. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/10-architecture.mdc` - Cursor rule overlay for 10 Architecture. Auto-loaded by Cursor to reinforce repo-local behavior.
@@ -457,6 +490,7 @@ These files are auto-loaded Cursor rule overlays.
 - `.cursor/rules/30-validation-gate.mdc` - Cursor rule overlay for 30 Validation Gate. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/40-mcp-and-tooling.mdc` - Cursor rule overlay for 40 MCP And Tooling. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/50-working-files.mdc` - Cursor rule overlay for 50 Working Files. Auto-loaded by Cursor to reinforce repo-local behavior.
+- `.cursor/rules/60-composer-orchestration.mdc` - Cursor rule overlay for 60 Composer Orchestration. Auto-loaded by Cursor to reinforce repo-local behavior.
 - `.cursor/rules/IDE_HOST_CURSOR_WINDSURF.mdc` - Cursor rule overlay for Ide Host Cursor Windsurf. Auto-loaded by Cursor to reinforce repo-local behavior.
 
 ### Cursor Skills
@@ -484,3 +518,12 @@ These files are supporting Cursor-specific overlays that do not fit the narrower
 
 - `.cursor/README.md` - Cursor overlay surface for Readme. Read or regenerate when Cursor-specific integration surfaces change.
 - `.cursor/mcp.json` - Cursor overlay surface for MCP. Read or regenerate when Cursor-specific integration surfaces change.
+
+### Copilot Overlay
+
+These files provide repo-local guidance to GitHub Copilot.
+
+- `.github/ISSUE_TEMPLATE/bug_report.md` - GitHub Copilot overlay for Bug Report. Used when Copilot loads repo-local instructions.
+- `.github/ISSUE_TEMPLATE/config.yml` - GitHub Copilot overlay for Config. Used when Copilot loads repo-local instructions.
+- `.github/ISSUE_TEMPLATE/feature_request.md` - GitHub Copilot overlay for Feature Request. Used when Copilot loads repo-local instructions.
+- `.github/pull_request_template.md` - GitHub Copilot overlay for Pull Request Template. Used when Copilot loads repo-local instructions.

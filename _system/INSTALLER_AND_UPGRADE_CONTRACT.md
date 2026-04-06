@@ -3,6 +3,10 @@
 This contract defines what AIAST lifecycle commands are allowed to change and
 what they must preserve.
 
+For **shipped applications** built in the repo (end-user install, multi-OS
+delivery, operator menus), use `CROSS_PLATFORM_DISTRIBUTION_AND_INSTALLER_STANDARD.md`
+in addition to this file.
+
 ## Lifecycle modes
 
 - First install: copy the AIAST operating layer into a repo that does not have

@@ -41,6 +41,11 @@ Read these files before making meaningful edits:
 
 If context appears reset, incomplete, or stale, reload the canonical docs before continuing.
 
+## Git and remotes (non-negotiable)
+
+- Follow `_system/GIT_REMOTE_AND_SYNC_PROTOCOL.md` for remotes, SSH, fetch/pull/push, and the **“complete Git work”** priority (sessions start with `git fetch` when a remote exists; substantive work ends with commit + push when progress should be shared).
+- Run Git and GitHub SSH as the correct UNIX user for the machine (see that protocol); never as `root` on hosts where keys live under the operator account.
+
 ## Core contract
 
 - `_system/` is the agent operating layer; runtime code must not depend on it.
@@ -54,6 +59,7 @@ If context appears reset, incomplete, or stale, reload the canonical docs before
 - When creating or substantially rewriting working files, prompt packs, skills, rules, or system docs, consult `_system/GOLDEN_EXAMPLES_POLICY.md` and `_system/golden-examples/PATTERN_INDEX.md` before drafting.
 - Only one agent may be the active writer at a time.
 - When delegation or subagent work is useful, choose roles from `_system/AGENT_ROLE_CATALOG.md` and assign explicit ownership before work is split.
+- When proposing **separate host CLI or IDE sessions** (e.g. parallel Codex, Claude, or Gemini terminals) as auxiliaries, follow `_system/SUB_AGENT_HOST_DELEGATION.md` and keep the primary accountable for merge, validation, and takeover if auxiliaries fail.
 - Prefer the smallest sufficient change that moves the project forward cleanly.
 - Preserve module boundaries and existing architecture unless there is a deliberate, documented reason to change them.
 - Never claim something was tested, built, linted, packaged, or deployed unless it actually was.
@@ -63,9 +69,15 @@ If context appears reset, incomplete, or stale, reload the canonical docs before
 - Use `_system/HOST_ADAPTER_POLICY.md`, `bootstrap/generate-host-adapters.sh`, and `bootstrap/check-host-adapter-alignment.sh` when tool-entry or adapter-load surfaces change.
 - Use `_system/HOST_BUNDLE_CONTRACT.md`, `bootstrap/emit-host-bundle.sh`, and `bootstrap/check-host-bundle.sh` when an external host cannot read repo-local paths directly or when host-bundle export surfaces change.
 - Never commit secrets, raw credentials, tokens, or machine-local policy files.
+- When designing login, registration, guest access, or dev-only admin seeding, follow
+  `_system/AUTH_AND_ONBOARDING_PATTERNS.md` (env-based seeds only; no default accounts in git).
 - MCP tools are optional accelerators, not mandatory dependencies for normal progress.
 - The master template may include app-shaped files such as `PLAN.md` or `DESIGN_NOTES.md`, but in the master template they must stay app-agnostic until copied into a real repo.
 - Once the system is installed into a real repo, replace placeholders with repo-specific truth early and keep those files current.
+- Use `_system/INSTALLER_AND_UPGRADE_CONTRACT.md` to understand install, additive backfill, strict upgrades, repair, and heal without losing app-owned state.
+- For **application** delivery (not AIAST template lifecycle): follow `_system/AGENT_INSTALLER_AND_HOST_VALIDATION_PROTOCOL.md` for early installer scaffolds, production-like host testing with desktop integration where applicable, governed secure ports, dependency/DB setup, robust install/repair/uninstall behavior, and periodic launch/render verification after major work.
+- When extending **hooks** (Cursor rules/commands/skills/agents), **plugins**, **CI/GitHub**, or **MCP**: follow `_system/HOOK_AND_ORCHESTRATION_INDEX.md` so each surface has the required companion files and validators; use the **GitHub / CI steward** role and `.cursor/agents/github-ops.md` for Actions/PR/merge work.
+- **Pull requests:** Use `.github/pull_request_template.md` when opening PRs on GitHub so validation and contract checks are explicit (downstream repos inherit this file from the template when present).
 
 ## Working-file model
 

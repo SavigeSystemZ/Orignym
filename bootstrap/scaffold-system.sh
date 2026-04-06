@@ -78,6 +78,16 @@ fi
 
 TARGET_REPO="$(cd -- "${TARGET_REPO}" 2>/dev/null && pwd || echo "${TARGET_REPO}")"
 
+if [[ -d "${TARGET_REPO}" && ${DRY_RUN} -eq 0 ]]; then
+  if ! bash "${SCRIPT_DIR}/check-repo-permissions.sh" "${TARGET_REPO}" >/dev/null 2>&1; then
+    echo "Warning: Target repo has permission issues (likely root-owned files)." >&2
+    echo "This may cause the scaffold to fail." >&2
+    echo "Run the following command to repair permissions if needed:" >&2
+    echo "  sudo bash ${SCRIPT_DIR}/repair-myappz-root-ownership.sh ${TARGET_REPO} --apply" >&2
+    echo ""
+  fi
+fi
+
 CANONICAL_SOURCE=""
 if [[ -n "${SOURCE}" ]]; then
   CANONICAL_SOURCE="$(cd -- "${SOURCE}" && pwd)"

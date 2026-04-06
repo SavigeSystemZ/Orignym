@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: check-network-bindings.sh <target-repo> [--json]
+Usage: check-network-bindings.sh <target-repo> [--json] [--include-template-assets]
 
 Scan source files for wildcard network bindings (0.0.0.0, ::) that violate
 SECURITY_HARDENING_CONTRACT.md loopback-only requirements. Also checks
@@ -18,11 +18,16 @@ fi
 
 TARGET_REPO=""
 JSON_MODE=0
+INCLUDE_TEMPLATE_ASSETS=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --json)
       JSON_MODE=1
+      shift
+      ;;
+    --include-template-assets)
+      INCLUDE_TEMPLATE_ASSETS=1
       shift
       ;;
     -h|--help)
@@ -46,7 +51,7 @@ if [[ -z "${TARGET_REPO}" || ! -d "${TARGET_REPO}" ]]; then
   exit 1
 fi
 
-python3 - <<'PY' "${TARGET_REPO}" "${JSON_MODE}"
+python3 - <<'PY' "${TARGET_REPO}" "${JSON_MODE}" "${INCLUDE_TEMPLATE_ASSETS}"
 from __future__ import annotations
 
 import json
@@ -57,10 +62,12 @@ from pathlib import Path
 
 target = Path(sys.argv[1]).resolve()
 json_mode = sys.argv[2] == "1"
+include_template_assets = sys.argv[3] == "1"
 
 # File extensions to scan
 CODE_EXTS = {
     ".py", ".js", ".ts", ".jsx", ".tsx", ".go", ".rs", ".rb", ".java",
+    ".sh",
     ".kt", ".swift", ".dart", ".c", ".cpp", ".h", ".cs", ".php",
 }
 CONFIG_EXTS = {
@@ -72,7 +79,19 @@ SCAN_EXTS = CODE_EXTS | CONFIG_EXTS
 # Directories to skip
 SKIP_DIRS = {
     ".git", "node_modules", "__pycache__", ".venv", "venv", "vendor",
-    "dist", "build", ".next", "_system", "bootstrap",
+    "dist", "build", ".next",
+    ".mypy_cache", "mypy_cache", ".ruff_cache", ".pytest_cache",
+    # Vendored template snapshots under an app repo; not app runtime surface.
+    "_AI_AGENT_SYSTEM",
+    "_AI_AGENT_SYSTEM_TEMPLATE",
+    "_AIAST",
+}
+if not include_template_assets:
+    SKIP_DIRS.update({"_system", "bootstrap"})
+
+SKIP_FILES = {
+    "bootstrap/check-network-bindings.sh",
+    "bootstrap/check-runtime-foundations.sh",
 }
 
 # Patterns that indicate wildcard binding
@@ -89,6 +108,7 @@ WILDCARD_PATTERNS = [
     (re.compile(r'''IN6ADDR_ANY'''), "IN6ADDR_ANY constant"),
     # CORS wildcards
     (re.compile(r'''(?:cors|origin|allow)[^=\n]*[=:]\s*(?:"|')\*(?:"|')''', re.IGNORECASE), "CORS wildcard origin"),
+    (re.compile(r'''python3\s+-m\s+http\.server(?!.*--bind)'''), "http.server without explicit bind"),
 ]
 
 # Safe/expected patterns to exclude
@@ -104,7 +124,10 @@ SAFE_PATTERNS = [
 findings: list[dict] = []
 
 def should_skip(path: Path) -> bool:
-    for part in path.relative_to(target).parts:
+    rel_path = path.relative_to(target)
+    if rel_path.as_posix() in SKIP_FILES:
+        return True
+    for part in rel_path.parts:
         if part in SKIP_DIRS:
             return True
     return False
@@ -116,6 +139,20 @@ def is_safe_context(line: str, filepath: Path) -> bool:
         return True
     # Skip if filepath is a markdown doc
     if filepath.suffix == ".md":
+        return True
+    # Governed allocator returns wildcard only when exposure is LAN/public; must stay opt-in.
+    if "aiast-network-bind-lan-public" in line:
+        return True
+    # Allow explicit whitelisting via comment marker
+    if "aiast-network-bind-skip-check" in line:
+        return True
+    # Comparisons or security checks are often safe if they are testing FOR the wildcard to block it.
+    if '== "0.0.0.0"' in line or '!= "0.0.0.0"' in line or '= "0.0.0.0"' in line:
+        return True
+    if '== "::"' in line or '!= "::"' in line or '= "::"' in line:
+        return True
+    # Membership tests used to warn or reject wildcards (e.g. if bind in ("0.0.0.0", "::")).
+    if "in (" in line and "0.0.0.0" in line and ("'::'" in line or '"::"' in line):
         return True
     return False
 

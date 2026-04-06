@@ -99,11 +99,49 @@ fi
 ENV_EXAMPLE="${TARGET}/ops/env/.env.example"
 if [[ -f "${ENV_EXAMPLE}" ]]; then
   add_result "env_example" "pass" "ops/env/.env.example exists"
+  if grep -q '^PUBLISH_REDIS_PORT=false$' "${ENV_EXAMPLE}" 2>/dev/null; then
+    add_result "redis_publish_default" "pass" "redis host publishing disabled by default"
+  else
+    add_result "redis_publish_default" "warn" "ops/env/.env.example missing PUBLISH_REDIS_PORT=false"
+  fi
+  if grep -q '^PUBLISH_POSTGRES_PORT=false$' "${ENV_EXAMPLE}" 2>/dev/null; then
+    add_result "postgres_publish_default" "pass" "postgres host publishing disabled by default"
+  else
+    add_result "postgres_publish_default" "warn" "ops/env/.env.example missing PUBLISH_POSTGRES_PORT=false"
+  fi
 else
   # Also check generated runtime foundations
   ENV_ALT="${TARGET}/bootstrap/templates/runtime/ops/env/.env.example"
   if [[ -f "${ENV_ALT}" ]]; then
     add_result "env_example" "pass" "template env example exists"
+  fi
+fi
+
+TOOLS_CHECK="${TARGET}/tools/check-port-collisions.py"
+if [[ -f "${TOOLS_CHECK}" ]]; then
+  if python3 "${TOOLS_CHECK}" "${TARGET}" >/dev/null 2>&1; then
+    add_result "port_registry" "pass" "port registry has no collisions"
+  else
+    add_result "port_registry" "warn" "port registry check reported collisions or invalid data"
+  fi
+fi
+
+GOV_FILE="${TARGET}/registry/port_governance.yaml"
+LIB_FILE="${TARGET}/tools/port_registry_lib.py"
+if [[ -f "${GOV_FILE}" ]]; then
+  if [[ -f "${LIB_FILE}" ]]; then
+    add_result "port_governance_tooling" "pass" "port governance files paired with tools/port_registry_lib.py"
+  else
+    add_result "port_governance_tooling" "warn" "registry/port_governance.yaml present without tools/port_registry_lib.py"
+  fi
+fi
+
+PREFLIGHT="${TARGET}/tools/preflight_port_scan.py"
+if [[ -f "${PREFLIGHT}" && -f "${GOV_FILE}" ]]; then
+  if python3 "${PREFLIGHT}" "${TARGET}" >/dev/null 2>&1; then
+    add_result "port_preflight" "pass" "preflight_port_scan reports binds available"
+  else
+    add_result "port_preflight" "warn" "preflight_port_scan reported bind conflicts or errors"
   fi
 fi
 

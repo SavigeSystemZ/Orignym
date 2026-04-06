@@ -170,6 +170,7 @@ require_files \
   "_system/API_DESIGN_STANDARDS.md" \
   "_system/DEPENDENCY_GOVERNANCE.md" \
   "_system/MODERN_UI_PATTERNS.md" \
+  "_system/AUTH_AND_ONBOARDING_PATTERNS.md" \
   "_system/OBSERVABILITY_STANDARDS.md" \
   "_system/THREAT_MODEL_TEMPLATE.md" \
   "_system/PLUGIN_CONTRACT.md" \
@@ -283,6 +284,7 @@ require_files \
   "bootstrap/install-missing-files.sh" \
   "bootstrap/update-template.sh" \
   "bootstrap/validate-system.sh" \
+  "bootstrap/validate-mcp-health.sh" \
   "bootstrap/validate-instruction-layer.sh" \
   "bootstrap/verify-integrity.sh" \
   "bootstrap/generate-system-key.sh" \
@@ -319,6 +321,7 @@ require_files \
   "bootstrap/validate-plugin.sh" \
   "bootstrap/discover-plugins.sh" \
   "bootstrap/emit-tiered-context.sh" \
+  "bootstrap/emit-auxiliary-brief.sh" \
   "bootstrap/check-environment.sh" \
   "bootstrap/generate-diagnostic-report.sh" \
   "bootstrap/report-health-trends.sh" \
@@ -342,6 +345,13 @@ require_files \
   "bootstrap/templates/runtime/packaging/flatpak-manifest.json" \
   "bootstrap/templates/runtime/packaging/snapcraft.yaml" \
   "bootstrap/templates/runtime/packaging/signing/README.md" \
+  "bootstrap/templates/runtime/distribution/README.md" \
+  "bootstrap/templates/runtime/distribution/platforms/linux/README.md" \
+  "bootstrap/templates/runtime/distribution/platforms/windows/README.md" \
+  "bootstrap/templates/runtime/distribution/platforms/windows/Install.ps1" \
+  "bootstrap/templates/runtime/distribution/platforms/macos/README.md" \
+  "bootstrap/templates/runtime/distribution/platforms/android/README.md" \
+  "bootstrap/templates/runtime/distribution/platforms/ios/README.md" \
   "bootstrap/templates/runtime/ops/install/README.md" \
   "bootstrap/templates/runtime/ops/install/install.sh" \
   "bootstrap/templates/runtime/ops/install/uninstall.sh" \
@@ -419,6 +429,7 @@ require_files \
   ".cursor/commands/checkpoint.md" \
   ".cursor/commands/code-quality-review.md" \
   ".cursor/commands/code-review.md" \
+  ".cursor/commands/composer-session.md" \
   ".cursor/commands/debug.md" \
   ".cursor/commands/dependency-review.md" \
   ".cursor/commands/design-review.md" \
@@ -434,6 +445,7 @@ require_files \
   ".cursor/rules/40-mcp-and-tooling.mdc" \
   ".cursor/rules/50-working-files.mdc" \
   ".cursor/rules/IDE_HOST_CURSOR_WINDSURF.mdc" \
+  ".cursor/rules/60-composer-orchestration.mdc" \
   ".cursor/skills/accessibility-review/SKILL.md" \
   ".cursor/skills/architecture-review/SKILL.md" \
   ".cursor/skills/checkpoint-handoff/SKILL.md" \
@@ -456,7 +468,8 @@ require_files \
   ".cursor/agents/orchestrator.md" \
   ".cursor/agents/release-manager.md" \
   ".cursor/agents/security-reviewer.md" \
-  ".cursor/agents/validator.md"
+  ".cursor/agents/validator.md" \
+  ".cursor/agents/composer-lead.md"
 
 jq -e . "${TARGET}/.cursor/mcp.json" >/dev/null 2>&1 || { echo "Invalid JSON: .cursor/mcp.json" >&2; exit 1; }
 jq -e . "${TARGET}/_system/mcp/servers.cursor.example.json" >/dev/null 2>&1 || { echo "Invalid JSON: _system/mcp/servers.cursor.example.json" >&2; exit 1; }
@@ -561,5 +574,6 @@ bash "${VALIDATOR_ROOT}/bootstrap/check-repo-permissions.sh" "${TARGET}" >/dev/n
 bash "${VALIDATOR_ROOT}/bootstrap/check-runtime-foundations.sh" "${TARGET}" >/dev/null
 bash "${VALIDATOR_ROOT}/bootstrap/check-network-bindings.sh" "${TARGET}" --include-template-assets >/dev/null
 bash "${VALIDATOR_ROOT}/bootstrap/check-environment.sh" "${TARGET}" >/dev/null
+bash "${VALIDATOR_ROOT}/bootstrap/validate-mcp-health.sh" "${TARGET}" >/dev/null
 
 echo "system_ok"

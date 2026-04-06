@@ -6,11 +6,13 @@ Get up and running with the AI Agent System Template in 5 minutes.
 
 AIAST is a project-local operating system for AI coding agents. It gives every agent (Claude, Codex, Cursor, Gemini, Windsurf, Copilot, DeepSeek, Aider, Cline, and more) the same rules, the same context, and a shared handoff protocol so they can work on your repo without stepping on each other.
 
+Port and compose work: read `_system/ports/PORT_POLICY.md`. Governed allocation uses `registry/port_governance.yaml` and `python3 ops/install/lib/port_allocator.py` (stdlib-only helpers under `tools/`).
+
 ## Install into a new repo
 
 ```bash
 # From the AIAST source template
-bash TEMPLATE/bootstrap/init-project.sh /path/to/your/repo --app-name "MyApp"
+bash TEMPLATE/bootstrap/scaffold-system.sh /path/to/your/repo --app-name "MyApp" --strict
 ```
 
 Or use the interactive wizard:
@@ -48,6 +50,7 @@ Every supported tool has an adapter file that points to `AGENTS.md`:
 
 | Command | Purpose |
 |---------|---------|
+| `bootstrap/scaffold-system.sh /path/to/repo --strict` | Auto-detect and install/sync safely |
 | `bootstrap/validate-system.sh . --strict` | Verify system integrity |
 | `bootstrap/system-doctor.sh .` | Run full health check |
 | `bootstrap/system-doctor.sh . --heal` | Auto-repair issues |

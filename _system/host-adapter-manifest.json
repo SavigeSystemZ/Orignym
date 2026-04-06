@@ -34,7 +34,9 @@
     "RISK_REGISTER.md",
     "RELEASE_NOTES.md",
     "CHANGELOG.md",
-    "_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md"
+    "_system/prompt-packs/M15_WHOLE_REPO_ANALYSIS.md",
+    "_system/ports/PORT_POLICY.md",
+    "_system/design-system/THEME_GOVERNANCE.md"
   ],
   "golden_example_files": [
     "_system/GOLDEN_EXAMPLES_POLICY.md",

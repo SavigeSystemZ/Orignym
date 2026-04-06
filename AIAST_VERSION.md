@@ -1,6 +1,6 @@
 # AIAST Version
 
-- Current version: `1.16.0`
+- Current version: `1.21.0`
 - Versioning policy: semantic versioning
 - Install model: copied template per repo with explicit upgrade tooling
 - Compatibility marker: `_system/aiaast-capabilities.json`

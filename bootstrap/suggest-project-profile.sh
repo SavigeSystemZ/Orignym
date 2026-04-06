@@ -636,7 +636,7 @@ elif [[ "$(package_json_value "${TARGET_REPO}" "hasScript:start" || true)" == "y
 elif [[ "$(package_json_value "${TARGET_REPO}" "hasScript:preview" || true)" == "yes" ]]; then
   launch_cmd="npm run preview"
 elif repo_has_text "${TARGET_REPO}" 'from fastapi import|import fastapi'; then
-  launch_cmd="uvicorn app.main:app --host 127.0.0.1 --port 8000"
+  launch_cmd='uvicorn app.main:app --host ${APP_BIND_ADDRESS:-127.0.0.1} --port ${APP_PORT:-8000}'
 elif contains_files "${TARGET_REPO}" "Cargo.toml"; then
   launch_cmd="cargo run"
 elif contains_files "${TARGET_REPO}" "go.mod"; then
@@ -647,7 +647,7 @@ fi
 
 if contains_files "${TARGET_REPO}" "index.html" && ! contains_files "${TARGET_REPO}" "package.json" "pyproject.toml" "requirements.txt" "uv.lock"; then
   [[ -z "${build_cmd}" ]] && build_cmd="not required for static site"
-  [[ -z "${launch_cmd}" ]] && launch_cmd="python3 -m http.server 8000"
+  [[ -z "${launch_cmd}" ]] && launch_cmd='python3 -m http.server ${APP_PORT:-8000} --bind ${APP_BIND_ADDRESS:-127.0.0.1}'
   [[ -z "${e2e_cmd}" ]] && e2e_cmd="curl -fsS http://127.0.0.1:8000/"
 fi
 

@@ -6,6 +6,7 @@ script:
   - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
   - install -Dm755 ./dist/orignym AppDir/usr/bin/orignym
   - install -Dm644 ./packaging/io.aiaast.orignym.desktop AppDir/usr/share/applications/io.aiaast.orignym.desktop
+
 AppDir:
   path: ./AppDir
   app_info:
