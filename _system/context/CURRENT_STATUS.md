@@ -10,7 +10,7 @@
 
 ## Verified state
 
-- Latest known passing validation: bootstrap/update-template.sh /home/whyte/.MyAppZ/Orignym --source <template-root> -> pass
+- Latest known passing validation: bootstrap/update-template.sh /home/whyte/.MyAppZ/Orignym --source <template-root> --strict -> pass
 - Latest known failing validation: none recorded yet
 - Known degraded modes:
 - Current confidence level: Partial but structurally validated
@@ -24,7 +24,7 @@
 
 ## Freshness
 
-- Last updated: 2026-04-06T08:00:31Z
+- Last updated: 2026-05-05T05:55:19Z
 - Updated by: bootstrap lifecycle validation
 
 ## Usage rules
